@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B38F3ACA-80EB-471B-8F04-D1A7D1C0E043}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>RevoScada.ProcessManagerService</RootNamespace>
+    <AssemblyName>RevoScada.ProcessManagerService</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>C:\RevoScada.TAI.Files\Service\ProcessController\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>C:\RevoScada.TAI.Files\Service\ProcessController\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="OperationCycle.cs" />
+    <Compile Include="ProcessManagerService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProcessManagerService.Designer.cs">
+      <DependentUpon>ProcessManagerService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="ProjectInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProjectInstaller.Designer.cs">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProcessManagerService.resx">
+      <DependentUpon>ProcessManagerService.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectInstaller.resx">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Revo.Core\Revo.Core.csproj">
+      <Project>{8C3F5AF7-5F3B-4719-BF2A-FED4D814C12D}</Project>
+      <Name>Revo.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RevoScada.Cache\RevoScada.Cache.csproj">
+      <Project>{8855CC60-12C5-4EF7-AB94-C20B7BF499E0}</Project>
+      <Name>RevoScada.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RevoScada.Configurator\RevoScada.Configurator.csproj">
+      <Project>{9a7addb5-589b-4456-9add-64d82e01de07}</Project>
+      <Name>RevoScada.Configurator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RevoScada.Entities\RevoScada.Entities.csproj">
+      <Project>{25956A51-F1BF-45ED-8F89-16AD92C548A1}</Project>
+      <Name>RevoScada.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RevoScada.ProcessController\RevoScada.ProcessController.csproj">
+      <Project>{F391A8BC-0B84-4943-87BA-30E93B83E120}</Project>
+      <Name>RevoScada.ProcessController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RevoScada.Synchronization\RevoScada.Synchronization.csproj">
+      <Project>{10fc1814-b447-4db3-8f82-58499a1201ea}</Project>
+      <Name>RevoScada.Synchronization</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

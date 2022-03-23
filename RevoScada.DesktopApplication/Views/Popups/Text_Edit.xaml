@@ -1,0 +1,39 @@
+﻿<Window
+    x:Class="RevoScada.DesktopApplication.Views.Popups.Text_Edit"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views.Popups"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="375"
+    Height="220"
+    Background="{StaticResource CreamColor}"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="ToolWindow"
+    mc:Ignorable="d">
+    <Grid>
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock
+                Width="{Binding ElementName=recipeNameBox, Path=ActualWidth}"
+                Margin="0,0,0,10"
+                FontSize="16"
+                FontWeight="Bold"
+                Foreground="{StaticResource CustomPassiveBlackColor}"
+                Text="{Binding MainText}" />
+            <TextBox
+                x:Name="recipeNameBox"
+                Width="320"
+                MinHeight="32"
+                Margin="0,0,0,10"
+                CharacterCasing="Upper"
+                FontSize="16"
+                KeyDown="recipeNameBox_KeyDown"
+                Loaded="recipeNameBox_Loaded"
+                Style="{StaticResource editTextBox}"
+                Text="" />
+
+        </StackPanel>
+    </Grid>
+</Window>

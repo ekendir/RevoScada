@@ -1,0 +1,1560 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:DVC="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <!--  Font families  -->
+
+
+    <BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
+    <Style x:Key="defaultGroupBox" TargetType="{x:Type GroupBox}">
+        <Setter Property="BorderBrush" Value="{StaticResource CustomBlackColor}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="{StaticResource CustomBlackColor}" />
+        <Setter Property="Margin" Value="0,0,2,0" />
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock
+                        x:Name="headerT"
+                        Margin="3,0,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        FontWeight="SemiBold"
+                        Foreground="{StaticResource CustomPassiveBlackColor}"
+                        Text="{Binding}"
+                        TextWrapping="Wrap" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GroupBox}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="4" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="4" />
+                        </Grid.RowDefinitions>
+                        <Border
+                            Grid.Row="1"
+                            Grid.RowSpan="3"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="4"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="Transparent"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="4" />
+                        <!--  ContentPresenter for the header  -->
+                        <Border
+                            x:Name="Header"
+                            Grid.Row="0"
+                            Grid.RowSpan="2"
+                            Grid.Column="1"
+                            Padding="6,0,6,0">
+                            <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" />
+                        </Border>
+                        <!--  Primary content for GroupBox  -->
+                        <ContentPresenter
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Margin="4,2,4,0" />
+                        <Border
+                            Grid.Row="1"
+                            Grid.RowSpan="3"
+                            Grid.ColumnSpan="4"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="0">
+                            <Border.OpacityMask>
+                                <MultiBinding Converter="{StaticResource BorderGapMaskConverter}" ConverterParameter="6">
+                                    <Binding ElementName="Header" Path="ActualWidth" />
+                                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}" />
+                                    <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}" />
+                                </MultiBinding>
+                            </Border.OpacityMask>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource defaultGroupBox}" TargetType="{x:Type GroupBox}" />
+
+    <Style
+        x:Key="selectedVacGroupBox"
+        BasedOn="{StaticResource defaultGroupBox}"
+        TargetType="{x:Type GroupBox}">
+        <Setter Property="Background" Value="#f0f0f0" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Border
+                        Padding="5,0,5,0"
+                        HorizontalAlignment="Center"
+                        Background="#eaeaea"
+                        BorderBrush="{StaticResource MainBlueColor}"
+                        BorderThickness="1,1,1,0"
+                        CornerRadius="4">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                x:Name="headerT"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="30"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource MainBlueColor}"
+                                Text="{Binding}"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="3,0,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="18"
+                                FontWeight="SemiBold"
+                                Foreground="{StaticResource MainBlueColor}"
+                                Text="(mmhg)"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="unselectedVacGroupBox"
+        BasedOn="{StaticResource defaultGroupBox}"
+        TargetType="{x:Type GroupBox}">
+        <Setter Property="Background" Value="{StaticResource LightGrayColor}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Border
+                        Padding="5,0,5,0"
+                        HorizontalAlignment="Center"
+                        Background="{StaticResource LightGrayColor}"
+                        BorderBrush="{StaticResource MainBlueColor}"
+                        BorderThickness="1,1,1,0"
+                        CornerRadius="4">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                x:Name="headerT"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="30"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource CustomBlackColor}"
+                                Text="{Binding}"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="3,0,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="18"
+                                FontWeight="SemiBold"
+                                Foreground="{StaticResource CustomBlackColor}"
+                                Text="(mmhg)"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="vacControlGroupBox"
+        BasedOn="{StaticResource defaultGroupBox}"
+        TargetType="{x:Type GroupBox}">
+        <Setter Property="Background" Value="{StaticResource LightGrayColor}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Border
+                        Padding="5,0,5,0"
+                        HorizontalAlignment="Center"
+                        Background="{StaticResource LightGrayColor}"
+                        BorderBrush="{StaticResource CustomBlackColor}"
+                        BorderThickness="0,0,0,0"
+                        CornerRadius="1">
+                        <TextBlock
+                            x:Name="headerT"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource CustomBlackColor}"
+                            Text="{Binding}"
+                            TextWrapping="Wrap" />
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="setValueGroupBox"
+        BasedOn="{StaticResource defaultGroupBox}"
+        TargetType="{x:Type GroupBox}">
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Border Background="{StaticResource LightGrayColor}">
+                        <TextBlock
+                            x:Name="headerT"
+                            Margin="3,0,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource MainBlueColor}"
+                            Text="{Binding}"
+                            TextWrapping="Wrap" />
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="mainBlueGroupBox"
+        BasedOn="{StaticResource defaultGroupBox}"
+        TargetType="{x:Type GroupBox}">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Border Background="{StaticResource LightGrayColor}">
+                        <TextBlock
+                            x:Name="headerT"
+                            Margin="3,0,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource MainBlueColor}"
+                            Text="{Binding}"
+                            TextWrapping="Wrap" />
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="passiveBlackGroupBox"
+        BasedOn="{StaticResource defaultGroupBox}"
+        TargetType="{x:Type GroupBox}">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Border Background="{StaticResource LightGrayColor}">
+                        <TextBlock
+                            x:Name="headerT"
+                            Margin="3,0,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource CustomPassiveBlackColor}"
+                            Text="{Binding}"
+                            TextWrapping="Wrap" />
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="passiveBlackGroupBox_Smaller"
+        BasedOn="{StaticResource defaultGroupBox}"
+        TargetType="{x:Type GroupBox}">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Border Background="{StaticResource LightGrayColor}">
+                        <TextBlock
+                            x:Name="headerT"
+                            Margin="3,0,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource CustomPassiveBlackColor}"
+                            Text="{Binding}"
+                            TextWrapping="Wrap" />
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  General Radio Button  -->
+    <Style x:Key="generalRadioBtn" TargetType="{x:Type RadioButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <BulletDecorator Background="Transparent">
+                        <BulletDecorator.Bullet>
+                            <Grid
+                                Width="16"
+                                Height="16"
+                                Margin="0,1,0,0">
+                                <!--  Define size of the Bullet  -->
+                                <!--  The two borders  -->
+                                <Border
+                                    Name="RadioOuter"
+                                    Background="Transparent"
+                                    BorderBrush="{StaticResource CustomBlackColor}"
+                                    BorderThickness="1"
+                                    CornerRadius="2" />
+                                <Border
+                                    Name="RadioMark"
+                                    Margin="4"
+                                    Background="{StaticResource CustomBlackColor}"
+                                    CornerRadius="0"
+                                    Visibility="Hidden" />
+                            </Grid>
+                        </BulletDecorator.Bullet>
+                        <!--  Text element  -->
+                        <TextBlock
+                            x:Name="RadioText"
+                            Margin="6,0,0,0"
+                            FontSize="{TemplateBinding FontSize}"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource CustomBlackColor}">
+                            <ContentPresenter />
+                        </TextBlock>
+                    </BulletDecorator>
+                    <!--  If item is checked, trigger the visibility of the mark  -->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <!--  If item is checked, trigger the visibility of the mark and change the color of the selected bullet into a darker gray for better highlighting  -->
+                            <Setter TargetName="RadioMark" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="RadioMark" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="RadioMark" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="generalRadioBtn_small" TargetType="{x:Type RadioButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <BulletDecorator Background="Transparent">
+                        <BulletDecorator.Bullet>
+                            <Grid
+                                Width="12"
+                                Height="12"
+                                Margin="0,1,0,0">
+                                <!--  Define size of the Bullet  -->
+                                <!--  The two borders  -->
+                                <Border
+                                    Name="RadioOuter"
+                                    Background="Transparent"
+                                    BorderBrush="{StaticResource CustomPassiveBlackColor}"
+                                    BorderThickness="2"
+                                    CornerRadius="2" />
+                                <Border
+                                    Name="RadioMark"
+                                    Margin="4"
+                                    Background="{StaticResource CustomPassiveBlackColor}"
+                                    CornerRadius="0"
+                                    Visibility="Hidden" />
+                            </Grid>
+                        </BulletDecorator.Bullet>
+                        <!--  Text element  -->
+                        <TextBlock
+                            x:Name="RadioText"
+                            Margin="6,0,0,0"
+                            FontSize="{TemplateBinding FontSize}"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource CustomPassiveBlackColor}">
+                            <ContentPresenter />
+                        </TextBlock>
+                    </BulletDecorator>
+                    <!--  If item is checked, trigger the visibility of the mark  -->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <!--  If item is checked, trigger the visibility of the mark and change the color of the selected bullet into a darker gray for better highlighting  -->
+                            <Setter TargetName="RadioMark" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="RadioMark" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="RadioMark" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="vacLinesRadioButton" TargetType="{x:Type RadioButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <BulletDecorator Background="Transparent">
+                        <BulletDecorator.Bullet>
+                            <Grid
+                                Width="14"
+                                Height="14"
+                                Margin="0,1,0,0">
+                                <!--  Define size of the Bullet  -->
+                                <!--  The two borders  -->
+                                <Border
+                                    Name="RadioOuter"
+                                    Background="Transparent"
+                                    BorderBrush="{StaticResource CustomPassiveBlackColor}"
+                                    BorderThickness="2"
+                                    CornerRadius="2" />
+                                <Border
+                                    Name="RadioMark"
+                                    Margin="4"
+                                    Background="{StaticResource CustomPassiveBlackColor}"
+                                    CornerRadius="0"
+                                    Visibility="Hidden" />
+                            </Grid>
+                        </BulletDecorator.Bullet>
+                        <!--  Text element  -->
+                        <TextBlock
+                            x:Name="RadioText"
+                            Margin="5,0,0,0"
+                            FontSize="{TemplateBinding FontSize}"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource CustomPassiveBlackColor}">
+                            <ContentPresenter />
+                        </TextBlock>
+                    </BulletDecorator>
+                    <!--  If item is checked, trigger the visibility of the mark  -->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <!--  If item is checked, trigger the visibility of the mark and change the color of the selected bullet into a darker gray for better highlighting  -->
+                            <Setter TargetName="RadioMark" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="RadioMark" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="RadioMark" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="itemSeperator" TargetType="Rectangle">
+        <Setter Property="Width" Value="1" />
+        <Setter Property="Stroke" Value="{StaticResource GrayLinearGradColor}" />
+        <Setter Property="StrokeThickness" Value="1" />
+    </Style>
+
+    <!--  Standard header border for titles  -->
+    <Style x:Key="standardHeaderBorder" TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="{StaticResource RowColorLight}" />
+        <Setter Property="BorderBrush" Value="{StaticResource CustomBlackColor}" />
+        <Setter Property="BorderThickness" Value="0,1,0,1" />
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+
+    <!--  Run Operation page dynamic images  -->
+    <Style x:Key="dynamicImg" TargetType="{x:Type Image}">
+        <Setter Property="Opacity" Value="1" />
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Image.Loaded">
+                <!--  Provide fade in - fade out transition  -->
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation
+                            DecelerationRatio="1"
+                            RepeatBehavior="Forever"
+                            Storyboard.TargetProperty="Opacity"
+                            From="0"
+                            To="1.0"
+                            Duration="0:0:4" />
+                    </Storyboard>
+                </BeginStoryboard>
+
+                <BeginStoryboard>
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames
+                            BeginTime="00:00:0"
+                            RepeatBehavior="Forever"
+                            Storyboard.TargetProperty="(Image.Source)">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <BitmapImage UriSource="pack://siteoforigin:,,,/Resources/Furnace_1.jpg" />
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                            <DiscreteObjectKeyFrame KeyTime="0:0:4">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <BitmapImage UriSource="pack://siteoforigin:,,,/Resources/Furnace_2.jpg" />
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                            <DiscreteObjectKeyFrame KeyTime="0:0:8">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <BitmapImage UriSource="pack://siteoforigin:,,,/Resources/Furnace_3.jpg" />
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                            <DiscreteObjectKeyFrame KeyTime="0:0:12">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <BitmapImage UriSource="pack://siteoforigin:,,,/Resources/Furnace_4.jpg" />
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                            <DiscreteObjectKeyFrame KeyTime="0:0:16">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <BitmapImage UriSource="pack://siteoforigin:,,,/Resources/Furnace_5.jpg" />
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                            <DiscreteObjectKeyFrame KeyTime="0:0:20">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <BitmapImage UriSource="pack://siteoforigin:,,,/Resources/Furnace_6.jpg" />
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--  Sensor image style for the bottom bar section.  -->
+    <!--#region Service state styles-->
+    <Style x:Key="sensorImg_Read" TargetType="{x:Type Image}">
+        <Setter Property="Margin" Value="5,1,0,0" />
+        <Setter Property="Width" Value="14" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_notrunning.png" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=ReadServiceChecker, Path=IsChecked}" Value="False">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard x:Name="start">
+                        <Storyboard>
+                            <DoubleAnimation
+                                AccelerationRatio="0.5"
+                                AutoReverse="True"
+                                DecelerationRatio="0.5"
+                                RepeatBehavior="Forever"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0.3"
+                                To="1"
+                                Duration="0:0:01" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <StopStoryboard BeginStoryboardName="start" />
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=ReadServiceChecker, Path=IsChecked}" Value="True">
+                <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_running.png" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="sensorImg_Write" TargetType="{x:Type Image}">
+        <Setter Property="Margin" Value="5,1,0,0" />
+        <Setter Property="Width" Value="14" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_notrunning.png" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=WriteServiceChecker, Path=IsChecked}" Value="False">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard x:Name="start">
+                        <Storyboard>
+                            <DoubleAnimation
+                                AccelerationRatio="0.5"
+                                AutoReverse="True"
+                                DecelerationRatio="0.5"
+                                RepeatBehavior="Forever"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0.3"
+                                To="1"
+                                Duration="0:0:01" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <StopStoryboard BeginStoryboardName="start" />
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=WriteServiceChecker, Path=IsChecked}" Value="True">
+                <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_running.png" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="sensorImg_Alarm" TargetType="{x:Type Image}">
+        <Setter Property="Margin" Value="5,1,0,0" />
+        <Setter Property="Width" Value="14" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_notrunning.png" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=AlarmServiceChecker, Path=IsChecked}" Value="False">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard x:Name="start">
+                        <Storyboard>
+                            <DoubleAnimation
+                                AccelerationRatio="0.5"
+                                AutoReverse="True"
+                                DecelerationRatio="0.5"
+                                RepeatBehavior="Forever"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0.3"
+                                To="1"
+                                Duration="0:0:01" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <StopStoryboard BeginStoryboardName="start" />
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=AlarmServiceChecker, Path=IsChecked}" Value="True">
+                <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_running.png" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="sensorImg_DataLog" TargetType="{x:Type Image}">
+        <Setter Property="Margin" Value="5,1,0,0" />
+        <Setter Property="Width" Value="14" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_notrunning.png" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=DataLogServiceChecker, Path=IsChecked}" Value="False">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard x:Name="start">
+                        <Storyboard>
+                            <DoubleAnimation
+                                AccelerationRatio="0.5"
+                                AutoReverse="True"
+                                DecelerationRatio="0.5"
+                                RepeatBehavior="Forever"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0.3"
+                                To="1"
+                                Duration="0:0:01" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <StopStoryboard BeginStoryboardName="start" />
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=DataLogServiceChecker, Path=IsChecked}" Value="True">
+                <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_running.png" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="sensorImg_Cache" TargetType="{x:Type Image}">
+        <Setter Property="Margin" Value="5,1,0,0" />
+        <Setter Property="Width" Value="14" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_notrunning.png" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=CacheServiceChecker, Path=IsChecked}" Value="False">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard x:Name="start">
+                        <Storyboard>
+                            <DoubleAnimation
+                                AccelerationRatio="0.5"
+                                AutoReverse="True"
+                                DecelerationRatio="0.5"
+                                RepeatBehavior="Forever"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0.3"
+                                To="1"
+                                Duration="0:0:01" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <StopStoryboard BeginStoryboardName="start" />
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=CacheServiceChecker, Path=IsChecked}" Value="True">
+                <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_running.png" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="sensorImg_ProcessManager" TargetType="{x:Type Image}">
+        <Setter Property="Margin" Value="5,1,0,0" />
+        <Setter Property="Width" Value="14" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_notrunning.png" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=ManagerServiceChecker, Path=IsChecked}" Value="False">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard x:Name="start">
+                        <Storyboard>
+                            <DoubleAnimation
+                                AccelerationRatio="0.5"
+                                AutoReverse="True"
+                                DecelerationRatio="0.5"
+                                RepeatBehavior="Forever"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0.3"
+                                To="1"
+                                Duration="0:0:01" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <StopStoryboard BeginStoryboardName="start" />
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=ManagerServiceChecker, Path=IsChecked}" Value="True">
+                <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_running.png" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="sensorImg_SyncService" TargetType="{x:Type Image}">
+        <Setter Property="Margin" Value="5,1,0,0" />
+        <Setter Property="Width" Value="14" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_notrunning.png" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=SyncServiceChecker, Path=IsChecked}" Value="False">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard x:Name="start">
+                        <Storyboard>
+                            <DoubleAnimation
+                                AccelerationRatio="0.5"
+                                AutoReverse="True"
+                                DecelerationRatio="0.5"
+                                RepeatBehavior="Forever"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0.3"
+                                To="1"
+                                Duration="0:0:01" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <StopStoryboard BeginStoryboardName="start" />
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=SyncServiceChecker, Path=IsChecked}" Value="True">
+                <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_running.png" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="sensorImg_PlcStatus" TargetType="{x:Type Image}">
+        <Setter Property="Margin" Value="5,1,0,0" />
+        <Setter Property="Width" Value="14" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_notrunning.png" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=PlcStatusChecker, Path=IsChecked}" Value="False">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard x:Name="start">
+                        <Storyboard>
+                            <DoubleAnimation
+                                AccelerationRatio="0.5"
+                                AutoReverse="True"
+                                DecelerationRatio="0.5"
+                                RepeatBehavior="Forever"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0.3"
+                                To="1"
+                                Duration="0:0:01" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <StopStoryboard BeginStoryboardName="start" />
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=PlcStatusChecker, Path=IsChecked}" Value="True">
+                <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_running.png" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="sensorImg_IsAllServicesRunning" TargetType="{x:Type Image}">
+        <Setter Property="Margin" Value="5,1,0,0" />
+        <Setter Property="Width" Value="14" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_notrunning.png" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=ServicesChecker, Path=IsChecked}" Value="False">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard x:Name="start">
+                        <Storyboard>
+                            <DoubleAnimation
+                                AccelerationRatio="0.5"
+                                AutoReverse="True"
+                                DecelerationRatio="0.5"
+                                RepeatBehavior="Forever"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0.3"
+                                To="1"
+                                Duration="0:0:01" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <StopStoryboard BeginStoryboardName="start" />
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=ServicesChecker, Path=IsChecked}" Value="True">
+                <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_running.png" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="serviceWarningImg" TargetType="{x:Type Image}">
+        <Setter Property="Opacity" Value="0.75" />
+        <Setter Property="Width" Value="90" />
+        <Setter Property="Height" Value="90" />
+        <Setter Property="Source" Value="pack://siteoforigin:,,,/Resources/error_126px.png" />
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Image.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation
+                            AccelerationRatio="0.5"
+                            AutoReverse="True"
+                            DecelerationRatio="0.5"
+                            RepeatBehavior="Forever"
+                            Storyboard.TargetProperty="Opacity"
+                            From="0.3"
+                            To="0.75"
+                            Duration="0:0:01" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="genInfoImg" TargetType="{x:Type Image}">
+        <Setter Property="Opacity" Value="0.75" />
+        <Setter Property="Width" Value="90" />
+        <Setter Property="Height" Value="90" />
+        <Setter Property="Source" Value="pack://siteoforigin:,,,/Resources/info_126px.png" />
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Image.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation
+                            AccelerationRatio="0.5"
+                            AutoReverse="True"
+                            DecelerationRatio="0.5"
+                            RepeatBehavior="Forever"
+                            Storyboard.TargetProperty="Opacity"
+                            From="0.3"
+                            To="0.75"
+                            Duration="0:0:01" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--#endregion-->
+    <Style x:Key="sensorRunningImg" TargetType="{x:Type Image}">
+        <Setter Property="Margin" Value="5,1,0,0" />
+        <Setter Property="Width" Value="14" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="Source" Value="pack://application:,,,/Resources/service_status_running.png" />
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Image.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation
+                            Storyboard.TargetProperty="Opacity"
+                            To="{x:Null}"
+                            Duration="0:0:0" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--  Custom standard tooltip style  -->
+    <Style TargetType="{x:Type ToolTip}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToolTip}">
+                    <Border
+                        Background="{StaticResource CustomPassiveBlackColor}"
+                        BorderBrush="{StaticResource CustomBlackColor}"
+                        BorderThickness="1">
+                        <TextBlock
+                            MinWidth="50"
+                            MaxWidth="{TemplateBinding MaxWidth}"
+                            Margin="5"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource GeneralWhite}"
+                            Text="{TemplateBinding Content}"
+                            TextWrapping="Wrap" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Content" Value="{x:Static sys:String.Empty}">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </Trigger>
+            <Trigger Property="Content" Value="{x:Null}">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--  Custom standard tooltip style for DevExpress control  -->
+    <Style TargetType="dxb:BarItemLinkControlToolTip">
+        <Setter Property="Background" Value="{StaticResource CustomPassiveBlackColor}" />
+        <Setter Property="Foreground" Value="{StaticResource GeneralWhite}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Padding" Value="5" />
+    </Style>
+
+    <!--  Custom border style for man-auto radio buttons  -->
+    <Style x:Key="radioBtnBorder" TargetType="{x:Type Border}">
+        <Setter Property="MaxWidth" Value="70" />
+        <Setter Property="MaxHeight" Value="50" />
+        <Setter Property="Background" Value="{StaticResource LightGrayColor}" />
+        <Setter Property="BorderBrush" Value="{StaticResource CustomBlackColor}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="5" />
+    </Style>
+
+    <Style
+        x:Key="radioBtnBorder_NoThickness"
+        BasedOn="{StaticResource radioBtnBorder}"
+        TargetType="{x:Type Border}">
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <!--  Autoclave border style  -->
+    <Style x:Key="autoClaveBd" TargetType="{x:Type Border}">
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <DrawingBrush
+                    TileMode="Tile"
+                    Viewport="0,0,8,8"
+                    ViewportUnits="Absolute">
+                    <DrawingBrush.Drawing>
+                        <DrawingGroup>
+                            <GeometryDrawing Brush="{StaticResource MainBlueColor}">
+                                <GeometryDrawing.Geometry>
+                                    <GeometryGroup>
+                                        <RectangleGeometry Rect="0,0,50,50" />
+                                        <RectangleGeometry Rect="50,50,50,50" />
+                                    </GeometryGroup>
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingGroup>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="autoClaveBd_LightGray" TargetType="{x:Type Border}">
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <DrawingBrush
+                    TileMode="Tile"
+                    Viewport="0,0,8,8"
+                    ViewportUnits="Absolute">
+                    <DrawingBrush.Drawing>
+                        <DrawingGroup>
+                            <GeometryDrawing Brush="{StaticResource LightGrayColor}">
+                                <GeometryDrawing.Geometry>
+                                    <GeometryGroup>
+                                        <RectangleGeometry Rect="0,0,50,50" />
+                                        <RectangleGeometry Rect="50,50,50,50" />
+                                    </GeometryGroup>
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingGroup>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Line for Autoclave  -->
+    <Style x:Key="portBtnLine" TargetType="{x:Type Line}">
+        <Setter Property="Stroke" Value="{StaticResource MainBlueColor}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeDashArray" Value="1 1" />
+        <Setter Property="X1" Value="22.5" />
+        <Setter Property="X2" Value="22.5" />
+        <Setter Property="Y1" Value="0" />
+        <Setter Property="Y2" Value="50" />
+    </Style>
+
+    <Style x:Key="frontAutoclaveLine" TargetType="{x:Type Line}">
+        <Setter Property="Stroke" Value="{StaticResource MainBlueColor}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeDashArray" Value="1 1" />
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <Style x:Key="vacPort_HorLine" TargetType="{x:Type Line}">
+        <Setter Property="Stroke" Value="{StaticResource MainBlueColor}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeDashArray" Value="1 1" />
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="X1" Value="40" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <TranslateTransform X="-20" Y="30" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="vacPort_VerLine" TargetType="{x:Type Line}">
+        <Setter Property="Stroke" Value="{StaticResource MainBlueColor}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeDashArray" Value="1 1" />
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="Y1" Value="80" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <TranslateTransform Y="30" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Ellipse for Autoclave  -->
+    <Style x:Key="portBtnEllipse" TargetType="{x:Type Ellipse}">
+        <Setter Property="Stroke" Value="{StaticResource MainBlueColor}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Width" Value="5" />
+        <Setter Property="Height" Value="5" />
+        <Setter Property="Fill" Value="{StaticResource MainBlueColor}" />
+    </Style>
+
+    <!--  A flashing style for the image  -->
+    <Style x:Key="autoclaveValveImg" TargetType="{x:Type Image}">
+        <Setter Property="Width" Value="48" />
+        <Setter Property="Height" Value="48" />
+    </Style>
+
+    <Style x:Key="autoclaveValveImg_NoAnim" TargetType="{x:Type Image}">
+        <Setter Property="Width" Value="48" />
+        <Setter Property="Height" Value="48" />
+    </Style>
+
+    <Style x:Key="LineDataPointStyle" TargetType="{x:Type DVC:LineDataPoint}">
+        <Style.Resources>
+            <Style TargetType="ToolTip" />
+        </Style.Resources>
+        <Setter Property="Opacity" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DVC:LineDataPoint}">
+                    <Grid x:Name="Root" Opacity="1">
+                        <ToolTipService.ToolTip>
+                            <StackPanel Margin="2,2,2,2">
+                                <ContentControl
+                                    Content="{TemplateBinding IndependentValue}"
+                                    ContentStringFormat="Argument: {0}"
+                                    Foreground="{StaticResource MainBlueColor}" />
+                                <ContentControl
+                                    Content="{TemplateBinding DependentValue}"
+                                    ContentStringFormat="Value: {0}"
+                                    Foreground="{StaticResource MainBlueColor}" />
+                            </StackPanel>
+                        </ToolTipService.ToolTip>
+                        <Ellipse
+                            Fill="{TemplateBinding Background}"
+                            Stroke="{TemplateBinding BorderBrush}"
+                            StrokeThickness="{TemplateBinding BorderThickness}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="dxg:TableView">
+        <Setter Property="ColumnHeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <ContentControl
+                        HorizontalAlignment="Center"
+                        HorizontalContentAlignment="Right"
+                        Content="{Binding}"
+                        TextBlock.FontWeight="Bold" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="drainTankControl" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Width" Value="128" />
+        <Setter Property="Height" Value="128" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Image
+                            Grid.RowSpan="3"
+                            Grid.ColumnSpan="3"
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
+                            Source="pack://siteoforigin:,,,/Resources/Simple_tank_01.png" />
+
+                        <!--  Text  -->
+                        <StackPanel
+                            Grid.RowSpan="3"
+                            Grid.ColumnSpan="3"
+                            Margin="0,0,10,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                            <StackPanel>
+                                <TextBlock
+                                    FontSize="15"
+                                    FontWeight="Bold"
+                                    Foreground="{StaticResource CustomBlackColor}"
+                                    Text="DRAIN" />
+                                <TextBlock
+                                    FontSize="15"
+                                    FontWeight="Bold"
+                                    Foreground="{StaticResource CustomBlackColor}"
+                                    Text="TANK" />
+                            </StackPanel>
+
+                            <StackPanel Margin="0,5,0,0">
+                                <TextBlock
+                                    FontSize="15"
+                                    FontWeight="Bold"
+                                    Foreground="{StaticResource pAndIBlue}"
+                                    Text="DRENAJ" />
+                                <TextBlock
+                                    FontSize="15"
+                                    FontWeight="Bold"
+                                    Foreground="{StaticResource pAndIBlue}"
+                                    Text="TANKI" />
+                            </StackPanel>
+
+                        </StackPanel>
+
+                        <!--  Ellipses  -->
+                        <StackPanel
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            Margin="0,10,10,0">
+                            <Ellipse
+                                x:Name="ell1"
+                                Width="20"
+                                Height="20"
+                                Margin="0,5,0,0"
+                                Fill="{StaticResource pAndIGray}"
+                                Stroke="{StaticResource CustomBlackColor}"
+                                StrokeThickness="1" />
+                        </StackPanel>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Tag" Value="1">
+                            <Setter TargetName="ell1" Property="Fill" Value="{StaticResource pAndIGreen}" />
+                        </Trigger>
+                        <Trigger Property="Tag" Value="0">
+                            <Setter TargetName="ell1" Property="Fill" Value="{StaticResource pAndIGray}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="coolingTowerControl" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Width" Value="224" />
+        <Setter Property="Height" Value="224" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*" />
+                            <RowDefinition Height="2*" />
+                            <RowDefinition Height="2*" />
+                            <RowDefinition Height="4*" />
+                        </Grid.RowDefinitions>
+
+                        <Image
+                            Grid.RowSpan="4"
+                            Grid.ColumnSpan="3"
+                            Source="pack://siteoforigin:,,,/Resources/Polyethylene_tank_01.png" />
+
+                        <!--  Texts  -->
+                        <Border Grid.Row="1" Grid.ColumnSpan="3">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource CustomBlackColor}"
+                                Text="COOLING TOWER" />
+                        </Border>
+                        <Border
+                            Grid.Row="2"
+                            Grid.ColumnSpan="3"
+                            Padding="9"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                            <TextBlock
+                                FontSize="16"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource pAndIBlue}"
+                                Text="SOĞUTMA KULESİ" />
+                            <Border.Background>
+                                <SolidColorBrush Opacity="0.7" Color="{Binding Source={StaticResource pAndIGray}, Path=Color}" />
+                            </Border.Background>
+                        </Border>
+
+                        <!--  Ellipses  -->
+                        <StackPanel
+                            Grid.Row="3"
+                            Grid.Column="2"
+                            Margin="0,4,30,0">
+                            <Ellipse
+                                x:Name="ell1"
+                                Width="20"
+                                Height="20"
+                                Margin="0,4,0,0"
+                                Fill="{Binding pAndIRed}"
+                                Stroke="{StaticResource CustomBlackColor}"
+                                StrokeThickness="1" />
+                            <Ellipse
+                                x:Name="ell2"
+                                Width="20"
+                                Height="20"
+                                Margin="0,8,0,0"
+                                Fill="{StaticResource pAndIRed}"
+                                Stroke="{StaticResource CustomBlackColor}"
+                                StrokeThickness="1" />
+                            <Ellipse
+                                x:Name="ell3"
+                                Width="20"
+                                Height="20"
+                                Margin="0,8,0,0"
+                                Fill="{StaticResource pAndIRed}"
+                                Stroke="{StaticResource CustomBlackColor}"
+                                StrokeThickness="1" />
+                        </StackPanel>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+
+                        <DataTrigger Binding="{Binding PipingAndInstrumentationFurnaceControlModel.TowerWaterLevelMax}" Value="0">
+                            <Setter TargetName="ell1" Property="Fill" Value="{StaticResource pAndIGray}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding PipingAndInstrumentationFurnaceControlModel.TowerWaterLevelMiddle}" Value="0">
+                            <Setter TargetName="ell2" Property="Fill" Value="{StaticResource pAndIGray}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding PipingAndInstrumentationFurnaceControlModel.TowerWaterLevelMin}" Value="0">
+                            <Setter TargetName="ell3" Property="Fill" Value="{StaticResource pAndIGray}" />
+                        </DataTrigger>
+
+
+                        <DataTrigger Binding="{Binding PipingAndInstrumentationFurnaceControlModel.TowerWaterLevelMax}" Value="1">
+                            <Setter TargetName="ell1" Property="Fill" Value="{StaticResource pAndIGreen}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding PipingAndInstrumentationFurnaceControlModel.TowerWaterLevelMiddle}" Value="1">
+                            <Setter TargetName="ell2" Property="Fill" Value="{StaticResource pAndIGreen}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding PipingAndInstrumentationFurnaceControlModel.TowerWaterLevelMin}" Value="1">
+                            <Setter TargetName="ell3" Property="Fill" Value="{StaticResource pAndIGreen}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding PipingAndInstrumentationFurnaceControlModel.TowerWaterLevelMax}" Value="2">
+                            <Setter TargetName="ell1" Property="Fill" Value="{StaticResource pAndIRed}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding PipingAndInstrumentationFurnaceControlModel.TowerWaterLevelMiddle}" Value="2">
+                            <Setter TargetName="ell2" Property="Fill" Value="{StaticResource pAndIRed}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding PipingAndInstrumentationFurnaceControlModel.TowerWaterLevelMin}" Value="2">
+                            <Setter TargetName="ell3" Property="Fill" Value="{StaticResource pAndIRed}" />
+                        </DataTrigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="imgBasedBlinkerControlBase" TargetType="{x:Type GroupBox}">
+        <Style.Resources>
+            <BitmapImage x:Key="imgGreen" UriSource="pack://siteoforigin:,,,/Resources/Horizontal_pump_right_green.png" />
+            <BitmapImage x:Key="imgRed" UriSource="pack://siteoforigin:,,,/Resources/Horizontal_pump_right_red.png" />
+            <BitmapImage x:Key="imgGray" UriSource="pack://siteoforigin:,,,/Resources/Horizontal_pump_right_gray.png" />
+        </Style.Resources>
+        <Setter Property="MinWidth" Value="48" />
+        <Setter Property="MinHeight" Value="48" />
+        <Setter Property="Width" Value="64" />
+        <Setter Property="Height" Value="64" />
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GroupBox}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="7.5*" />
+                            <ColumnDefinition Width="2.5*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2.5*" />
+                            <RowDefinition Height="7.5*" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.RowSpan="2">
+                            <Image
+                                x:Name="img"
+                                Width="{TemplateBinding MinWidth}"
+                                Height="{TemplateBinding MinHeight}"
+                                Source="{DynamicResource imgUnchecked}" />
+                            <TextBlock
+                                Margin="0,0,0,10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontWeight="SemiBold"
+                                Foreground="{StaticResource CustomBlackColor}"
+                                Text="{TemplateBinding Content}" />
+                        </StackPanel>
+                        <!--<Border
+                            Grid.Column="1"
+                            Width="16"
+                            Height="16"
+                            Background="{StaticResource pAndIBlue}"
+                            BorderBrush="{StaticResource CustomBlackColor}"
+                            BorderThickness="1">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="11"
+                                FontWeight="SemiBold"
+                                Foreground="{StaticResource GeneralWhite}"
+                                Text="A" />
+                        </Border>-->
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <!--  0 OFF - 1 ON - 2 ALARM  -->
+                        <Trigger Property="Tag" Value="0">
+                            <Setter TargetName="img" Property="Source" Value="{DynamicResource imgGray}" />
+                        </Trigger>
+                        <Trigger Property="Tag" Value="1">
+                            <Setter TargetName="img" Property="Source" Value="{DynamicResource imgGreen}" />
+                        </Trigger>
+                        <Trigger Property="Tag" Value="2">
+                            <Setter TargetName="img" Property="Source" Value="{DynamicResource imgRed}" />
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            AccelerationRatio="0.8"
+                                            AutoReverse="True"
+                                            DecelerationRatio="0.2"
+                                            RepeatBehavior="Forever"
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="0.1"
+                                            To="1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            AccelerationRatio="0.8"
+                                            DecelerationRatio="0.2"
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="0.1"
+                                            To="1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="imgBasedBlinkerPumpRight"
+        BasedOn="{StaticResource imgBasedBlinkerControlBase}"
+        TargetType="{x:Type GroupBox}">
+        <Setter Property="MinWidth" Value="64" />
+        <Setter Property="MinHeight" Value="64" />
+        <Setter Property="Width" Value="96" />
+        <Setter Property="Height" Value="96" />
+        <Style.Resources>
+            <BitmapImage x:Key="imgChecked" UriSource="pack://siteoforigin:,,,/Resources/Horizontal_pump_right_green.png" />
+            <BitmapImage x:Key="imgUnchecked" UriSource="pack://siteoforigin:,,,/Resources/Horizontal_pump_right_gray.png" />
+            <BitmapImage x:Key="imgDisabled" UriSource="pack://siteoforigin:,,,/Resources/Horizontal_pump_right_red.png" />
+        </Style.Resources>
+    </Style>
+
+     <!--<Style
+        x:Key="imgBasedOnOffValve"
+        BasedOn="{StaticResource imgBasedOnOffValveControlBase}"
+        TargetType="{x:Type GroupBox}">
+        <Setter Property="MinWidth" Value="64" />
+        <Setter Property="MinHeight" Value="64" />
+        <Setter Property="Width" Value="96" />
+        <Setter Property="Height" Value="96" />
+        <Style.Resources>
+            <BitmapImage x:Key="imgChecked" UriSource="pack://siteoforigin:,,,/Resources/3-D_Valve_green.png" />
+            <BitmapImage x:Key="imgUnchecked" UriSource="pack://siteoforigin:,,,/Resources/3-D_Valve_gray.png" />
+            <BitmapImage x:Key="imgDisabled" UriSource="pack://siteoforigin:,,,/Resources/3-D_Valve_red.png" />
+        </Style.Resources>
+    </Style>-->
+
+
+    <Style x:Key="imgBasedOnOffValveControlBase" TargetType="{x:Type Button}">
+        <Style.Resources>
+            <BitmapImage x:Key="imgGreen" UriSource="pack://siteoforigin:,,,/Resources/3-D_Valve_green.png" />
+            <BitmapImage x:Key="imgRed" UriSource="pack://siteoforigin:,,,/Resources/3-D_Valve_red.png" />
+            <BitmapImage x:Key="imgGray" UriSource="pack://siteoforigin:,,,/Resources/3-D_Valve_gray.png" />
+        </Style.Resources>
+        <Setter Property="MinWidth" Value="48" />
+        <Setter Property="MinHeight" Value="48" />
+        <Setter Property="Width" Value="64" />
+        <Setter Property="Height" Value="64" />
+        <Setter Property="Opacity" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="7.5*" />
+                            <ColumnDefinition Width="2.5*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2.5*" />
+                            <RowDefinition Height="7.5*" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.RowSpan="2">
+                            <Image
+                                x:Name="img"
+                                Width="{TemplateBinding MinWidth}"
+                                Height="{TemplateBinding MinHeight}"
+                                Source="{DynamicResource imgUnchecked}" />
+                            <TextBlock
+                                Margin="0,0,0,10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontWeight="SemiBold"
+                                Foreground="{StaticResource CustomBlackColor}"
+                                Text="{TemplateBinding Content}" />
+                        </StackPanel>
+                        <Border
+                            Grid.Column="1"
+                            Width="16"
+                            Height="16"
+                            Background="{StaticResource pAndIBlue}"
+                            BorderBrush="{StaticResource CustomBlackColor}"
+                            BorderThickness="1">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="11"
+                                FontWeight="SemiBold"
+                                Foreground="{StaticResource GeneralWhite}"
+                                Text="A" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <!--  0 OFF - 1 ON - 2 ALARM  -->
+                        <Trigger Property="Tag" Value="0">
+                            <Setter TargetName="img" Property="Source" Value="{DynamicResource imgRed}" />
+                        </Trigger>
+                        <Trigger Property="Tag" Value="1">
+                            <Setter TargetName="img" Property="Source" Value="{DynamicResource imgGreen}" />
+                        </Trigger>
+                        <Trigger Property="Tag" Value="2">
+                            <Setter TargetName="img" Property="Source" Value="{DynamicResource imgRed}" />
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            AccelerationRatio="0.8"
+                                            AutoReverse="True"
+                                            DecelerationRatio="0.2"
+                                            RepeatBehavior="Forever"
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="0.1"
+                                            To="1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            AccelerationRatio="0.8"
+                                            DecelerationRatio="0.2"
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="0.1"
+                                            To="1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+
+
+
+</ResourceDictionary>

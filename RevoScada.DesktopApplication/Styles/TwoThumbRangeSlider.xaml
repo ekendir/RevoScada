@@ -1,0 +1,163 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:customControls="clr-namespace:RevoScada.DesktopApplication.CustomControls"
+    xmlns:local="clr-namespace:RevoScada.DesktopApplication.Styles">
+    <Style x:Key="RangeSliderThumbStyle" TargetType="Thumb">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" />
+        <Setter Property="Background" Value="{StaticResource CreamColor}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border
+                        Name="OutBox"
+                        Width="8"
+                        Height="{TemplateBinding Height}"
+                        Margin="-8,0"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}" />
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="OutBox" Property="Background" Value="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" />
+                            <Setter TargetName="OutBox" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" />
+                        </Trigger>
+                        <DataTrigger Binding="{Binding Orientation, RelativeSource={RelativeSource AncestorType=customControls:TwoThumbRangeSlider}}" Value="Vertical">
+                            <Setter TargetName="OutBox" Property="Width" Value="Auto" />
+                            <Setter TargetName="OutBox" Property="Height" Value="16" />
+                            <Setter TargetName="OutBox" Property="Margin" Value="0,-8" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="RangeSliderStartThumb"
+        BasedOn="{StaticResource RangeSliderThumbStyle}"
+        TargetType="Thumb">
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" />
+        <Setter Property="Background" Value="{StaticResource CustomPassiveBlackColor}" />
+    </Style>
+
+    <Style
+        x:Key="RangeSliderEndThumb"
+        BasedOn="{StaticResource RangeSliderThumbStyle}"
+        TargetType="Thumb">
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" />
+        <Setter Property="Background" Value="{StaticResource CustomPassiveBlackColor}" />
+    </Style>
+
+    <ControlTemplate x:Key="RangeSliderHorizontalTemplate" TargetType="customControls:TwoThumbRangeSlider">
+        <Border
+            Width="{TemplateBinding Width}"
+            Height="{TemplateBinding Height}"
+            Padding="{TemplateBinding Padding}"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+            <Grid Name="PART_SliderContainer" Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Border
+                    Name="PART_StartArea"
+                    Grid.Column="0"
+                    IsHitTestVisible="False" />
+
+                <Border
+                    Name="PART_EndArea"
+                    Grid.Column="2"
+                    IsHitTestVisible="False" />
+
+                <Thumb
+                    Name="PART_StartThumb"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    Style="{TemplateBinding StartThumbStyle}"
+                    ToolTip="{TemplateBinding StartThumbToolTip}" />
+
+                <Thumb
+                    Name="PART_EndThumb"
+                    Grid.Column="2"
+                    HorizontalAlignment="Left"
+                    Style="{TemplateBinding EndThumbStyle}"
+                    ToolTip="{TemplateBinding EndThumbToolTip}" />
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsReadOnly" Value="True">
+                <Setter TargetName="PART_StartThumb" Property="IsEnabled" Value="False" />
+                <Setter TargetName="PART_EndThumb" Property="IsEnabled" Value="False" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="RangeSliderVertialTemplate" TargetType="customControls:TwoThumbRangeSlider">
+        <Border
+            Width="{TemplateBinding Width}"
+            Height="{TemplateBinding Height}"
+            Padding="{TemplateBinding Padding}"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+            <Grid Name="PART_SliderContainer" Background="Transparent">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Border
+                    Name="PART_StartArea"
+                    Grid.Row="0"
+                    IsHitTestVisible="False" />
+
+                <Border
+                    Name="PART_EndArea"
+                    Grid.Row="2"
+                    IsHitTestVisible="False" />
+
+                <Thumb
+                    Name="PART_StartThumb"
+                    Grid.Row="0"
+                    VerticalAlignment="Bottom"
+                    Style="{TemplateBinding StartThumbStyle}"
+                    ToolTip="{TemplateBinding StartThumbToolTip}" />
+
+                <Thumb
+                    Name="PART_EndThumb"
+                    Grid.Row="2"
+                    VerticalAlignment="Top"
+                    Style="{TemplateBinding EndThumbStyle}"
+                    ToolTip="{TemplateBinding EndThumbToolTip}" />
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsReadOnly" Value="True">
+                <Setter TargetName="PART_StartThumb" Property="IsEnabled" Value="False" />
+                <Setter TargetName="PART_EndThumb" Property="IsEnabled" Value="False" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type customControls:TwoThumbRangeSlider}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="StartThumbStyle" Value="{StaticResource RangeSliderStartThumb}" />
+        <Setter Property="EndThumbStyle" Value="{StaticResource RangeSliderEndThumb}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template" Value="{StaticResource RangeSliderHorizontalTemplate}" />
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Template" Value="{StaticResource RangeSliderVertialTemplate}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

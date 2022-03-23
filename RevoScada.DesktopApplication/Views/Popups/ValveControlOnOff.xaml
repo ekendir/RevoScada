@@ -1,0 +1,88 @@
+﻿<Window
+    x:Class="RevoScada.DesktopApplication.Views.Popups.ValveControlOnOff"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views.Popups"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="FurnaceControl"
+    Width="1920"
+    Height="1080"
+    AllowsTransparency="True"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Window.Background>
+        <SolidColorBrush Opacity="0.75" Color="#606060" />
+    </Window.Background>
+    <Border
+        Margin="30,30,30,10"
+        Padding="25"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Background="#ebebeb">
+        <StackPanel>
+            <Border
+                MinWidth="110"
+                Padding="2,2,0,2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Style="{StaticResource radioBtnBorder_NoThickness}">
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                    <RadioButton
+                        Name="RbManual"
+                        Margin="0,0,0,2"
+                        HorizontalAlignment="Left"
+                        Click="RbMan_Click"
+                        Content="Man"
+                        IsChecked="{Binding GetManValue}" />
+                    <RadioButton
+                        Name="RbAuto"
+                        Margin="6,0,0,0"
+                        Click="RbAuto_Click"
+                        Content="Auto"
+                        IsChecked="{Binding GetAutoValue}" />
+                </StackPanel>
+            </Border>
+            <Border
+                MinWidth="110"
+                Margin="0,5,0,0"
+                Padding="2,2,0,2"
+                HorizontalAlignment="Left"
+                Style="{StaticResource radioBtnBorder_NoThickness}">
+                <StackPanel>
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <RadioButton
+                            Name="RbOn"
+                            Margin="0,0,0,2"
+                            HorizontalAlignment="Left"
+                            Click="RbOn_Click"
+                            Content="On"
+                            IsChecked="{Binding GetOnValue}"
+                            Tag="{Binding ManualOperationTagConfigurations.PtcCoolControlStateIsEnable}" />
+                        <RadioButton
+                            Name="RbOff"
+                            Margin="15,0,0,0"
+                            Click="RbOff_Click"
+                            Content="Off"
+                            IsChecked="{Binding GetOffValue}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            <dx:SimpleButton
+                x:Name="closeBtn"
+                Width="150"
+                Height="40"
+                Margin="0,20,20,0"
+                HorizontalAlignment="Center"
+                Click="closeBtn_Click"
+                Content="Close"
+                FontSize="14"
+                FontWeight="Medium" />
+        </StackPanel>
+    </Border>
+</Window>

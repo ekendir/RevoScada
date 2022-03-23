@@ -1,0 +1,12 @@
+﻿<UserControl
+    x:Class="RevoScada.DesktopApplication.Views.ManualOperationViews.ManualOperationManagement"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views.ManualOperationViews"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
+    mc:Ignorable="d">
+    <ContentControl Content="{Binding CurrentManualOperation}" />
+</UserControl>

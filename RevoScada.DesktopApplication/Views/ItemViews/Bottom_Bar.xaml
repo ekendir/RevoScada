@@ -1,0 +1,405 @@
+﻿<UserControl
+    x:Class="RevoScada.DesktopApplication.Views.ItemViews.Bottom_Bar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:RevoScada.DesktopApplication.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views.ItemViews"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    d:DesignHeight="40"
+    d:DesignWidth="1920"
+    Background="#404040"
+    Loaded="UserControl_Loaded"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:BoolToPermissionTagValue x:Key="BoolToPermissionTagValue" />
+        <converters:StringToAbbreviatedString x:Key="StringToAbbreviatedString" />
+        <converters:AbbreviatedStringToBool x:Key="AbbreviatedStringToBool" />
+        <sys:Int32 x:Key="abbreviationLimit">40</sys:Int32>
+
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{StaticResource LightGrayColor}" />
+            <Setter Property="FontFamily" Value="Verdana" />
+            <Setter Property="FontSize" Value="11.5" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}" Value="800">
+                    <Setter Property="FontSize" Value="9" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type StackPanel}">
+            <Setter Property="Orientation" Value="Horizontal" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="5,0,10,0" />
+        </Style>
+        <Style TargetType="{x:Type Image}">
+            <Setter Property="Margin" Value="5,1,0,0" />
+            <Setter Property="Width" Value="14" />
+            <Setter Property="Height" Value="14" />
+        </Style>
+    </UserControl.Resources>
+    <Grid Loaded="Grid_Loaded">
+        <!--#region Left Section-->
+        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+            <!--  PLC Status  -->
+            <CheckBox
+                x:Name="PlcStatusChecker"
+                IsChecked="{Binding PlcStatusChecker}"
+                Visibility="Collapsed" />
+            <Image Margin="8,2,0,0" Style="{StaticResource sensorImg_PlcStatus}" />
+            <TextBlock
+                Padding="5,7,7,7"
+                Foreground="#c0c0c0"
+                Text="Plc Status" />
+
+            <StackPanel
+                x:Name="servicesTitleSp"
+                Margin="5,0,0,0"
+                Panel.ZIndex="10"
+                Background="Transparent"
+                Orientation="Horizontal">
+                <StackPanel.Triggers>
+                    <EventTrigger RoutedEvent="StackPanel.MouseEnter" SourceName="servicesTitleSp">
+                        <BeginStoryboard>
+                            <Storyboard x:Name="HideStackPanel">
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    To="0"
+                                    Duration="0:0:0.2" />
+                                <DoubleAnimation
+                                    Storyboard.TargetName="servicesSp"
+                                    Storyboard.TargetProperty="Width"
+                                    From="0"
+                                    To="625"
+                                    Duration="0:0:0.3">
+                                    <DoubleAnimation.EasingFunction>
+                                        <PowerEase EasingMode="EaseIn" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation
+                                    BeginTime="0:0:0.3"
+                                    Storyboard.TargetName="servicesSp"
+                                    Storyboard.TargetProperty="(StackPanel.RenderTransform).(TranslateTransform.X)"
+                                    To="-95"
+                                    Duration="0:0:0.2" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="StackPanel.MouseLeave" SourceName="servicesTitleSp">
+                        <BeginStoryboard>
+                            <Storyboard x:Name="ShowStackPanel">
+                                <DoubleAnimation
+                                    BeginTime="0:0:0.2"
+                                    Storyboard.TargetName="servicesSp"
+                                    Storyboard.TargetProperty="Width"
+                                    From="625"
+                                    To="0"
+                                    Duration="0:0:0.3">
+                                    <DoubleAnimation.EasingFunction>
+                                        <PowerEase EasingMode="EaseIn" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation
+                                    BeginTime="0:0:0.2"
+                                    Storyboard.TargetName="servicesSp"
+                                    Storyboard.TargetProperty="(StackPanel.RenderTransform).(TranslateTransform.X)"
+                                    To="0"
+                                    Duration="0:0:0.2" />
+                                <DoubleAnimation
+                                    BeginTime="0:0:0.4"
+                                    Storyboard.TargetProperty="Opacity"
+                                    To="1"
+                                    Duration="0:0:0.4" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </StackPanel.Triggers>
+                <!--  Services  -->
+                <CheckBox
+                    x:Name="ServicesChecker"
+                    IsChecked="{Binding IsAllServicesRunning}"
+                    Visibility="Collapsed" />
+                <Image
+                    x:Name="genPlcStatusImg"
+                    Margin="8,2,0,0"
+                    Style="{StaticResource sensorImg_IsAllServicesRunning}" />
+                <TextBlock
+                    Padding="5,7,7,7"
+                    Foreground="#c0c0c0"
+                    Text="Services" />
+            </StackPanel>
+
+            <StackPanel
+                x:Name="servicesSp"
+                Width="0"
+                Orientation="Horizontal">
+                <StackPanel.RenderTransform>
+                    <TranslateTransform X="0" />
+                </StackPanel.RenderTransform>
+
+                <StackPanel>
+                    <CheckBox
+                        x:Name="ReadServiceChecker"
+                        IsChecked="{Binding ReadServiceChecker}"
+                        Visibility="Collapsed" />
+                    <Image Style="{StaticResource sensorImg_Read}" />
+                    <TextBlock
+                        VerticalAlignment="Bottom"
+                        Foreground="#c0c0c0"
+                        Text=" Read" />
+                </StackPanel>
+
+                <StackPanel>
+                    <CheckBox
+                        x:Name="WriteServiceChecker"
+                        IsChecked="{Binding WriteServiceChecker}"
+                        Visibility="Collapsed" />
+                    <Image Style="{StaticResource sensorImg_Write}" />
+                    <TextBlock
+                        VerticalAlignment="Bottom"
+                        Foreground="#c0c0c0"
+                        Text=" Write" />
+
+                </StackPanel>
+
+                <StackPanel>
+                    <CheckBox
+                        x:Name="AlarmServiceChecker"
+                        IsChecked="{Binding AlarmServiceChecker}"
+                        Visibility="Collapsed" />
+                    <Image Style="{StaticResource sensorImg_Alarm}" />
+                    <TextBlock
+                        VerticalAlignment="Bottom"
+                        Foreground="#c0c0c0"
+                        Text=" Alarm" />
+
+                </StackPanel>
+                <StackPanel>
+                    <CheckBox
+                        x:Name="DataLogServiceChecker"
+                        IsChecked="{Binding DataLogServiceChecker}"
+                        Visibility="Collapsed" />
+                    <Image Style="{StaticResource sensorImg_DataLog}" />
+                    <TextBlock
+                        VerticalAlignment="Bottom"
+                        Foreground="#c0c0c0"
+                        Text=" DataLog" />
+
+                </StackPanel>
+                <StackPanel>
+                    <CheckBox
+                        x:Name="CacheServiceChecker"
+                        IsChecked="{Binding CacheServiceChecker}"
+                        Visibility="Collapsed" />
+                    <Image Style="{StaticResource sensorImg_Cache}" />
+                    <TextBlock
+                        VerticalAlignment="Bottom"
+                        Foreground="#c0c0c0"
+                        Text=" Cache" />
+                </StackPanel>
+
+                <StackPanel>
+                    <CheckBox
+                        x:Name="ManagerServiceChecker"
+                        IsChecked="{Binding ProcessManagerServiceChecker}"
+                        Visibility="Collapsed" />
+                    <Image Style="{StaticResource sensorImg_ProcessManager}" />
+                    <TextBlock
+                        VerticalAlignment="Bottom"
+                        Foreground="#c0c0c0"
+                        Text=" P.Manager" />
+                </StackPanel>
+
+                <StackPanel>
+                    <CheckBox
+                        x:Name="SyncServiceChecker"
+                        IsChecked="{Binding SynchronizationServiceChecker}"
+                        Visibility="Collapsed" />
+                    <Image Style="{StaticResource sensorImg_SyncService}" />
+                    <TextBlock
+                        VerticalAlignment="Bottom"
+                        Foreground="#c0c0c0"
+                        Text=" Sync" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+        <!--#endregion-->
+
+        <!--#region Right Section-->
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    <TextBlock
+                        VerticalAlignment="Bottom"
+                        Foreground="#c0c0c0"
+                        Text="Current Batch: " />
+                    <TextBlock
+                        VerticalAlignment="Bottom"
+                        Foreground="{StaticResource GeneralDarkWhite}"
+                        Text="{Binding CurrentBatchNumber.Value, TargetNullValue=-, FallbackValue=-}" />
+                </StackPanel>
+
+                <StackPanel Margin="10,0,0,0">
+                    <TextBlock
+                        VerticalAlignment="Bottom"
+                        Foreground="#c0c0c0"
+                        Text="Current Recipe: " />
+                    <TextBlock
+                        VerticalAlignment="Bottom"
+                        Foreground="{StaticResource GeneralDarkWhite}"
+                        Text="{Binding CurrentRecipeName.Value, Converter={StaticResource StringToAbbreviatedString}, ConverterParameter={StaticResource abbreviationLimit}, TargetNullValue=-, FallbackValue=-}">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Foreground" Value="{StaticResource GeneralDarkWhite}" />
+                                <Setter Property="FontFamily" Value="Verdana" />
+                                <Setter Property="FontSize" Value="11.5" />
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentRecipeName.Value, Converter={StaticResource AbbreviatedStringToBool}, ConverterParameter={StaticResource abbreviationLimit}}" Value="True">
+                                        <Setter Property="ToolTip" Value="{Binding CurrentRecipeName.Value}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}" Value="800">
+                                        <Setter Property="FontSize" Value="9" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+            <!--  Active User  -->
+            <StackPanel>
+                <Button x:Name="activeUserBtn" Click="activeUserBtn_Click">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource changeUserBtn}" TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=userName, Path=Visibility}" Value="Visible">
+                                    <Setter Property="Content" Value="Active User:" />
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ElementName=userName, Path=Visibility}" Value="Collapsed">
+                                    <Setter Property="Content" Value="Sign In" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button
+                    x:Name="userName"
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    Click="activeUserBtn_Click"
+                    Content="{Binding ActiveUser.UserName, FallbackValue=None, TargetNullValue=None}"
+                    Foreground="{StaticResource LightGrayColor}">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource changeUserBtn}" TargetType="{x:Type Button}">
+                            <Setter Property="Foreground" Value="{StaticResource LightGrayColor}" />
+                            <Setter Property="FontFamily" Value="Verdana" />
+                            <Setter Property="FontSize" Value="11.5" />
+                            <Setter Property="FontWeight" Value="SemiBold" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}" Value="800">
+                                    <Setter Property="FontSize" Value="9" />
+                                </DataTrigger>
+                                <Trigger Property="Content" Value="None">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+            <!--  Version  -->
+            <StackPanel>
+                <TextBlock x:Name="VersionNameText" />
+            </StackPanel>
+            <!--  Current Time  -->
+            <StackPanel>
+                <TextBlock Text="{Binding GlobalCurrentTime}" />
+            </StackPanel>
+
+            <!--#region Bottom Bar Control Buttons-->
+            <StackPanel Orientation="Horizontal">
+                <!--  Alarm Silence Horn  -->
+                <Button
+                    x:Name="silenceHornBtn"
+                    Margin="10,0,0,0"
+                    Command="{Binding SilenceHornCommand}"
+                    Style="{StaticResource alarmSlienceBtn}"
+                    ToolTip="Silence Horn Alarm" />
+                <!--  Help Button  -->
+                <Button
+                    x:Name="helpBtn"
+                    Click="helpBtn_Click"
+                    IsEnabled="True"
+                    Style="{StaticResource helpBtn}"
+                    Visibility="Collapsed" />
+                <!--  Emergency Button  -->
+                <Button
+                    x:Name="btnAppEmergency"
+                    Margin="10,0,0,0"
+                    Click="btnAppEmergency_Click"
+                    IsEnabled="{Binding IsEmergencyActionsPageEnabled}"
+                    Tag="{Binding IsEmergencyActionsPageEnabled, Converter={StaticResource BoolToPermissionTagValue}}">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource appEmergencyBtn}" TargetType="{x:Type Button}">
+                            <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+                            <Style.Triggers>
+                                <Trigger Property="Tag" Value="PermissionGranted">
+                                    <Setter Property="ToolTip" Value="Emergency Actions" />
+                                </Trigger>
+                                <Trigger Property="Tag" Value="PermissionRejected">
+                                    <Setter Property="ToolTip" Value="{Binding DisabledControlTooltipText}" />
+                                    <Setter Property="Opacity" Value="0.4" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <!--  App Settings Button  -->
+                <Button
+                    x:Name="btnAppSettings"
+                    Margin="10,0,0,0"
+                    Click="btnAppSettings_Click"
+                    IsEnabled="{Binding IsAppSettingsPageEnabled}"
+                    Tag="{Binding IsAppSettingsPageEnabled, Converter={StaticResource BoolToPermissionTagValue}}">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource appSettingsBtn}" TargetType="{x:Type Button}">
+                            <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+                            <Style.Triggers>
+                                <Trigger Property="Tag" Value="PermissionGranted">
+                                    <Setter Property="ToolTip" Value="Application Settings" />
+                                </Trigger>
+                                <Trigger Property="Tag" Value="PermissionRejected">
+                                    <Setter Property="ToolTip" Value="{Binding DisabledControlTooltipText}" />
+                                    <Setter Property="Opacity" Value="0.4" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <!--  Switch Furnaces Button  -->
+                <Button
+                    x:Name="btnSwitchFurnaces"
+                    Margin="10,0,0,0"
+                    Click="BtnSwitchFurnaces_Click"
+                    IsEnabled="True"
+                    Style="{StaticResource appSwitchFurnacesApplications}"
+                    ToolTip="Switch Furnace! (Fırın seçimini değiştir)"
+                    Visibility="{Binding FurnaceSelectionMenuButtonVisibility}" />
+                <!--  Exit App Button  -->
+                <Button
+                    x:Name="btnExitApplication"
+                    Margin="10,0,0,0"
+                    Click="btnExitApplication_Click"
+                    Style="{StaticResource appExitBtn}"
+                    ToolTip="Exit Application" />
+            </StackPanel>
+            <!--#endregion-->
+        </StackPanel>
+        <!--#endregion-->
+    </Grid>
+</UserControl>

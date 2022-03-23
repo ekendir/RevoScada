@@ -1,0 +1,204 @@
+﻿<UserControl x:Class="RevoScada.DesktopApplication.Views.ItemViews.UserManagementItemViews.Assignment_View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views.ItemViews.UserManagementItemViews"
+             mc:Ignorable="d"
+             d:DesignHeight="1080" d:DesignWidth="1920" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <Storyboard x:Key="dbResultPositiveFadeOutStoryBoard">
+            <DoubleAnimation
+                Storyboard.TargetName="dbSaveResultPositivePopup"
+                Storyboard.TargetProperty="Opacity"
+                From="0"
+                To="1"
+                Duration="0:0:0.5" />
+            <DoubleAnimation
+                BeginTime="0:0:1.75"
+                Storyboard.TargetName="dbSaveResultPositivePopup"
+                Storyboard.TargetProperty="Opacity"
+                From="1"
+                To="0"
+                Duration="0:0:0.5" />
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="dbSaveResultPositivePopup" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
+                <DiscreteObjectKeyFrame KeyTime="0:0:2.25" Value="{x:Static Visibility.Collapsed}" />
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Key="dbResultNegativeFadeOutStoryBoard">
+            <DoubleAnimation
+                Storyboard.TargetName="dbSaveResultNegativePopup"
+                Storyboard.TargetProperty="Opacity"
+                From="0"
+                To="1"
+                Duration="0:0:0.5" />
+            <DoubleAnimation
+                BeginTime="0:0:1.75"
+                Storyboard.TargetName="dbSaveResultNegativePopup"
+                Storyboard.TargetProperty="Opacity"
+                From="1"
+                To="0"
+                Duration="0:0:0.5" />
+            <ObjectAnimationUsingKeyFrames
+                BeginTime="00:00:00"
+                Storyboard.TargetName="dbSaveResultNegativePopup"
+                Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
+                <DiscreteObjectKeyFrame KeyTime="0:0:2.25" Value="{x:Static Visibility.Collapsed}" />
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+    <Grid Background="{StaticResource LightGrayColor}">
+        <!--#region Save Result Popups-->
+        <Grid
+            x:Name="dbSaveResultNegativePopup"
+            Grid.ColumnSpan="2"
+            Panel.ZIndex="5"
+            Opacity="0"
+            Visibility="Collapsed">
+            <Border
+                Width="230"
+                Height="60"
+                Background="{StaticResource LightGrayColor}">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource AlarmRedColor}"
+                        Text="İşlem başarısız oldu!" />
+                    <Image
+                        Width="24"
+                        Height="24"
+                        Margin="7,0,0,0"
+                        Source="pack://siteoforigin:,,,/Resources/Red_Cross_48px.png" />
+                </StackPanel>
+            </Border>
+            <Grid.Background>
+                <SolidColorBrush Opacity="0.4" Color="#606060" />
+            </Grid.Background>
+        </Grid>
+        <Grid
+            x:Name="dbSaveResultPositivePopup"
+            Grid.ColumnSpan="2"
+            Panel.ZIndex="5"
+            Opacity="0"
+            Visibility="Collapsed">
+            <Border
+                Width="220"
+                Height="60"
+                Background="{StaticResource LightGrayColor}">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource CustomPassiveBlackColor}"
+                        Text="İşlem başarılı oldu." />
+                    <Image
+                        Width="24"
+                        Height="24"
+                        Margin="7,0,0,0"
+                        Source="pack://siteoforigin:,,,/Resources/Green_Tick_48px.png" />
+                </StackPanel>
+            </Border>
+            <Grid.Background>
+                <SolidColorBrush Opacity="0.4" Color="#606060" />
+            </Grid.Background>
+        </Grid>
+        <!--#endregion-->
+
+        <StackPanel Width="350" Margin="10,5,10,0" HorizontalAlignment="Left">
+            <Label Margin="10,0,0,0"
+                   HorizontalAlignment="Left"
+                   Content="Assign a Group to User"
+                   FontSize="18"
+                   FontWeight="SemiBold"
+                   Foreground="{StaticResource CustomPassiveBlackColor}" />
+            <Border
+                   Margin="0,10,0,0"
+                   Padding="10"
+                   BorderBrush="{StaticResource GrayColor}"
+                   BorderThickness="1">
+                <StackPanel Margin="10,10,0,0" Orientation="Vertical">
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                                            Width="105"
+                                            VerticalAlignment="Center"
+                                            Text="Select a group" />
+                        <dxe:ComboBoxEdit
+                                            x:Name="groupCombobox"
+                                            Width="150"
+                                            Height="32"
+                                            Margin="10,5,0,5"
+                                            DisplayMember="GroupName"
+                                            FontSize="14"
+                                            IsTextEditable="False"
+                                            ItemsSource="{Binding ActiveUserGroups, NotifyOnTargetUpdated=True}"
+                                            SelectedIndexChanged="groupCombobox_SelectionChanged"
+                                            ShowSizeGrip="False" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                                            Width="105"
+                                            VerticalAlignment="Center"
+                                            Text="Select a user" />
+                        <dxe:ComboBoxEdit
+                                            x:Name="usersCombobox"
+                                            Width="150"
+                                            Height="32"
+                                            Margin="10,5,0,5"
+                                            HorizontalAlignment="Left"
+                                            DisplayMember="UserName"
+                                            FontSize="14"
+                                            IsTextEditable="False"
+                                            ItemsSource="{Binding ActiveUsers, NotifyOnTargetUpdated=True}"
+                                            SelectedIndexChanged="usersCombobox_SelectedIndexChanged"
+                                            ShowCustomItems="True"
+                                            ShowSizeGrip="False">
+                            <dxe:ComboBoxEdit.StyleSettings>
+                                <dxe:CheckedComboBoxStyleSettings />
+                            </dxe:ComboBoxEdit.StyleSettings>
+                        </dxe:ComboBoxEdit>
+                    </StackPanel>
+
+                    <dx:SimpleButton
+                                        x:Name="assignBtn"
+                                        Width="160"
+                                        Height="40"
+                                        Margin="70,10,0,0"
+                                        HorizontalAlignment="Center"
+                                        Click="assignBtn_Click"
+                                        Content="Assign to User"
+                                        FontSize="18"
+                                        FontWeight="Medium"
+                                        IsEnabled="{Binding IsAssignToUserBtnEnabled}" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+        <Grid.Style>
+            <Style TargetType="{x:Type Grid}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding HasGenControlPermissionGranted}" Value="False">
+                        <Setter Property="Opacity" Value="0.5"/>
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Setter Property="ToolTip" Value="{Binding DisabledControlTooltipText}"/>
+                        <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
+    </Grid>
+</UserControl>

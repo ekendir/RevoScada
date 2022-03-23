@@ -1,0 +1,307 @@
+﻿<UserControl x:Class="RevoScada.DesktopApplication.Views.User_Control"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:ctrl="clr-namespace:RevoScada.DesktopApplication.Helpers"
+             xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="1080" d:DesignWidth="1920" Background="{StaticResource MainWindowLight}">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource MainBlueColor}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Margin" Value="0 4 0 4"/>
+        </Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource whiteTextBox}">
+            <Setter Property="MinWidth" Value="150"/>
+            <Setter Property="MinHeight" Value="23"/>
+            <Setter Property="Margin" Value="0 2 0 10"/>
+        </Style>
+
+        <Style TargetType="PasswordBox" BasedOn="{StaticResource whitePasswordBox}">
+            <Setter Property="MinWidth" Value="150"/>
+            <Setter Property="MinHeight" Value="23"/>
+            <Setter Property="Margin" Value="0 2 0 10"/>
+        </Style>
+        
+        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+            <Setter Property="Foreground" Value="{StaticResource MainBlueColor}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+        <Style TargetType="GroupBox" BasedOn="{StaticResource {x:Type GroupBox}}">
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock x:Name="headerT" Text="{Binding}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                               FontSize="20" Margin="3 0 0 0" Foreground="{StaticResource MainBlueColor}" FontWeight="Bold"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid Margin="10" Grid.Loaded="Grid_Loaded">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <!--#region Left Section-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+            <!--#region User Info Section-->
+            <Border Background="{StaticResource LightGrayColor}" BorderThickness="1" BorderBrush="{StaticResource CustomBlackColor}" CornerRadius="4">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.6*"/>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="8.5*"/>
+                    </Grid.RowDefinitions>
+                    <Border Style="{StaticResource standardHeaderBorder}" Grid.ColumnSpan="2">
+                        <Viewbox HorizontalAlignment="Center">
+                            <Label FontSize="25" Content="User Info" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
+                                   Foreground="{StaticResource CustomBlackColor}"/>
+                        </Viewbox>
+                    </Border>
+                    <!--Content-->
+                    <Viewbox Grid.Row="2" MaxWidth="500" VerticalAlignment="Top">
+                        <Grid>
+                            <StackPanel>
+                                <!--Passive user checkbox-->
+                                <CheckBox Content="Passive User" Margin="0 0 0 5"/>
+                                <!--User name-->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5 0 0 0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Style="{StaticResource unicodeArrowTb}" Margin="0 9 3 0"/>
+                                        <TextBlock Text="User Name:"/>
+                                    </StackPanel>
+                                    <TextBox Margin="5 0 0 0"/>
+                                </StackPanel>
+
+                                <!--Password-->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 0 0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Style="{StaticResource unicodeArrowTb}" Margin="0 5 3 0"/>
+                                        <TextBlock Text="Password:" Margin="0 0 5 0"/>
+                                    </StackPanel>
+                                    <PasswordBox Margin="12 0 0 0"/>
+                                    <CheckBox Foreground="{StaticResource MainBlueColor}" Content="Show Password" Margin="5 5 10 0"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <!--Do not use Turkish characters-->
+                                    <GroupBox Header="Note !" FontSize="14" Padding="2" BorderThickness="2" BorderBrush="{Binding ElementName=forbiddenChar, Path=Foreground}" 
+                                              FontWeight="Bold" VerticalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal">
+                                            
+                                        <TextBlock Style="{StaticResource unicodeArrowTb}" Margin="0 2 3 0" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="forbiddenChar" Text="Do not use Turkish characters." FontSize="13"
+                                                FontWeight="Bold" HorizontalAlignment="Center"  VerticalAlignment="Center">
+                                            <TextBlock.Foreground>
+                                                <LinearGradientBrush StartPoint="1,0" EndPoint="0,0">
+                                                    <GradientStop x:Name="Wizard2Text1Stop" Offset="0" Color="#23304A" />
+                                                    <!--GrayColor-->
+                                                    <GradientStop Offset="0" Color="#326690" />
+                                                </LinearGradientBrush>
+                                            </TextBlock.Foreground>
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Style.Triggers>
+                                                        <EventTrigger RoutedEvent="TextBlock.Loaded">
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation 
+                                                                            Storyboard.TargetProperty="Foreground.GradientStops[0].Offset"
+                                                                            From="0" To="3.0" AccelerationRatio="1"
+                                                                            AutoReverse="True" RepeatBehavior="Forever"/>
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    </GroupBox>
+                                    
+                                    <!--Include checkboxes-->
+                                    <Border HorizontalAlignment="Right" BorderThickness="1" BorderBrush="{StaticResource MainBlueColor}" Padding="3"
+                                        Margin="5 10 5 5">
+                                        <StackPanel>
+                                            <CheckBox Foreground="{StaticResource MainBlueColor}" Content="Include Lowercase" Margin="5 5 10 0"/>
+                                            <CheckBox Foreground="{StaticResource MainBlueColor}" Content="Include Uppercase" Margin="5 5 10 0"/>
+                                            <CheckBox Foreground="{StaticResource MainBlueColor}" Content="Include Numeric" Margin="5 5 10 0"/>
+                                            <dxe:SpinEdit MaskType="Numeric" Mask="##" HorizontalAlignment="Left" Width="150" Height="25" Margin="15 5 0 0"/>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+
+                                <!--Generate Password button-->
+                                <Button Style="{StaticResource genBtn_password}" HorizontalAlignment="Right" Content="Generate Pass" 
+                                        Margin="5 10 5 5" MinHeight="30"/>
+
+                                <!--New user, save, group buttons-->
+                                <StackPanel HorizontalAlignment="Center" Margin="0 15 0 0">
+                                    <Button Style="{StaticResource genBtn}" Content="New User" MinHeight="30" Margin="0 0 0 5"/>
+                                    <Button Style="{StaticResource genBtn_save}" Content="Save" MinHeight="30" Margin="0 0 0 5"/>
+                                    <Button Style="{StaticResource genBtn_password}" Content="Group Policies" MinHeight="30" Margin="0 0 0 15"/>
+                                </StackPanel>
+                            </StackPanel>
+   
+                        </Grid>
+                    </Viewbox>
+                </Grid>
+            </Border>
+            <!--#endregion-->
+            
+            <!--#region Group Info Section-->
+            <Border Grid.Column="1" Background="{StaticResource LightGrayColor}" BorderThickness="1" BorderBrush="{StaticResource CustomBlackColor}" 
+                    Margin="5 0 0 0" CornerRadius="4">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.6*"/>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="5.5*"/>
+                        <RowDefinition Height="3*"/>
+                    </Grid.RowDefinitions>
+                    <Border Style="{StaticResource standardHeaderBorder}" Grid.ColumnSpan="2">
+                        <Viewbox HorizontalAlignment="Center">
+                            <Label FontSize="25" Content="Group Info" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
+                                   Foreground="{StaticResource CustomBlackColor}"/>
+                        </Viewbox>
+                    </Border>
+                    <!--Content-->
+                    <Viewbox Grid.Row="2" MaxWidth="350" VerticalAlignment="Center">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                
+                                <!--Select group-->
+                                <StackPanel>
+                                    <TextBlock Text="Select a Group:" Margin="0 0 0 5"/>
+                                    <ComboBox Style="{StaticResource calibrationComboBox}">
+                                        <ComboBoxItem>
+                                            Admin
+                                        </ComboBoxItem>
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <!--Nav Buttons-->
+                                <StackPanel Margin="15 0 0 0">
+                                    <Button Style="{StaticResource genBtn_noImg}" Margin="0 0 0 10" FontFamily="Segoe MDL2 Assets" Content="&#xEDDA;"/>
+                                    <Button Style="{StaticResource genBtn_noImg}" FontFamily="Segoe MDL2 Assets" Content="&#xEDD9;"/>
+                                </StackPanel>
+
+                                <!--Assigned groups listview-->
+                                <StackPanel Margin="15 0 0 0">
+                                    <TextBlock Text="Assigned Groups:"/>
+
+                                    <ListView ItemContainerStyle="{StaticResource listItemView}" MinHeight="150" ItemsSource="{Binding MockGroup_Coll}">
+                                        
+                                    </ListView>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Viewbox>
+                </Grid>
+            </Border>
+            <!--#endregion-->
+        </Grid>
+        <!--#endregion-->
+        
+        <!--#region Right Section-->
+            <Border Grid.Column="1" Margin="5 0 0 0" Background="{StaticResource LightGrayColor}" BorderThickness="1" 
+                    BorderBrush="{StaticResource CustomBlackColor}" CornerRadius="4">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="9*"/>
+                </Grid.RowDefinitions>
+                    
+                <!--Show passive users-->
+                <Viewbox Grid.Row="0" Margin="0 0 0 10">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 0">
+                            <TextBlock Style="{StaticResource unicodeArrowTb}" Margin="0 9 3 0"/>
+                            <TextBlock Text="Would you like to see passive users?"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 5 0 0">
+                            <RadioButton Style="{StaticResource GenToggleButton}" Content="Yes" MinWidth="50" Margin="0 0 15 0"/>
+                            <RadioButton Style="{StaticResource GenToggleButton}" Content="No" MinWidth="50" IsChecked="True"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Viewbox>
+
+                <!--User Listview-->
+                <ListView Grid.Row="1" ItemsSource="{Binding MockUsers_Coll}" ctrl:ListViewLayoutManager.Enabled="True" 
+                          ItemContainerStyle="{StaticResource listItemGridView}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn ctrl:ProportionalColumn.Width="1">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Margin="0 0 17 0" Style="{StaticResource genBtn_noImg}" MaxWidth="25" MaxHeight="25" FontFamily="Segoe MDL2 Assets" 
+                                                Content="&#xEDD9;"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="User Name" ctrl:ProportionalColumn.Width="2">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding UserName}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Active" ctrl:ProportionalColumn.Width="2">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsActive}" HorizontalAlignment="Center"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Modification Date" ctrl:ProportionalColumn.Width="2">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding RecordDate}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                    <ListView.Resources>
+                        <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource {x:Type ScrollBar}}">
+                            <Setter Property="SnapsToDevicePixels" Value="True"/>
+                            <Setter Property="OverridesDefaultStyle" Value="True"/>
+                            <Style.Triggers>
+                                <Trigger Property="Orientation" Value="Horizontal">
+                                    <Setter Property="Width" Value="Auto" />
+                                    <Setter Property="Height" Value="18" />
+                                    <Setter Property="Template" Value="{StaticResource HorizontalScrollBar}" />
+                                </Trigger>
+                                <Trigger Property="Orientation" Value="Vertical">
+                                    <Setter Property="Width" Value="18" />
+                                    <Setter Property="Height" Value="Auto" />
+                                    <Setter Property="Template" Value="{StaticResource VerticalScrollBar}" />
+                                </Trigger>
+                                <Trigger Property="Name" Value="PART_VerticalScrollBar">
+                                    <Setter Property="Margin" Value="-17 30 0 0"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.Resources>
+                </ListView>
+
+            </Grid>
+            </Border>
+        <!--#endregion-->
+    </Grid>
+</UserControl>

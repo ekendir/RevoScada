@@ -1,0 +1,2334 @@
+﻿<UserControl
+    x:Class="RevoScada.DesktopApplication.Views.ManualOperationViews.ManualOperationType20"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="clr-namespace:RevoScada.DesktopApplication.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+    xmlns:itemViews="clr-namespace:RevoScada.DesktopApplication.Views.ItemViews"
+    xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
+    Background="{StaticResource MainWindowLight}"
+    Loaded="UserControl_Loaded"
+    Unloaded="UserControl_Unloaded"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converter:LookDirToWidth x:Key="LookDirToWidth" />
+        <converter:DoubleToAbsoluteVisiblity x:Key="DoubleToAbsoluteVisiblity" />
+        <converter:BoolToDouble x:Key="BoolToDouble" />
+        <converter:DoubleToBool x:Key="DoubleToBool" />
+        <converter:FloatToDigitFloat x:Key="FloatToDigitFloat" />
+        <!--#region 3D Section Port Button Container Animations-->
+        <Storyboard x:Key="autoclaveCamAnim_Updated">
+            <DoubleAnimation
+                Storyboard.TargetProperty="(Viewbox.Opacity)"
+                From="0"
+                To="1"
+                Duration="0:0:0.2" />
+        </Storyboard>
+        <Storyboard x:Key="autoclaveCamAnim_Hide">
+            <DoubleAnimation
+                Storyboard.TargetProperty="(Viewbox.Opacity)"
+                From="1"
+                To="0"
+                Duration="0:0:0.2" />
+        </Storyboard>
+        <Storyboard x:Key="autoclaveCamAnim_Show">
+            <DoubleAnimation
+                Storyboard.TargetProperty="(Viewbox.Opacity)"
+                From="0"
+                To="1"
+                Duration="0:0:0.2" />
+        </Storyboard>
+        <Storyboard x:Key="posChange">
+            <DoubleAnimation
+                Storyboard.TargetName="allowShowingSections"
+                Storyboard.TargetProperty="Opacity"
+                From="0"
+                To="1"
+                Duration="0:0:2" />
+        </Storyboard>
+
+        <Style BasedOn="{StaticResource turquoiseBtn}" TargetType="{x:Type Button}">
+            <Setter Property="MinWidth" Value="36" />
+            <Setter Property="Height" Value="18" />
+            <Setter Property="FontSize" Value="11" />
+        </Style>
+
+        <Style x:Key="portTitleBdPtc" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="{StaticResource LightBlue}" />
+            <Setter Property="MinWidth" Value="48" />
+            <Setter Property="MinHeight" Value="36" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style x:Key="portTitleBdVac" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="{StaticResource LightYellow}" />
+            <Setter Property="MinWidth" Value="48" />
+            <Setter Property="MinHeight" Value="36" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style x:Key="portTitleBdMon" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="#E1E2E6" />
+            <Setter Property="MinWidth" Value="48" />
+            <Setter Property="MinHeight" Value="36" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style x:Key="portTitle" TargetType="{x:Type TextBlock}">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{StaticResource CustomBlackColor}" />
+            <Setter Property="FontSize" Value="15" />
+        </Style>
+
+        <Style
+            x:Key="slowFlashingLocalTb"
+            BasedOn="{StaticResource slowFlashingTb}"
+            TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{StaticResource GeneralWhite}" />
+            <Setter Property="Margin" Value="10,2,8,0" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Width" Value="60" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+        </Style>
+
+        <!--#region Port Lines Animations-->
+        <Storyboard x:Key="portLinesAnim_Updated">
+            <DoubleAnimation
+                BeginTime="0:0:0.3"
+                Storyboard.TargetProperty="(StackPanel.Opacity)"
+                From="0"
+                To="1" />
+        </Storyboard>
+        <Storyboard x:Key="portLinesAnim_Hide">
+            <DoubleAnimation
+                BeginTime="0:0:0.2"
+                Storyboard.TargetProperty="(StackPanel.Opacity)"
+                From="1"
+                To="0" />
+        </Storyboard>
+        <!--#endregion-->
+        <!--#endregion-->
+
+        <Style BasedOn="{StaticResource centeredTextBox}" TargetType="{x:Type TextBox}">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="Focusable" Value="False" />
+        </Style>
+
+        <Style
+            x:Key="editableTextBox"
+            BasedOn="{StaticResource centeredTextBox}"
+            TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="{StaticResource GeneralWhite}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="IsReadOnly" Value="False" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+
+        <Style BasedOn="{StaticResource generalRadioBtn}" TargetType="{x:Type RadioButton}" />
+    </UserControl.Resources>
+    <Grid
+        x:Name="mainGrid"
+        Focusable="True"
+        Loaded="Grid_Loaded">
+
+        <DockPanel Margin="10,10,0,10">
+            <!--#region Left Section-->
+            <Viewbox DockPanel.Dock="Left">
+                <Border
+                    Background="{StaticResource LightGrayColor}"
+                    BorderBrush="{StaticResource CustomBlackColor}"
+                    BorderThickness="1,0,1,1">
+                    <Grid>
+                        <StackPanel>
+                            <!--  Temperature Control Header  -->
+                            <Border
+                                x:Name="tempBorder"
+                                Focusable="True"
+                                Style="{StaticResource standardHeaderBorder}">
+                                <Viewbox Height="23">
+                                    <Label
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Content="Temperature Control"
+                                        FontSize="25"
+                                        FontWeight="DemiBold"
+                                        Foreground="{StaticResource CustomBlackColor}" />
+                                </Viewbox>
+                            </Border>
+                            <Viewbox
+                                Margin="0,3,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top">
+                                <!--#region All Controls-->
+                                <StackPanel
+                                    HorizontalAlignment="Left"
+                                    IsEnabled="{Binding Permissions[tempControl]}"
+                                    Orientation="Horizontal">
+                                    <StackPanel.Style>
+                                        <Style TargetType="{x:Type StackPanel}">
+                                            <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+                                            <Style.Triggers>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="ToolTip" Value="{Binding DisabledControlTooltipText}" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
+                                    <!--#region Fan Enable-->
+                                    <GroupBox
+                                        Margin="10,0,0,5"
+                                        Header="Fan"
+                                        Style="{StaticResource passiveBlackGroupBox_Smaller}">
+                                        <StackPanel>
+                                            <Border
+                                                MinWidth="110"
+                                                Padding="2,2,0,2"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                Style="{StaticResource radioBtnBorder_NoThickness}">
+                                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                    <RadioButton
+                                                        Margin="0,0,0,2"
+                                                        HorizontalAlignment="Left"
+                                                        Click="RbMan_Click"
+                                                        Content="Man"
+                                                        IsChecked="{Binding FurnaceControlFormInput.PtcFanControlStateMan}"
+                                                        Tag="{Binding ManualOperationTagConfigurations.PtcFanControlStateIsAuto}" />
+                                                    <RadioButton
+                                                        Margin="6,0,0,0"
+                                                        Click="RbAuto_Click"
+                                                        Content="Auto"
+                                                        IsChecked="{Binding FurnaceControlFormInput.PtcFanControlStateAuto}"
+                                                        Tag="{Binding ManualOperationTagConfigurations.PtcFanControlStateIsAuto}" />
+                                                </StackPanel>
+                                            </Border>
+                                            <Border
+                                                MinWidth="110"
+                                                Margin="0,5,0,0"
+                                                Padding="2,2,0,2"
+                                                HorizontalAlignment="Left"
+                                                Style="{StaticResource radioBtnBorder_NoThickness}">
+                                                <StackPanel>
+                                                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                        <RadioButton
+                                                            Margin="0,0,0,2"
+                                                            HorizontalAlignment="Left"
+                                                            Click="RbOn_Click"
+                                                            Content="On"
+                                                            IsChecked="{Binding FurnaceControlFormInput.PtcFanControlStateIsOn}"
+                                                            Tag="{Binding ManualOperationTagConfigurations.PtcFanControlStateIsEnable}" />
+                                                        <RadioButton
+                                                            Margin="15,0,0,0"
+                                                            Click="RbOff_Click"
+                                                            Content="Off"
+                                                            IsChecked="{Binding FurnaceControlFormInput.PtcFanControlStateIsOff}"
+                                                            Tag="{Binding ManualOperationTagConfigurations.PtcFanControlStateIsEnable}" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+                                            <StackPanel
+                                                Grid.Row="1"
+                                                Margin="0,2,0,0"
+                                                Orientation="Horizontal">
+                                                <TextBox
+                                                    x:Name="fanSpeedSetValue"
+                                                    Grid.Column="1"
+                                                    MinWidth="65"
+                                                    MinHeight="20"
+                                                    Margin="2,0,0,2"
+                                                    GotFocus="GeneralTextBox_GotFocus"
+                                                    KeyDown="GeneralTextBox_KeyDown"
+                                                    LostFocus="GeneralTextBox_LostFocus"
+                                                    Style="{StaticResource whiteTextBoxVer2}"
+                                                    Tag="{Binding ManualOperationTagConfigurations.FanSpeedSetValue}"
+                                                    Text="{Binding FurnaceControlFormInput.FanSpeedSetValue, StringFormat={}{0:F2}}"
+                                                    TextChanged="GeneralTextBox_TextChanged" />
+                                                <TextBlock
+                                                    Margin="2,0,0,2"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="11"
+                                                    FontWeight="SemiBold"
+                                                    Text="%" />
+                                            </StackPanel>
+                                            <!--<StackPanel
+                                                Grid.Row="1"
+                                                HorizontalAlignment="Left"
+                                                Orientation="Horizontal">
+                                                <TextBox
+                                                    Grid.Column="1"
+                                                    MinWidth="75"
+                                                    Margin="0,5,0,0"
+                                                    Text="{Binding FurnaceControlFormInput.FanSpeed, StringFormat={}{0:F0}}" />
+                                                <Label
+                                                    Grid.Column="2"
+                                                    Margin="2,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    Content="%"
+                                                    FontSize="13"
+                                                    Style="{StaticResource boldedLabelTitle}" />
+                                            </StackPanel>-->
+                                        </StackPanel>
+                                    </GroupBox>
+                                    <!--#endregion-->
+                                    <!--#region Heat Enable-->
+                                    <GroupBox
+                                        Margin="10,0,0,5"
+                                        Header="Heat"
+                                        Style="{StaticResource passiveBlackGroupBox_Smaller}">
+                                        <StackPanel>
+
+                                            <Border
+                                                MinWidth="110"
+                                                Padding="2,2,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                Style="{StaticResource radioBtnBorder_NoThickness}">
+                                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                    <RadioButton
+                                                        Margin="0,0,0,2"
+                                                        HorizontalAlignment="Left"
+                                                        Click="RbMan_Click"
+                                                        Content="Man"
+                                                        IsChecked="{Binding FurnaceControlFormInput.PtcHeatControlStateMan}"
+                                                        Tag="{Binding ManualOperationTagConfigurations.PtcHeatControlStateIsAuto}" />
+                                                    <RadioButton
+                                                        Margin="6,0,0,0"
+                                                        Click="RbAuto_Click"
+                                                        Content="Auto"
+                                                        IsChecked="{Binding FurnaceControlFormInput.PtcHeatControlStateAuto}"
+                                                        Tag="{Binding ManualOperationTagConfigurations.PtcHeatControlStateIsAuto}" />
+                                                </StackPanel>
+                                            </Border>
+                                            <Border
+                                                MinWidth="110"
+                                                Margin="0,5,0,0"
+                                                Padding="2,2,0,2"
+                                                HorizontalAlignment="Left"
+                                                Style="{StaticResource radioBtnBorder_NoThickness}">
+                                                <StackPanel>
+                                                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                        <RadioButton
+                                                            Margin="0,0,0,2"
+                                                            HorizontalAlignment="Left"
+                                                            Click="RbOn_Click"
+                                                            Content="On"
+                                                            IsChecked="{Binding FurnaceControlFormInput.PtcHeatControlStateIsOn}"
+                                                            Tag="{Binding ManualOperationTagConfigurations.PtcHeatControlStateIsEnable}" />
+                                                        <RadioButton
+                                                            Margin="15,0,0,0"
+                                                            Click="RbOff_Click"
+                                                            Content="Off"
+                                                            IsChecked="{Binding FurnaceControlFormInput.PtcHeatControlStateIsOff}"
+                                                            Tag="{Binding ManualOperationTagConfigurations.PtcHeatControlStateIsEnable}" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <StackPanel
+                                                Grid.Row="1"
+                                                Margin="0,5,0,0"
+                                                HorizontalAlignment="Left"
+                                                Orientation="Horizontal">
+                                                <Label
+                                                    Grid.Column="0"
+                                                    Margin="0,0,5,0"
+                                                    VerticalAlignment="Center"
+                                                    Content="PID"
+                                                    FontSize="13"
+                                                    Style="{StaticResource boldedLabelTitle}" />
+                                                <TextBox
+                                                    Grid.Column="1"
+                                                    MinWidth="75"
+                                                    Text="{Binding FurnaceControlFormInput.PtcHeatControlStatePid}" />
+                                                <Label
+                                                    Grid.Column="2"
+                                                    Margin="2,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    Content="%"
+                                                    FontSize="13"
+                                                    Style="{StaticResource boldedLabelTitle}" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </GroupBox>
+                                    <!--#endregion-->
+                                    <!--#region Cool Enable-->
+                                    <GroupBox
+                                        Margin="10,0,0,5"
+                                        Header="Cool"
+                                        Style="{StaticResource passiveBlackGroupBox_Smaller}">
+                                        <StackPanel>
+
+                                            <Border
+                                                MinWidth="110"
+                                                Padding="2,2,0,2"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                Style="{StaticResource radioBtnBorder_NoThickness}">
+                                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                    <RadioButton
+                                                        Margin="0,0,0,2"
+                                                        HorizontalAlignment="Left"
+                                                        Click="RbMan_Click"
+                                                        Content="Man"
+                                                        IsChecked="{Binding FurnaceControlFormInput.PtcCoolControlStateMan}"
+                                                        Tag="{Binding ManualOperationTagConfigurations.PtcCoolControlStateIsAuto}" />
+                                                    <RadioButton
+                                                        Margin="6,0,0,0"
+                                                        Click="RbAuto_Click"
+                                                        Content="Auto"
+                                                        IsChecked="{Binding FurnaceControlFormInput.PtcCoolControlStateAuto}"
+                                                        Tag="{Binding ManualOperationTagConfigurations.PtcCoolControlStateIsAuto}" />
+                                                </StackPanel>
+                                            </Border>
+                                            <Border
+                                                MinWidth="110"
+                                                Margin="0,5,0,0"
+                                                Padding="2,2,0,2"
+                                                HorizontalAlignment="Left"
+                                                Style="{StaticResource radioBtnBorder_NoThickness}">
+                                                <StackPanel>
+                                                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                        <RadioButton
+                                                            Margin="0,0,0,2"
+                                                            HorizontalAlignment="Left"
+                                                            Click="RbOn_Click"
+                                                            Content="On"
+                                                            IsChecked="{Binding FurnaceControlFormInput.PtcCoolControlStateIsOn}"
+                                                            Tag="{Binding ManualOperationTagConfigurations.PtcCoolControlStateIsEnable}" />
+                                                        <RadioButton
+                                                            Margin="15,0,0,0"
+                                                            Click="RbOff_Click"
+                                                            Content="Off"
+                                                            IsChecked="{Binding FurnaceControlFormInput.PtcCoolControlStateIsOff}"
+                                                            Tag="{Binding ManualOperationTagConfigurations.PtcCoolControlStateIsEnable}" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <StackPanel
+                                                Grid.Row="1"
+                                                Margin="0,5,0,0"
+                                                HorizontalAlignment="Left"
+                                                Orientation="Horizontal">
+                                                <Label
+                                                    Grid.Column="0"
+                                                    Margin="0,0,5,0"
+                                                    VerticalAlignment="Center"
+                                                    Content="PID"
+                                                    FontSize="13"
+                                                    Style="{StaticResource boldedLabelTitle}" />
+                                                <TextBox
+                                                    Grid.Column="1"
+                                                    MinWidth="75"
+                                                    Text="{Binding FurnaceControlFormInput.PidCoolOut, StringFormat={}{0:F0}}" />
+                                                <Label
+                                                    Grid.Column="2"
+                                                    Margin="2,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    Content="%"
+                                                    FontSize="13"
+                                                    Style="{StaticResource boldedLabelTitle}" />
+                                            </StackPanel>
+
+
+                                        </StackPanel>
+                                    </GroupBox>
+                                    <!--#endregion-->
+
+                                    <GroupBox
+                                        Margin="10,0,5,5"
+                                        Padding="3"
+                                        HorizontalAlignment="Left"
+                                        Header="Temperature Set Value"
+                                        Style="{StaticResource passiveBlackGroupBox_Smaller}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <!--  Auto-Man Radio Buttons  -->
+                                            <Viewbox MaxWidth="60" HorizontalAlignment="Left">
+                                                <Border Style="{StaticResource radioBtnBorder}">
+                                                    <StackPanel HorizontalAlignment="Center">
+                                                        <RadioButton
+                                                            Margin="0,0,0,4"
+                                                            Click="RbAuto_Click"
+                                                            Content="Auto"
+                                                            IsChecked="{Binding FurnaceControlFormInput.PtcValueStateAuto}"
+                                                            Tag="{Binding ManualOperationTagConfigurations.PtcValueIsAuto}" />
+                                                        <RadioButton
+                                                            Margin="0,0,0,2"
+                                                            Click="RbMan_Click"
+                                                            Content="Man"
+                                                            IsChecked="{Binding FurnaceControlFormInput.PtcValueStateMan}"
+                                                            Tag="{Binding ManualOperationTagConfigurations.PtcValueIsAuto}" />
+                                                    </StackPanel>
+                                                </Border>
+                                            </Viewbox>
+                                            <!--  Buttons  -->
+                                            <StackPanel
+                                                Grid.Column="1"
+                                                Margin="10,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Orientation="Horizontal">
+                                                <StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Button
+                                                            Margin="2,0,0,2"
+                                                            Click="IncreaseTen_Click"
+                                                            Content="+10"
+                                                            Tag="Temperature" />
+                                                        <Button
+                                                            Margin="2,0,0,2"
+                                                            Click="IncreaseOne_Click"
+                                                            Content="+1"
+                                                            Tag="Temperature" />
+                                                    </StackPanel>
+
+                                                    <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+                                                        <TextBox
+                                                            x:Name="ptcSetValueTb"
+                                                            Grid.Column="1"
+                                                            MinWidth="65"
+                                                            MinHeight="20"
+                                                            Margin="2,0,0,2"
+                                                            GotFocus="GeneralTextBox_GotFocus"
+                                                            KeyDown="GeneralTextBox_KeyDown"
+                                                            LostFocus="GeneralTextBox_LostFocus"
+                                                            Style="{StaticResource whiteTextBoxVer2}"
+                                                            Tag="{Binding ManualOperationTagConfigurations.PtcValue}"
+                                                            Text="{Binding FurnaceControlFormInput.PtcValue, StringFormat={}{0:F2}}"
+                                                            TextChanged="GeneralTextBox_TextChanged" />
+                                                        <TextBlock
+                                                            Margin="2,0,0,2"
+                                                            HorizontalAlignment="Left"
+                                                            VerticalAlignment="Center"
+                                                            FontSize="11"
+                                                            FontWeight="SemiBold"
+                                                            Text="°C" />
+                                                    </StackPanel>
+
+
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Button
+                                                            Margin="2,0,0,2"
+                                                            Click="DecreaseTen_Click"
+                                                            Content="-10"
+                                                            Tag="Temperature" />
+                                                        <Button
+                                                            Margin="2,0,0,2"
+                                                            Click="DecreaseOne_Click"
+                                                            Content="-1"
+                                                            Tag="Temperature" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </GroupBox>
+                                </StackPanel>
+                                <!--#endregion-->
+                            </Viewbox>
+
+                            <!--#region Temperature Set Value Section-->
+                            <!--  Content  -->
+
+                            <!--#endregion-->
+
+
+                            <!--  Temperature Watch Header  -->
+                            <Border Style="{StaticResource standardHeaderBorder}">
+                                <Viewbox Height="23">
+                                    <Label
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Content="Temperature Watch"
+                                        FontSize="25"
+                                        FontWeight="DemiBold"
+                                        Foreground="{StaticResource CustomBlackColor}" />
+                                </Viewbox>
+                            </Border>
+
+                            <!--#region All Temperature Watches-->
+                            <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                <!--  Air Temp  -->
+                                <!--<StackPanel VerticalAlignment="Top" Margin="10 0 0 0">
+                                    <TextBlock Grid.Column="2" FontSize="13" Text="Air Temp" VerticalAlignment="Center"
+                                                    HorizontalAlignment="Left" FontWeight="SemiBold" Margin="3 0 0 3" Foreground="{StaticResource CustomBlackColor}"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                                        <TextBox Text="{Binding FurnaceControlFormInput.PtcWatchAirTempActual, StringFormat={}{0:F2}}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox Text="{Binding FurnaceControlFormInput.PtcWatchAirTempRate, StringFormat={}{0:F2}}"/>
+                                        <TextBlock Width="{Binding ElementName=mmhgminText, Path=ActualWidth}" FontSize="11" Text="°C/min" VerticalAlignment="Center"
+                                                    HorizontalAlignment="Left" FontWeight="SemiBold" Margin="5 0 5 0"/>
+                                    </StackPanel>
+                                </StackPanel>-->
+
+                                <!--  Low Part  -->
+                                <StackPanel Margin="10,2,0,0" VerticalAlignment="Top">
+                                    <TextBlock
+                                        Margin="3,0,0,3"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="13"
+                                        FontWeight="SemiBold"
+                                        Foreground="{StaticResource CustomBlackColor}"
+                                        Text="Low Part TC" />
+                                    <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                        <TextBox Text="{Binding FurnaceControlFormInput.LowPtcPort, StringFormat=PTC - {0}}" />
+                                        <TextBlock
+                                            Margin="5,0,0,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="11"
+                                            FontWeight="SemiBold"
+                                            Text="Port" />
+                                    </StackPanel>
+                                    <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                        <TextBox Text="{Binding FurnaceControlFormInput.LowPtcActual, StringFormat={}{0:F2}}" />
+                                        <TextBlock
+                                            Margin="5,0,0,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="11"
+                                            FontWeight="SemiBold"
+                                            Text="°C" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox Text="{Binding FurnaceControlFormInput.LowPtcRate , StringFormat={}{0:F2}}" />
+                                        <TextBlock
+                                            Width="{Binding ElementName=mmhgminText, Path=ActualWidth}"
+                                            Margin="5,0,5,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="11"
+                                            FontWeight="SemiBold"
+                                            Text="°C/min." />
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!--  High Part Tc  -->
+                                <StackPanel Margin="10,2,0,0" VerticalAlignment="Top">
+                                    <TextBlock
+                                        Grid.Column="2"
+                                        Margin="3,0,0,3"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="13"
+                                        FontWeight="SemiBold"
+                                        Foreground="{StaticResource CustomBlackColor}"
+                                        Text="High Part TC" />
+                                    <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                        <TextBox Text="{Binding FurnaceControlFormInput.HighPtcPort, StringFormat=PTC - {0}}" />
+                                        <TextBlock
+                                            Grid.Column="2"
+                                            Margin="5,0,0,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="11"
+                                            FontWeight="SemiBold"
+                                            Text="Port" />
+                                    </StackPanel>
+                                    <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                        <TextBox Text="{Binding FurnaceControlFormInput.HighPtcActual, StringFormat={}{0:F2}}" />
+                                        <TextBlock
+                                            Grid.Column="2"
+                                            Margin="5,0,0,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="11"
+                                            FontWeight="SemiBold"
+                                            Text="°C" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox Text="{Binding FurnaceControlFormInput.HighPtcRate, StringFormat={}{0:F2}}" />
+                                        <TextBlock
+                                            Margin="5,0,15,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="11"
+                                            FontWeight="SemiBold"
+                                            Text="°C/min." />
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                            <!--#endregion-->
+
+
+                            <!--  Pressure Control Section  -->
+
+                            <!--  Pressure Header  -->
+                            <Border Style="{StaticResource standardHeaderBorder}">
+                                <Viewbox Height="23">
+                                    <Label
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Content="Pressure Control"
+                                        FontSize="25"
+                                        FontWeight="DemiBold"
+                                        Foreground="{StaticResource CustomBlackColor}" />
+                                </Viewbox>
+                            </Border>
+                            <StackPanel Margin="0,2,0,0">
+                                <StackPanel IsEnabled="{Binding Permissions[pressureControl]}" Orientation="Horizontal">
+                                    <StackPanel.Style>
+                                        <Style TargetType="{x:Type StackPanel}">
+                                            <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+                                            <Style.Triggers>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="ToolTip" Value="{Binding DisabledControlTooltipText}" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
+                                    <!--#region Pressure-->
+                                    <GroupBox
+                                        Width="{Binding ElementName=vacuumGroupBox, Path=ActualWidth}"
+                                        Margin="10,0,5,5"
+                                        Header="Pressure"
+                                        Style="{StaticResource passiveBlackGroupBox_Smaller}">
+                                        <StackPanel>
+
+                                            <Border
+                                                MinWidth="110"
+                                                Padding="2,2,0,2"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                Style="{StaticResource radioBtnBorder_NoThickness}">
+                                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                    <RadioButton
+                                                        Margin="0,0,0,2"
+                                                        HorizontalAlignment="Left"
+                                                        Click="RbMan_Click"
+                                                        Content="Man"
+                                                        IsChecked="{Binding FurnaceControlFormInput.PressureControlStateMan}"
+                                                        Tag="{Binding ManualOperationTagConfigurations.PressureValveControlStateIsAuto}" />
+                                                    <RadioButton
+                                                        Margin="6,0,0,0"
+                                                        Click="RbAuto_Click"
+                                                        Content="Auto"
+                                                        IsChecked="{Binding FurnaceControlFormInput.PressureControlStateAuto}"
+                                                        Tag="{Binding ManualOperationTagConfigurations.PressureValveControlStateIsAuto}" />
+                                                </StackPanel>
+                                            </Border>
+                                            <Border
+                                                MinWidth="110"
+                                                Margin="0,5,0,0"
+                                                Padding="2,2,0,2"
+                                                HorizontalAlignment="Left"
+                                                Style="{StaticResource radioBtnBorder_NoThickness}">
+                                                <StackPanel>
+                                                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                        <RadioButton
+                                                            Margin="0,0,0,2"
+                                                            HorizontalAlignment="Left"
+                                                            Click="RbOn_Click"
+                                                            Content="On"
+                                                            IsChecked="{Binding FurnaceControlFormInput.PressureControlStateIsOn}"
+                                                            Tag="{Binding ManualOperationTagConfigurations.PressureValveControlStateOnOff}" />
+                                                        <RadioButton
+                                                            Margin="15,0,0,0"
+                                                            Click="RbOff_Click"
+                                                            Content="Off"
+                                                            IsChecked="{Binding FurnaceControlFormInput.PressureControlStateIsOff}"
+                                                            Tag="{Binding ManualOperationTagConfigurations.PressureValveControlStateOnOff}" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+
+                                        </StackPanel>
+                                    </GroupBox>
+                                    <!--#endregion-->
+
+                                    <GroupBox
+                                        Width="{Binding ElementName=vacuumSetValueGroupBox, Path=ActualWidth}"
+                                        Margin="5,0,0,5"
+                                        Padding="3"
+                                        Header="Pressure Set Value"
+                                        Style="{StaticResource passiveBlackGroupBox_Smaller}">
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <!--  Auto-Man Radio Buttons  -->
+                                                <Viewbox MaxWidth="60" HorizontalAlignment="Left">
+                                                    <Border Margin="0,-10,0,0" Style="{StaticResource radioBtnBorder_NoThickness}">
+                                                        <StackPanel HorizontalAlignment="Center">
+                                                            <RadioButton
+                                                                Margin="0,0,0,4"
+                                                                Click="RbAuto_Click"
+                                                                Content="Auto"
+                                                                IsChecked="{Binding FurnaceControlFormInput.PressureValueStateAuto}"
+                                                                Tag="{Binding ManualOperationTagConfigurations.PressureSetControlStatusIsAuto}" />
+                                                            <RadioButton
+                                                                Margin="0,0,0,2"
+                                                                Click="RbMan_Click"
+                                                                Content="Man"
+                                                                IsChecked="{Binding FurnaceControlFormInput.PressureValueStateMan}"
+                                                                Tag="{Binding ManualOperationTagConfigurations.PressureSetControlStatusIsAuto}" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                </Viewbox>
+                                                <!--  Buttons  -->
+                                                <StackPanel
+                                                    Grid.Column="1"
+                                                    Margin="10,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                                    <StackPanel HorizontalAlignment="Center">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Button
+                                                                MinWidth="65"
+                                                                Margin="2,0,0,2"
+                                                                Click="IncreaseZeroDotOne_Click"
+                                                                Content="+0.1"
+                                                                Tag="Pressure" />
+                                                        </StackPanel>
+                                                        <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+                                                            <TextBox
+                                                                x:Name="pressureSetValueTb"
+                                                                Grid.Column="1"
+                                                                MinWidth="65"
+                                                                MinHeight="20"
+                                                                Margin="2,0,0,2"
+                                                                GotFocus="GeneralTextBox_GotFocus"
+                                                                IsReadOnly="False"
+                                                                KeyDown="GeneralTextBox_KeyDown"
+                                                                LostFocus="GeneralTextBox_LostFocus"
+                                                                Style="{StaticResource whiteTextBoxVer2}"
+                                                                Tag="{Binding ManualOperationTagConfigurations.PressureControlStatusSp}"
+                                                                Text="{Binding FurnaceControlFormInput.PressureValue , StringFormat={}{Binding ManuelOperationsMonItemsFormat}}"
+                                                                TextChanged="GeneralTextBox_TextChanged" />
+                                                            <TextBlock
+                                                                Margin="2,0,0,2"
+                                                                HorizontalAlignment="Left"
+                                                                VerticalAlignment="Center"
+                                                                FontSize="11"
+                                                                FontWeight="SemiBold"
+                                                                Text="bar" />
+                                                        </StackPanel>
+                                                        <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+                                                            <Button
+                                                                MinWidth="65"
+                                                                Margin="2,0,0,2"
+                                                                Click="DecreaseZeroDotOne_Click"
+                                                                Content="-0.1"
+                                                                Tag="Pressure" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </GroupBox>
+
+                                    <GroupBox
+                                        Width="{Binding ElementName=vacuumGroupBox, Path=ActualWidth}"
+                                        Margin="10,0,5,5"
+                                        Header="Pressure"
+                                        Style="{StaticResource passiveBlackGroupBox_Smaller}">
+                                        <StackPanel>
+                                            <Border
+                                                MinWidth="110"
+                                                Margin="0,5,0,0"
+                                                Padding="2,2,0,2"
+                                                HorizontalAlignment="Left"
+                                                Style="{StaticResource radioBtnBorder_NoThickness}">
+
+                                                <StackPanel HorizontalAlignment="Center">
+                                                    <!--<RadioButton
+                                                        Margin="0,0,0,4"
+                                                        Click="RbAzot_Click"
+                                                        Content="Nitrogen"
+                                                        IsChecked="{Binding FurnaceControlFormInput.PressureLineControlStateAzot}"
+                                                        Tag="{Binding ManualOperationTagConfigurations.PressureLineControlSelect}" />-->
+                                                    <RadioButton
+                                                        Margin="0,0,0,4"
+                                                        Click="RbAir_Click"
+                                                        Content="Air"
+                                                        IsChecked="{Binding FurnaceControlFormInput.PressureLineControlStateAir}"
+                                                        Tag="{Binding ManualOperationTagConfigurations.PressureLineControlSelect}" />
+                                                </StackPanel>
+
+                                            </Border>
+
+                                            <Border
+                                                MinWidth="110"
+                                                Padding="2,2,0,2"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                Style="{StaticResource radioBtnBorder_NoThickness}" />
+                                        </StackPanel>
+                                    </GroupBox>
+
+                                </StackPanel>
+
+                                <!--  Pressure Watch Header  -->
+                                <Border Style="{StaticResource standardHeaderBorder}">
+                                    <Viewbox Height="23">
+                                        <Label
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Content="Pressure Watch"
+                                            FontSize="25"
+                                            FontWeight="DemiBold"
+                                            Foreground="{StaticResource CustomBlackColor}" />
+                                    </Viewbox>
+                                </Border>
+
+                                <!--#region All Pressure Watches-->
+                                <StackPanel Margin="0,5,0,5" Orientation="Horizontal">
+                                    <!--  System Vacuum  -->
+
+                                    <StackPanel Margin="10,0,0,0" VerticalAlignment="Top">
+                                        <TextBlock
+                                            Grid.Column="2"
+                                            Margin="3,0,0,3"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="13"
+                                            FontWeight="SemiBold"
+                                            Foreground="{StaticResource CustomBlackColor}"
+                                            Text="System Pressure" />
+                                        <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                            <TextBox Text="{Binding FurnaceControlFormInput.PressureSystemActual, StringFormat={}{0:F2}}" />
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                Width="{Binding ElementName=mmhgminText, Path=ActualWidth}"
+                                                Margin="5,0,5,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                FontSize="11"
+                                                FontWeight="SemiBold"
+                                                Text="Bar" />
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <StackPanel Margin="0,19,0,0" VerticalAlignment="Top">
+                                        <!--<TextBlock Grid.Column="2" FontSize="13" Text="System Pressure" VerticalAlignment="Center"
+                                                    HorizontalAlignment="Left" FontWeight="Bold" Margin="3 0 0 3" Foreground="{StaticResource CustomBlackColor}"/>-->
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBox Text="{Binding FurnaceControlFormInput.PressureSystemRate, StringFormat={}{0:F2}}" />
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                FontSize="11"
+                                                FontWeight="SemiBold"
+                                                Text="Bar/min" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,3,0,0" VerticalAlignment="Top">
+                                        <StackPanel
+                                            Margin="25,0,5,0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Top">
+                                            <TextBlock
+                                                Margin="0,0,0,5"
+                                                FontWeight="SemiBold"
+                                                Foreground="{StaticResource CustomBlackColor}"
+                                                Text="Pressure In (PID)" />
+                                            <TextBox Text="{Binding FurnaceControlFormInput.PidPressureOut, StringFormat={}{0:F2}}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,3,0,10" Orientation="Horizontal">
+                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+                                            <TextBlock
+                                                Margin="12,0,0,5"
+                                                FontWeight="SemiBold"
+                                                Foreground="{StaticResource CustomBlackColor}"
+                                                Text="Atmosphere Out (PID)" />
+                                            <TextBox Text="{Binding FurnaceControlFormInput.PidAtmosphereOut, StringFormat={}{0:F2}}" />
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <!--  Low Mon  -->
+                                    <!--<StackPanel VerticalAlignment="Top" Margin="10 2 0 0">
+                                        <TextBlock Grid.Column="2" FontSize="13" Text="Low Mon" VerticalAlignment="Center"
+                                                    HorizontalAlignment="Left" FontWeight="Bold" Margin="3 0 0 3" Foreground="{StaticResource CustomBlackColor}"/>
+                                        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                                            <TextBox Text="MON 00"/>
+                                            <TextBlock Grid.Column="2" FontSize="11" Text="Port" VerticalAlignment="Center"
+                                                    HorizontalAlignment="Left" FontWeight="SemiBold" Margin="5 0 0 0"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                                            <TextBox Text="0.0"/>
+                                            <TextBlock Grid.Column="2" FontSize="11" Text="mmHg" VerticalAlignment="Center"
+                                                    HorizontalAlignment="Left" FontWeight="SemiBold" Margin="5 0 0 0"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBox Text="0.0"/>
+                                            <TextBlock Grid.Column="2" FontSize="11" Text="mmHg/min" VerticalAlignment="Center"
+                                                    HorizontalAlignment="Left" FontWeight="SemiBold" Margin="5 0 0 0"/>
+                                        </StackPanel>
+                                    </StackPanel>-->
+
+                                    <!--  High Mon  -->
+                                    <!--<StackPanel VerticalAlignment="Top" Margin="10 2 0 0">
+                                        <TextBlock Grid.Column="2" FontSize="13" Text="High Mon" VerticalAlignment="Center"
+                                                    HorizontalAlignment="Left" FontWeight="Bold" Margin="3 0 0 3" Foreground="{StaticResource CustomBlackColor}"/>
+                                        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                                            <TextBox Text="MON 00"/>
+                                            <TextBlock Grid.Column="2" FontSize="11" Text="Port" VerticalAlignment="Center"
+                                                    HorizontalAlignment="Left" FontWeight="SemiBold" Margin="5 0 0 0"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                                            <TextBox Text="0.0"/>
+                                            <TextBlock Grid.Column="2" FontSize="11" Text="mmHg" VerticalAlignment="Center"
+                                                    HorizontalAlignment="Left" FontWeight="SemiBold" Margin="5 0 0 0"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBox Text="0.0"/>
+                                            <TextBlock Grid.Column="2" FontSize="11" Text="mmHg/min" VerticalAlignment="Center"
+                                                    HorizontalAlignment="Left" FontWeight="SemiBold" Margin="5 0 0 0"/>
+                                        </StackPanel>
+                                    </StackPanel>-->
+                                </StackPanel>
+                                <!--#endregion-->
+                                
+                                <!--#region Vacuum Watch Section-->
+                                <Border Style="{StaticResource standardHeaderBorder}">
+                                    <Viewbox Height="23">
+                                        <Label
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Content="Vacuum Control"
+                                            FontSize="25"
+                                            FontWeight="DemiBold"
+                                            Foreground="{StaticResource CustomBlackColor}" />
+                                    </Viewbox>
+                                </Border>
+                                <!--#endregion-->
+
+                                <!--#region Vacuum Control-->
+                                <StackPanel Margin="0,2,0,2" IsEnabled="{Binding EnableStatuOfVacuumControlPanel}">
+                                    <StackPanel
+                                        HorizontalAlignment="Left"
+                                        IsEnabled="{Binding Permissions[vacuumControl]}"
+                                        Orientation="Horizontal">
+                                        <StackPanel.Style>
+                                            <Style TargetType="{x:Type StackPanel}">
+                                                <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Setter Property="ToolTip" Value="{Binding DisabledControlTooltipText}" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        <!--#region Heat Enable-->
+                                        <GroupBox
+                                            x:Name="vacuumGroupBox"
+                                            Margin="10,0,5,5"
+                                            Header="Vacuum"
+                                            Style="{StaticResource passiveBlackGroupBox_Smaller}">
+                                            <StackPanel>
+
+                                                <Border
+                                                    MinWidth="110"
+                                                    Padding="2,2,0,0"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Top"
+                                                    Style="{StaticResource radioBtnBorder_NoThickness}">
+                                                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                        <RadioButton
+                                                            x:Name="vacuumControlStateMan"
+                                                            Margin="0,0,0,2"
+                                                            HorizontalAlignment="Left"
+                                                            Click="RbMan_Click"
+                                                            Content="Man"
+                                                            IsChecked="{Binding FurnaceControlFormInput.VacuumControlStateMan}"
+                                                            Tag="{Binding ManualOperationTagConfigurations.VacPumpControlStateIsAuto}" />
+                                                        <RadioButton
+                                                            Margin="6,0,0,0"
+                                                            Click="RbAuto_Click"
+                                                            Content="Auto"
+                                                            IsChecked="{Binding FurnaceControlFormInput.VacuumControlStateAuto}"
+                                                            Tag="{Binding ManualOperationTagConfigurations.VacPumpControlStateIsAuto}" />
+                                                    </StackPanel>
+                                                </Border>
+                                                <Border
+                                                    MinWidth="110"
+                                                    Margin="0,5,0,0"
+                                                    Padding="2,2,0,2"
+                                                    HorizontalAlignment="Left"
+                                                    Style="{StaticResource radioBtnBorder_NoThickness}">
+                                                    <StackPanel>
+                                                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                            <RadioButton
+                                                                x:Name="vacuumControlStateOn"
+                                                                Margin="0,0,0,2"
+                                                                HorizontalAlignment="Left"
+                                                                Click="RbOn_Click"
+                                                                Content="On"
+                                                                IsChecked="{Binding FurnaceControlFormInput.VacuumControlStateIsOn}"
+                                                                Tag="{Binding ManualOperationTagConfigurations.VacPumpControlStateOnOff}" />
+                                                            <RadioButton
+                                                                Margin="15,0,0,0"
+                                                                Click="RbOff_Click"
+                                                                Content="Off"
+                                                                IsChecked="{Binding FurnaceControlFormInput.VacuumControlStateIsOff}"
+                                                                Tag="{Binding ManualOperationTagConfigurations.VacPumpControlStateOnOff}" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </Border>
+
+                                                <StackPanel
+                                                    Grid.Row="1"
+                                                    Margin="0,5,0,0"
+                                                    HorizontalAlignment="Left"
+                                                    Orientation="Horizontal">
+                                                    <Label
+                                                        Grid.Column="0"
+                                                        Margin="0,0,5,0"
+                                                        VerticalAlignment="Center"
+                                                        Content="PID"
+                                                        FontSize="13"
+                                                        Style="{StaticResource boldedLabelTitle}" />
+                                                    <TextBox
+                                                        Grid.Column="1"
+                                                        MinWidth="75"
+                                                        Text="{Binding FurnaceControlFormInput.VacControlStatusPid}" />
+                                                    <Label
+                                                        Grid.Column="2"
+                                                        Margin="2,0,0,0"
+                                                        VerticalAlignment="Center"
+                                                        Content="%"
+                                                        FontSize="13"
+                                                        Style="{StaticResource boldedLabelTitle}" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </GroupBox>
+                                        <!--#endregion-->
+
+                                        <!--  Content  -->
+                                        <StackPanel>
+                                            <GroupBox
+                                                x:Name="vacuumSetValueGroupBox"
+                                                Height="{Binding ElementName=vacuumGroupBox, Path=ActualHeight}"
+                                                Margin="5,0,0,2"
+                                                Padding="3"
+                                                Header="Vacuum Set Value"
+                                                Style="{StaticResource passiveBlackGroupBox_Smaller}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <!--  Auto-Man Radio Buttons  -->
+                                                    <Viewbox MaxWidth="60" HorizontalAlignment="Left">
+                                                        <Border Margin="0,-20,0,0" Style="{StaticResource radioBtnBorder_NoThickness}">
+                                                            <StackPanel HorizontalAlignment="Center">
+                                                                <RadioButton
+                                                                    Margin="0,0,0,4"
+                                                                    Click="RbAuto_Click"
+                                                                    Content="Auto"
+                                                                    IsChecked="{Binding FurnaceControlFormInput.VacuumValueStateAuto}"
+                                                                    Tag="{Binding ManualOperationTagConfigurations.VacControlStatusIsAuto}" />
+                                                                <RadioButton
+                                                                    Name="VacuumValueStateMan"
+                                                                    Margin="0,0,0,2"
+                                                                    Click="RbMan_Click"
+                                                                    Content="Man"
+                                                                    IsChecked="{Binding FurnaceControlFormInput.VacuumValueStateMan}"
+                                                                    Tag="{Binding ManualOperationTagConfigurations.VacControlStatusIsAuto}" />
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </Viewbox>
+                                                    <!--  Buttons  -->
+                                                    <StackPanel
+                                                        Grid.Column="1"
+                                                        Margin="10,0,0,0"
+                                                        VerticalAlignment="Center"
+                                                        Orientation="Horizontal">
+                                                        <StackPanel>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Button
+                                                                    Margin="2,0,0,2"
+                                                                    Click="IncreaseTen_Click"
+                                                                    Content="+10"
+                                                                    Tag="Vacuum" />
+                                                                <Button
+                                                                    Margin="2,0,0,2"
+                                                                    Click="IncreaseOne_Click"
+                                                                    Content="+1"
+                                                                    Tag="Vacuum" />
+                                                            </StackPanel>
+
+                                                            <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+                                                                <TextBox
+                                                                    x:Name="vacuumSetValueTb"
+                                                                    Grid.Column="1"
+                                                                    MinWidth="65"
+                                                                    MinHeight="20"
+                                                                    Margin="2,0,0,2"
+                                                                    GotFocus="GeneralTextBox_GotFocus"
+                                                                    KeyDown="GeneralTextBox_KeyDown"
+                                                                    LostFocus="GeneralTextBox_LostFocus"
+                                                                    Style="{StaticResource whiteTextBoxVer2}"
+                                                                    Tag="{Binding ManualOperationTagConfigurations.VacControlStatusSp}"
+                                                                    Text="{Binding FurnaceControlFormInput.VacControlStatusSp,StringFormat={}{0:F0}}"
+                                                                    TextChanged="GeneralTextBox_TextChanged"/>
+                                                                <TextBlock
+                                                                    Margin="2,0,0,2"
+                                                                    HorizontalAlignment="Left"
+                                                                    VerticalAlignment="Center"
+                                                                    FontSize="11"
+                                                                    FontWeight="SemiBold"
+                                                                    Text="{Binding VacuumUnitTitle}" />
+                                                            </StackPanel>
+
+                                                            <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+                                                                <Button
+                                                                    Margin="2,0,0,2"
+                                                                    Click="DecreaseTen_Click"
+                                                                    Content="-10"
+                                                                    Tag="Vacuum" />
+                                                                <Button
+                                                                    Margin="2,0,0,2"
+                                                                    Click="DecreaseOne_Click"
+                                                                    Content="-1"
+                                                                    Tag="Vacuum" />
+                                                            </StackPanel>
+                                                        </StackPanel>
+
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </GroupBox>
+                                        </StackPanel>
+
+
+
+                                        <GroupBox
+                                            x:Name="vacuumGroupBoxR"
+                                            Margin="10,0,5,5"
+                                            Header="Equipment Tank"
+                                            Style="{StaticResource passiveBlackGroupBox_Smaller}">
+                                            <StackPanel>
+
+                                                <Border
+                                                    MinWidth="110"
+                                                    Padding="2,2,0,0"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Top"
+                                                    Style="{StaticResource radioBtnBorder_NoThickness}">
+                                                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                        <RadioButton
+                                                            Name="equipmentTankControlStateMan"
+                                                            Margin="0,0,0,2"
+                                                            HorizontalAlignment="Left"
+                                                            Click="RbManRight_Click"
+                                                            Content="Man"
+                                                            IsChecked="{Binding FurnaceControlFormInput.EquipmentTankControlStateMan}"
+                                                            Tag="{Binding ManualOperationTagConfigurations.EquipmentTankControlStateIsAuto}" />
+                                                        <RadioButton
+                                                            Margin="6,0,0,0"
+                                                            Click="RbAutoRight_Click"
+                                                            Content="Auto"
+                                                            IsChecked="{Binding FurnaceControlFormInput.EquipmentTankControlStateAuto}"
+                                                            Tag="{Binding ManualOperationTagConfigurations.EquipmentTankControlStateIsAuto}" />
+                                                    </StackPanel>
+                                                </Border>
+                                                <Border
+                                                    MinWidth="110"
+                                                    Margin="0,5,0,0"
+                                                    Padding="2,2,0,2"
+                                                    HorizontalAlignment="Left"
+                                                    Style="{StaticResource radioBtnBorder_NoThickness}">
+                                                    <StackPanel>
+                                                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                            <RadioButton
+                                                                Name="equipmentTankControlStateIsOn"
+                                                                Margin="0,0,0,2"
+                                                                HorizontalAlignment="Left"
+                                                                Click="RbOnRight_Click"
+                                                                Content="On"
+                                                                IsChecked="{Binding FurnaceControlFormInput.EquipmentTankControlStateIsOn}"
+                                                                Tag="{Binding ManualOperationTagConfigurations.EquipmentTankControlStateOnOff}" />
+                                                            <RadioButton
+                                                                Margin="15,0,0,0"
+                                                                Click="RbOffRight_Click"
+                                                                Content="Off"
+                                                                IsChecked="{Binding FurnaceControlFormInput.EquipmentTankControlStateIsOff}"
+                                                                Tag="{Binding ManualOperationTagConfigurations.EquipmentTankControlStateOnOff}" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </Border>
+
+                                                <StackPanel
+                                                    Grid.Row="1"
+                                                    Margin="0,5,0,0"
+                                                    HorizontalAlignment="Left"
+                                                    Orientation="Horizontal">
+                                                    <Label
+                                                        Grid.Column="0"
+                                                        Margin="0,0,5,0"
+                                                        VerticalAlignment="Center"
+                                                        Content="PID"
+                                                        FontSize="13"
+                                                        Style="{StaticResource boldedLabelTitle}" />
+                                                    <TextBox
+                                                        Grid.Column="1"
+                                                        MinWidth="75"
+                                                        Text="{Binding FurnaceControlFormInput.EquipmentTankControlStatusPid}" />
+                                                    <Label
+                                                        Grid.Column="2"
+                                                        Margin="2,0,0,0"
+                                                        VerticalAlignment="Center"
+                                                        Content="%"
+                                                        FontSize="13"
+                                                        Style="{StaticResource boldedLabelTitle}" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </GroupBox>
+
+                                        <!--<GroupBox
+                                            x:Name="vacuumSetValueGroupBoxR"
+                                            Height="{Binding ElementName=vacuumGroupBox, Path=ActualHeight}"
+                                            Margin="5,0,5,5"
+                                            Padding="3"
+                                            Header="Right Vacuum Set Value"
+                                            Style="{StaticResource passiveBlackGroupBox_Smaller}">
+                                            <StackPanel Orientation="Horizontal">
+                                        -->
+                                        <!--  Auto-Man Radio Buttons  -->
+                                        <!--
+                                                <Viewbox MaxWidth="60" HorizontalAlignment="Left">
+                                                    <Border Margin="0,-20,0,0" Style="{StaticResource radioBtnBorder_NoThickness}">
+                                                        <StackPanel HorizontalAlignment="Center">
+                                                            <RadioButton
+                                                                Margin="0,0,0,4"
+                                                                Click="RbAutoRight_Click"
+                                                                Content="Auto"
+                                                                IsChecked="{Binding FurnaceControlFormInput.VacuumValueStateAutoRight}"
+                                                                Tag="{Binding ManualOperationTagConfigurations.VacControlStatusIsAutoRight}" />
+                                                            <RadioButton
+                                                                Margin="0,0,0,2"
+                                                                Click="RbManRight_Click"
+                                                                Content="Man"
+                                                                IsChecked="{Binding FurnaceControlFormInput.VacuumValueStateManRight}"
+                                                                Tag="{Binding ManualOperationTagConfigurations.VacControlStatusIsAutoRight}" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                </Viewbox>
+                                        -->
+                                        <!--  Buttons  -->
+                                        <!--
+                                                <StackPanel
+                                                    Grid.Column="1"
+                                                    Margin="10,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                                    <StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Button
+                                                                Margin="2,0,0,2"
+                                                                Click="IncreaseTenRight_Click"
+                                                                Content="+10"
+                                                                Tag="VacuumRight" />
+                                                            <Button
+                                                                Margin="2,0,0,2"
+                                                                Click="IncreaseOneRight_Click"
+                                                                Content="+1"
+                                                                Tag="VacuumRight" />
+                                                        </StackPanel>
+
+                                                        <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+                                                            <TextBox
+                                                                x:Name="vacuumSetValueTbR"
+                                                                Grid.Column="1"
+                                                                MinWidth="65"
+                                                                MinHeight="20"
+                                                                Margin="2,0,0,2"
+                                                                GotFocus="GeneralTextBox_GotFocus"
+                                                                KeyDown="GeneralTextBox_KeyDown"
+                                                                LostFocus="GeneralTextBox_LostFocus"
+                                                                Style="{StaticResource whiteTextBoxVer2}"
+                                                                Tag="{Binding ManualOperationTagConfigurations.VacControlStatusSpRight}"
+                                                                Text="{Binding FurnaceControlFormInput.VacControlStatusSpRight, StringFormat={}{0:F2}}"
+                                                                TextChanged="GeneralTextBox_TextChanged" />
+                                                            <TextBlock
+                                                                Margin="2,0,0,2"
+                                                                HorizontalAlignment="Left"
+                                                                VerticalAlignment="Center"
+                                                                FontSize="11"
+                                                                FontWeight="SemiBold"
+                                                                Text="mmHg" />
+                                                        </StackPanel>
+
+                                                        <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+                                                            <Button
+                                                                Margin="2,0,0,2"
+                                                                Click="DecreaseTenRight_Click"
+                                                                Content="-10"
+                                                                Tag="VacuumRight" />
+                                                            <Button
+                                                                Margin="2,0,0,2"
+                                                                Click="DecreaseOneRight_Click"
+                                                                Content="-1"
+                                                                Tag="VacuumRight" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </GroupBox>-->
+
+                                    </StackPanel>
+
+                                </StackPanel>
+                                <!--#endregion-->
+
+                                <!--  Vacuum Watch Header  -->
+                                <Border Style="{StaticResource standardHeaderBorder}">
+                                    <Viewbox Height="23">
+                                        <Label
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Content="Vacuum Watch"
+                                            FontSize="25"
+                                            FontWeight="DemiBold"
+                                            Foreground="{StaticResource CustomBlackColor}" />
+                                    </Viewbox>
+                                </Border>
+
+                                <!--#region All Vacuum Watches-->
+                                <StackPanel Margin="0,2,0,5" Orientation="Horizontal">
+                                    <!--  System Vacuum  -->
+                                    <StackPanel Margin="10,0,0,0" VerticalAlignment="Top">
+                                        <TextBlock
+                                            Grid.Column="2"
+                                            Margin="3,0,0,3"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="13"
+                                            FontWeight="SemiBold"
+                                            Foreground="{StaticResource CustomBlackColor}"
+                                            Text="System Vacuum" />
+                                        <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                            <TextBox Text="{Binding FurnaceControlFormInput.VacSystemVacuumActual}" />
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                FontSize="11"
+                                                FontWeight="SemiBold"
+                                                Text="{Binding VacuumUnitTitle}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBox Text="{Binding FurnaceControlFormInput.VacSystemVacuumRate}" />
+                                            <TextBlock
+                                                x:Name="mmhgminText"
+                                                Grid.Column="2"
+                                                Margin="5,0,5,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                FontSize="11"
+                                                FontWeight="SemiBold"
+                                                Text="{Binding VacuumUnitTitle, StringFormat=min/ {0}}" />
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <!--  Low Mon  -->
+                                    <StackPanel VerticalAlignment="Top">
+                                        <TextBlock
+                                            Grid.Column="2"
+                                            Margin="3,0,0,3"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="13"
+                                            FontWeight="SemiBold"
+                                            Foreground="{StaticResource CustomBlackColor}"
+                                            Text="Low Mon" />
+                                        <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                            <TextBox Text="{Binding FurnaceControlFormInput.LowVacuumPort, StringFormat=MON - {0}}" />
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                FontSize="11"
+                                                FontWeight="SemiBold"
+                                                Text="Port" />
+                                        </StackPanel>
+                                        <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                            <TextBox Text="{Binding FurnaceControlFormInput.LowVacuumActual}" />
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                FontSize="11"
+                                                FontWeight="SemiBold"
+                                                Text="{Binding VacuumUnitTitle}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBox Text="{Binding FurnaceControlFormInput.LowVacuumRate}" />
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                Margin="5,0,5,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                FontSize="11"
+                                                FontWeight="SemiBold"
+                                                Text="{Binding VacuumUnitTitle, StringFormat=min/ {0}}" />
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <!--  High Mon  -->
+                                    <StackPanel Margin="10,0,0,0" VerticalAlignment="Top">
+                                        <TextBlock
+                                            Grid.Column="2"
+                                            Margin="3,0,0,3"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="13"
+                                            FontWeight="SemiBold"
+                                            Foreground="{StaticResource CustomBlackColor}"
+                                            Text="High Mon" />
+                                        <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                            <TextBox Text="{Binding FurnaceControlFormInput.HighVacuumPort, StringFormat=MON - {0}}" />
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                FontSize="11"
+                                                FontWeight="SemiBold"
+                                                Text="Port" />
+                                        </StackPanel>
+                                        <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                            <TextBox Text="{Binding FurnaceControlFormInput.HighVacuumActual}" />
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                FontSize="11"
+                                                FontWeight="SemiBold"
+                                                Text="{Binding VacuumUnitTitle}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBox Text="{Binding FurnaceControlFormInput.HighVacuumRate}" />
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                Margin="5,0,5,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                FontSize="11"
+                                                FontWeight="SemiBold"
+                                                Text="{Binding VacuumUnitTitle, StringFormat=min/{0}}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                                <!--#endregion-->
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Viewbox>
+            <!--#endregion-->
+            <!--#region Right Section-->
+            <Grid
+                x:Name="autoclaveGrid"
+                DockPanel.Dock="Right"
+                Visibility="Visible">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="lookDirXVal" Visibility="Hidden" />
+                <TextBlock x:Name="lookDirYVal" Visibility="Hidden" />
+                <TextBlock x:Name="lookDirZVal" Visibility="Hidden" />
+
+                <!--#region Auto Direction Buttons-->
+                <Grid
+                    x:Name="autoDirBtnGrid"
+                    Grid.Column="2"
+                    Panel.ZIndex="3"
+                    Visibility="Collapsed">
+                    <Viewbox
+                        MaxWidth="125"
+                        Margin="0,5,30,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top">
+                        <StackPanel>
+                            <!--  Up Side Button  -->
+                            <!--<Button x:Name="autoDirToUpBtn" Margin="0 0 0 5" Style="{StaticResource AutoclaveArrowBtnBd_Up}" Content="Rotate To Up" MaxWidth="80" MaxHeight="80"
+                            Click="autoDirToUpBtn_Click"/>-->
+                            <!--  region Disabled Buttons  -->
+                            <!--  Down Side Button  -->
+                            <!--<Button x:Name="autoDirToDownBtn" Margin="0 0 0 5" Style="{StaticResource AutoclaveArrowBtnBd_Down}" Content="Rotate To Down" MaxWidth="80"
+                            MaxHeight="80" Click="autoDirToDownBtn_Click"/>
+                            -->
+                            <!--  Right Side Button  -->
+                            <!--
+                            <Button Style="{StaticResource AutoclaveArrowBtnBd}" Margin="0 0 0 5" Content="Rotate To Right" MaxWidth="80" MaxHeight="80"
+                            Click="autoDirToRightBtn_Click"/>
+                            -->
+                            <!--  Left Side Button  -->
+                            <!--
+                            <Button x:Name="autoDirToLeftBtn" Margin="0 0 0 5" Style="{StaticResource AutoclaveArrowBtnBd_Left}" Content="Rotate To Left" MaxWidth="80" MaxHeight="80"
+                            Click="autoDirToLeftBtn_Click"/>-->
+                            <!--#endregion-->
+                            <!--  Front Side Button  -->
+                            <!--
+                            <Button x:Name="autoDirToFrontBtn" Style="{StaticResource AutoclaveArrowBtnBd_Front}" Margin="0 0 0 5" Content="Rotate To Front" MaxWidth="80" MaxHeight="80"
+                            FontSize="14" Click="autoDirToFrontBtn_Click"/>
+                            -->
+                            <!--  Back Side Button  -->
+                            <!--
+                            <Button x:Name="autoDirToBackBtn" Margin="0 0 0 5" Style="{StaticResource AutoclaveArrowBtnBd_Back}" Content="Rotate To Back" MaxWidth="80" MaxHeight="80"
+                            Click="autoDirToBackBtn_Click"/>-->
+                        </StackPanel>
+                    </Viewbox>
+                </Grid>
+                <!--#endregion-->
+
+                <CheckBox
+                    x:Name="allowShowingSections"
+                    IsChecked="{Binding AllowShowingSections}"
+                    Visibility="Hidden" />
+
+                <!--#region Top Side of Autoclave : Port Values-->
+                <Grid
+                    x:Name="topSecGrid"
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="3"
+                    Panel.ZIndex="3">
+                    <!--
+                        Opacity="{Binding ElementName=allowShowingSections, Path=IsChecked,
+                        Converter={StaticResource BoolToDouble}}" Visibility="{Binding ElementName=autoclaveTopVb, Path=Opacity,
+                        Converter={StaticResource DoubleToAbsoluteVisiblity}}"
+                    -->
+                    <Grid.Resources>
+                        <Style BasedOn="{StaticResource centeredTextBox}" TargetType="{x:Type TextBox}">
+                            <Setter Property="FontSize" Value="12" />
+                            <Setter Property="IsReadOnly" Value="True" />
+                            <Setter Property="Focusable" Value="False" />
+                            <Setter Property="IsReadOnlyCaretVisible" Value="False" />
+                            <Setter Property="MaxWidth" Value="55" />
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Foreground" Value="{StaticResource MainBlueColor}" />
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="FontWeight" Value="SemiBold" />
+                            <Setter Property="FontSize" Value="12" />
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Border
+                        Grid.RowSpan="3"
+                        Margin="5,0,5,0"
+                        Padding="15"
+                        Background="{StaticResource LightGrayColor}"
+                        BorderBrush="{StaticResource CustomBlackColor}"
+                        BorderThickness="1">
+                        <StackPanel>
+
+                            <!--<Border Style="{StaticResource standardHeaderBorder}">
+                                <Viewbox Height="23">
+                                    <Label
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Content="Purge System Control"
+                                        FontSize="25"
+                                        FontWeight="DemiBold"
+                                        Foreground="{StaticResource CustomBlackColor}" />
+                                </Viewbox>
+                            </Border>
+                            <dxlc:FlowLayoutControl Orientation="Horizontal">
+                                <GroupBox
+                                    Width="{Binding ElementName=vacuumGroupBox, Path=ActualWidth}"
+                                    Margin="10,0,5,5"
+                                    Header="Purge"
+                                    IsEnabled="{Binding Permissions[purgeControl]}">
+                                    <GroupBox.Style>
+                                        <Style BasedOn="{StaticResource passiveBlackGroupBox_Smaller}" TargetType="{x:Type GroupBox}">
+                                            <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+                                            <Style.Triggers>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="ToolTip" Value="{Binding DisabledControlTooltipText}" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </GroupBox.Style>
+                                    <StackPanel>
+                                        <Border
+                                            MinWidth="110"
+                                            Padding="2,2,0,2"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top"
+                                            Style="{StaticResource radioBtnBorder_NoThickness}">
+                                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                <RadioButton
+                                                    Margin="0,0,0,2"
+                                                    HorizontalAlignment="Left"
+                                                    Click="RbMan_Click"
+                                                    Content="Man"
+                                                    IsChecked="{Binding FurnaceControlFormInput.PurgeControlStateMan}"
+                                                    Tag="{Binding ManualOperationTagConfigurations.PurgeControlStateIsAuto}" />
+                                                <RadioButton
+                                                    Margin="6,0,0,0"
+                                                    Click="RbAuto_Click"
+                                                    Content="Auto"
+                                                    IsChecked="{Binding FurnaceControlFormInput.PurgeControlStateAuto}"
+                                                    Tag="{Binding ManualOperationTagConfigurations.PurgeControlStateIsAuto}" />
+                                            </StackPanel>
+                                        </Border>
+                                        <Border
+                                            MinWidth="110"
+                                            Margin="0,5,0,0"
+                                            Padding="2,2,0,2"
+                                            HorizontalAlignment="Left"
+                                            Style="{StaticResource radioBtnBorder_NoThickness}">
+                                            <StackPanel>
+                                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                    <RadioButton
+                                                        Margin="0,0,0,2"
+                                                        HorizontalAlignment="Left"
+                                                        Click="RbOn_Click"
+                                                        Content="On"
+                                                        IsChecked="{Binding FurnaceControlFormInput.PurgeControlStateIsOn}"
+                                                        Tag="{Binding ManualOperationTagConfigurations.PurgeControlStateOnOff}" />
+                                                    <RadioButton
+                                                        Margin="15,0,0,0"
+                                                        Click="RbOff_Click"
+                                                        Content="Off"
+                                                        IsChecked="{Binding FurnaceControlFormInput.PurgeControlStateIsOff}"
+                                                        Tag="{Binding ManualOperationTagConfigurations.PurgeControlStateOnOff}" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Border>
+
+                                    </StackPanel>
+                                </GroupBox>
+                            </dxlc:FlowLayoutControl>-->
+
+                            <Border Style="{StaticResource standardHeaderBorder}">
+                                <Viewbox Height="23">
+                                    <Label
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Content="Air Temperature Watch"
+                                        FontSize="25"
+                                        FontWeight="DemiBold"
+                                        Foreground="{StaticResource CustomBlackColor}" />
+                                </Viewbox>
+                            </Border>
+                            <dxlc:FlowLayoutControl Orientation="Horizontal">
+                                <StackPanel Margin="10,0,0,0" VerticalAlignment="Top">
+                                    <TextBlock
+                                        Grid.Column="2"
+                                        Margin="3,0,0,3"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="13"
+                                        FontWeight="SemiBold"
+                                        Foreground="{StaticResource CustomBlackColor}"
+                                        Text="AirTc 1" />
+                                    <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                        <TextBox Text="{Binding FurnaceControlFormInput.AirTcHigh, StringFormat={}{0:F2}}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox Text="{Binding FurnaceControlFormInput.AirTcHighRate, StringFormat={}{0:F2}}" />
+                                        <TextBlock
+                                            Width="{Binding ElementName=mmhgminText, Path=ActualWidth}"
+                                            Margin="5,0,5,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="11"
+                                            FontWeight="SemiBold"
+                                            Foreground="{StaticResource CustomBlackColor}"
+                                            Text="°C/min" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Margin="10,0,0,0" VerticalAlignment="Top">
+                                    <TextBlock
+                                        Grid.Column="2"
+                                        Margin="3,0,0,3"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="13"
+                                        FontWeight="SemiBold"
+                                        Foreground="{StaticResource CustomBlackColor}"
+                                        Text="AirTc 2" />
+                                    <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                        <TextBox Text="{Binding FurnaceControlFormInput.AirTcMediumHigh, StringFormat={}{0:F2}}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox Text="{Binding FurnaceControlFormInput.AirTcMediumHighRate, StringFormat={}{0:F2}}" />
+                                        <TextBlock
+                                            Width="{Binding ElementName=mmhgminText, Path=ActualWidth}"
+                                            Margin="5,0,5,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="11"
+                                            FontWeight="SemiBold"
+                                            Foreground="{StaticResource CustomBlackColor}"
+                                            Text="°C/min" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Margin="10,0,0,0" VerticalAlignment="Top">
+                                    <TextBlock
+                                        Grid.Column="2"
+                                        Margin="3,0,0,3"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="13"
+                                        FontWeight="SemiBold"
+                                        Foreground="{StaticResource CustomBlackColor}"
+                                        Text="AirTc 3" />
+                                    <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                        <TextBox Text="{Binding FurnaceControlFormInput.AirTcLow, StringFormat={}{0:F2}}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox Text="{Binding FurnaceControlFormInput.AirTcLowRate, StringFormat={}{0:F2}}" />
+                                        <TextBlock
+                                            Width="{Binding ElementName=mmhgminText, Path=ActualWidth}"
+                                            Margin="5,0,5,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="11"
+                                            FontWeight="SemiBold"
+                                            Foreground="{StaticResource CustomBlackColor}"
+                                            Text="°C/min" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                            </dxlc:FlowLayoutControl>
+                            <Border Style="{StaticResource standardHeaderBorder}">
+                                <Viewbox Height="23">
+                                    <Label
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Content="Watch"
+                                        FontSize="25"
+                                        FontWeight="DemiBold"
+                                        Foreground="{StaticResource CustomBlackColor}" />
+                                </Viewbox>
+                            </Border>
+
+                            <dxlc:FlowLayoutControl Orientation="Horizontal">
+                                <!--#region Fan Section-->
+
+                                <GroupBox
+                                    x:Name="fanGroupBox"
+                                    MinHeight="{Binding ElementName=monLinesGroupBox, Path=ActualWidth}"
+                                    Margin="10,0,0,0"
+                                    Header="Fan"
+                                    Style="{StaticResource passiveBlackGroupBox}">
+                                    <dxlc:LayoutGroup Margin="10,0,0,0" Orientation="Vertical">
+                                        <StackPanel HorizontalAlignment="Left">
+                                            <StackPanel Orientation="Horizontal">
+                                                <StackPanel Margin="0,0,0,15">
+                                                    <TextBlock
+                                                        Margin="0,0,0,5"
+                                                        HorizontalAlignment="Left"
+                                                        Foreground="{StaticResource CustomBlackColor}"
+                                                        Text="Fan Temp (°C)" />
+                                                    <TextBox Text="{Binding FurnaceControlFormInput.FanTemperature, StringFormat={}{0:F2}}" />
+                                                </StackPanel>
+
+                                                <StackPanel Margin="30,0,5,15">
+                                                    <TextBlock
+                                                        Margin="0,0,0,5"
+                                                        HorizontalAlignment="Left"
+                                                        Foreground="{StaticResource CustomBlackColor}"
+                                                        Text="Vibration (mm/sn)" />
+                                                    <TextBox Text="{Binding FurnaceControlFormInput.FanVibration, StringFormat={}{0:F2}}" />
+                                                </StackPanel>
+                                                <StackPanel Margin="30,0,5,15">
+                                                    <TextBlock
+                                                        Margin="0,0,0,5"
+                                                        HorizontalAlignment="Left"
+                                                        Foreground="{StaticResource CustomBlackColor}"
+                                                        Text="PID %" />
+                                                    <TextBox Text="{Binding FurnaceControlFormInput.FanSpeed, StringFormat={}{0:F0}}" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </dxlc:LayoutGroup>
+                                </GroupBox>
+                                <!--#endregion-->
+                                <GroupBox
+                                    x:Name="vacGroupBox"
+                                    Width="{Binding ElementName=fanGroupBox, Path=ActualWidth}"
+                                    Height="{Binding ElementName=fanGroupBox, Path=ActualHeight}"
+                                    Margin="10,0,0,0"
+                                    Header="Vacuum"
+                                    Style="{StaticResource passiveBlackGroupBox}">
+                                    <dxlc:LayoutGroup Margin="10,0,0,0" Orientation="Vertical">
+                                        <StackPanel HorizontalAlignment="Left">
+                                            <StackPanel Margin="0,0,0,15">
+                                                <TextBlock
+                                                    Margin="0,0,0,5"
+                                                    HorizontalAlignment="Left"
+                                                    Foreground="{StaticResource CustomBlackColor}"
+                                                    Text="Vacuum Line Value" />
+                                                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                                    <TextBox Text="{Binding FurnaceControlFormInput.VacuumLineValue}" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <!--<StackPanel Margin="20 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                                                <TextBlock Text="Vacuum Out (PID)" Foreground="{StaticResource CustomBlackColor}"
+                                                               FontWeight="SemiBold" Margin="0 0 0 5"/>
+                                                <TextBox Text="{Binding FurnaceControlFormInput.PidVacOut, StringFormat={}{0:F2}}"/>
+                                            </StackPanel>-->
+                                        </StackPanel>
+                                    </dxlc:LayoutGroup>
+                                </GroupBox>
+
+
+                                <GroupBox
+                                    x:Name="towerWaterGroupBox"
+                                    Height="{Binding ElementName=fanGroupBox, Path=ActualHeight}"
+                                    Margin="10,0,0,0"
+                                    Header="Tower"
+                                    Style="{StaticResource passiveBlackGroupBox}">
+                                    <dxlc:LayoutGroup Margin="10,0,0,0" Orientation="Vertical">
+                                        <StackPanel HorizontalAlignment="Left">
+                                            <StackPanel Margin="0,0,0,15">
+                                                <TextBlock
+                                                    Margin="0,0,0,5"
+                                                    HorizontalAlignment="Left"
+                                                    Foreground="{StaticResource CustomBlackColor}"
+                                                    Text="Tower Water Temperature" />
+                                                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                                    <TextBox Text="{Binding FurnaceControlFormInput.TowerWaterTemperature, StringFormat={}{0:F2}}" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </dxlc:LayoutGroup>
+                                </GroupBox>
+                                <GroupBox
+                                    x:Name="totalWorkingTimeGroupBox"
+                                    Height="{Binding ElementName=fanGroupBox, Path=ActualHeight}"
+                                    Margin="10,0,0,0"
+                                    Header="Working Time"
+                                    Style="{StaticResource passiveBlackGroupBox}">
+                                    <dxlc:LayoutGroup Margin="10,0,0,0" Orientation="Vertical">
+                                        <StackPanel HorizontalAlignment="Left">
+                                            <StackPanel Margin="0,0,0,15">
+                                                <TextBlock
+                                                    Margin="0,0,0,5"
+                                                    HorizontalAlignment="Left"
+                                                    Foreground="{StaticResource CustomBlackColor}"
+                                                    Text="Total Working Time" />
+                                                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                                                    <TextBox Text="{Binding FurnaceControlFormInput.BatchTotalWorkingTime, StringFormat={}{0:F2}}" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </dxlc:LayoutGroup>
+                                </GroupBox>
+
+
+                                <!--#region Door Status-->
+                                <GroupBox
+                                    x:Name="pressureGroupBox"
+                                    MinHeight="{Binding ElementName=monLinesGroupBox, Path=ActualHeight}"
+                                    Margin="5,0,0,0"
+                                    Header="Door Status"
+                                    Style="{StaticResource passiveBlackGroupBox}">
+                                    <dxlc:LayoutGroup Margin="10,0,0,0" VerticalAlignment="Center">
+                                        <StackPanel Margin="10,0,0,0" VerticalAlignment="Top">
+                                            <TextBlock>
+                                                <TextBlock.Style>
+                                                    <Style BasedOn="{StaticResource slowFlashingLocalTb}" TargetType="{x:Type TextBlock}">
+                                                        <Setter Property="Margin" Value="10,2,8,0" />
+                                                        <Setter Property="FontWeight" Value="Bold" />
+                                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                                        <Setter Property="HorizontalAlignment" Value="Left" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding FurnaceControlFormInput.DoorStatus}" Value="1">
+                                                                <Setter Property="Foreground" Value="{StaticResource GeneralWhite}" />
+                                                                <Setter Property="Text" Value="CLOSE" />
+                                                                <Setter Property="Padding" Value="5,1,5,1" />
+                                                                <Setter Property="Background" Value="{StaticResource TechnicalGreenColor}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding FurnaceControlFormInput.DoorStatus}" Value="0">
+                                                                <Setter Property="Text" Value="OPEN" />
+                                                                <Setter Property="Padding" Value="5,1,5,1" />
+                                                                <Setter Property="Background" Value="{StaticResource Sensor_Red}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </dxlc:LayoutGroup>
+                                </GroupBox>
+                                <!--#endregion-->
+
+                            </dxlc:FlowLayoutControl>
+                            <!--<dxlc:FlowLayoutControl x:Name="tempVacFlowLayout" Orientation="Horizontal">-->
+                            <!--#region Temperature Section-->
+                            <!--<GroupBox Header="Temperature" x:Name="tempGroupBox" Margin="0 10 0 0" Style="{StaticResource passiveBlackGroupBox}"
+                                          Width="{Binding ElementName=fanGroupBox, Path=ActualWidth}"
+                                          Height="{Binding ElementName=fanGroupBox, Path=ActualHeight}">
+                                    <dxlc:LayoutGroup Orientation="Vertical" Margin="10 0 0 0">
+                                        <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+                                            <StackPanel>
+                                                <TextBlock Foreground="{StaticResource CustomBlackColor}"
+                                                           FontWeight="SemiBold" Margin="0 0 0 5"
+                                                           Text="SRC LEFT-RIGHT (%)" HorizontalAlignment="Left"/>
+                                                <TextBox Margin="-20 0 0 0" Text="{Binding FurnaceControlFormInput.PidHeatOut, StringFormat={}{0:F2}}"/>
+                                            </StackPanel>
+                            -->
+                            <!--<StackPanel Margin="10 0 5 10">
+                                                <TextBlock Foreground="{StaticResource CustomBlackColor}" HorizontalAlignment="Left"
+                                                           FontWeight="SemiBold" Margin="0 0 0 5" Text="Cooling (%)"/>
+                                                <TextBox Text="{Binding FurnaceControlFormInput.PidCoolOut, StringFormat={}{0:F2}}"/>
+                                            </StackPanel>-->
+                            <!--
+                                        </StackPanel>
+                                    </dxlc:LayoutGroup>
+                                </GroupBox>-->
+                            <!--#endregion-->
+                            <!--#region Vacuum Section-->
+
+                            <!--#endregion-->
+                            <!--</dxlc:FlowLayoutControl>-->
+                            <!--#region PTC Ports-->
+
+                            <dxlc:FlowLayoutControl Orientation="Horizontal">
+                                <GroupBox
+                                    x:Name="ActiveItemsGroupBox"
+                                    Margin="10,0,0,0"
+                                    Header="Active Items">
+                                    <StackPanel
+                                        Name="activeItems"
+                                        Margin="10,0,5,10"
+                                        Orientation="Horizontal">
+                                        <StackPanel Name="activeItemsPtc" Margin="10,10,10,10">
+                                            <dxlc:LayoutGroup Orientation="Vertical">
+                                                <dxlc:LayoutItem>
+                                                    <TextBlock
+                                                        HorizontalAlignment="Center"
+                                                        FontSize="14"
+                                                        FontWeight="DemiBold"
+                                                        Foreground="{StaticResource CustomBlackColor}"
+                                                        Text="PTC" />
+                                                </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem>
+                                                    <ListView
+                                                        x:Name="listBoxPtc"
+                                                        Width="60"
+                                                        Height="300"
+                                                        Margin="10,0,0,0"
+                                                        HorizontalContentAlignment="Center"
+                                                        Background="White"
+                                                        DisplayMemberPath="PortNumeric"
+                                                        ItemsSource="{Binding PTCPorts}" />
+                                                </dxlc:LayoutItem>
+                                            </dxlc:LayoutGroup>
+                                        </StackPanel>
+                                        <StackPanel Name="activeItemsMon" Margin="10,10,10,10">
+                                            <dxlc:LayoutGroup Orientation="Vertical">
+                                                <dxlc:LayoutItem>
+                                                    <TextBlock
+                                                        HorizontalAlignment="Center"
+                                                        FontSize="14"
+                                                        FontWeight="SemiBold"
+                                                        Foreground="{StaticResource CustomBlackColor}"
+                                                        Text="MON" />
+                                                </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem>
+                                                    <ListView
+                                                        x:Name="listBoxMon"
+                                                        Width="60"
+                                                        Height="300"
+                                                        HorizontalContentAlignment="Center"
+                                                        Background="White"
+                                                        DisplayMemberPath="PortNumeric"
+                                                        ItemsSource="{Binding MONPorts}" />
+                                                </dxlc:LayoutItem>
+                                            </dxlc:LayoutGroup>
+                                        </StackPanel>
+                                        <StackPanel Name="activeItemsVac" Margin="10,10,10,10">
+                                            <dxlc:LayoutGroup Orientation="Vertical">
+                                                <dxlc:LayoutItem>
+                                                    <TextBlock
+                                                        HorizontalAlignment="Center"
+                                                        FontSize="14"
+                                                        FontWeight="DemiBold"
+                                                        Foreground="{StaticResource CustomBlackColor}"
+                                                        Text="VAC" />
+                                                </dxlc:LayoutItem>
+                                                <dxlc:LayoutItem>
+                                                    <ListView
+                                                        x:Name="listBoxVac"
+                                                        Width="60"
+                                                        Height="300"
+                                                        HorizontalContentAlignment="Center"
+                                                        Background="White"
+                                                        DisplayMemberPath="PortNumeric"
+                                                        ItemsSource="{Binding VACPorts}" />
+                                                </dxlc:LayoutItem>
+                                            </dxlc:LayoutGroup>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                </GroupBox>
+
+
+                                <!--<GroupBox Style="{StaticResource passiveBlackGroupBox}" Header="PTC" Width="508" Padding="5">
+
+
+                                    <StackPanel Margin="10 5 0 10">
+                                        <StackPanel.Resources>
+                                            <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource GenToggleButton_Disabled}">
+                                                <Setter Property="MinWidth" Value="45"/>
+                                                <Setter Property="MinHeight" Value="36"/>
+                                                <Setter Property="FontSize" Value="12"/>
+                                            </Style>
+                                        </StackPanel.Resources>
+                                        <StackPanel Orientation="Horizontal">
+                                            <StackPanel Orientation="Horizontal">
+                                                <ToggleButton Content="1" IsChecked="{Binding PTCPorts[0].IsSelected}"/>
+                                                <ToggleButton Content="2" IsChecked="{Binding PTCPorts[1].IsSelected}"/>
+                                                <ToggleButton Content="3" IsChecked="{Binding PTCPorts[2].IsSelected}"/>
+                                                <ToggleButton Content="4" IsChecked="{Binding PTCPorts[3].IsSelected}"/>
+                                                <ToggleButton Content="5" IsChecked="{Binding PTCPorts[4].IsSelected}"/>
+                                                <ToggleButton Content="6" IsChecked="{Binding PTCPorts[5].IsSelected}"/>
+                                                <ToggleButton Content="7" IsChecked="{Binding PTCPorts[6].IsSelected}"/>
+                                                <ToggleButton Content="8" IsChecked="{Binding PTCPorts[7].IsSelected}"/>
+                                                <ToggleButton Content="9" IsChecked="{Binding PTCPorts[8].IsSelected}"/>
+                                                <ToggleButton Content="10" IsChecked="{Binding PTCPorts[9].IsSelected}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0 2 0 0">
+                                            <ToggleButton Content="11" IsChecked="{Binding PTCPorts[10].IsSelected}"/>
+                                            <ToggleButton Content="12" IsChecked="{Binding PTCPorts[11].IsSelected}"/>
+                                            <ToggleButton Content="13" IsChecked="{Binding PTCPorts[12].IsSelected}"/>
+                                            <ToggleButton Content="14" IsChecked="{Binding PTCPorts[13].IsSelected}"/>
+                                            <ToggleButton Content="15" IsChecked="{Binding PTCPorts[14].IsSelected}"/>
+                                            <ToggleButton Content="16" IsChecked="{Binding PTCPorts[15].IsSelected}"/>
+                                            <ToggleButton Content="17" IsChecked="{Binding PTCPorts[16].IsSelected}"/>
+                                            <ToggleButton Content="18" IsChecked="{Binding PTCPorts[17].IsSelected}"/>
+                                            <ToggleButton Content="19" IsChecked="{Binding PTCPorts[18].IsSelected}"/>
+                                            <ToggleButton Content="20" IsChecked="{Binding PTCPorts[19].IsSelected}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </GroupBox>-->
+
+                            </dxlc:FlowLayoutControl>
+                            <!--#endregion-->
+
+                            <!--#region VAC Ports-->
+                            <!--<dxlc:FlowLayoutControl Orientation="Horizontal">
+                                <GroupBox Header="VAC" Style="{StaticResource passiveBlackGroupBox}" Width="508" Padding="5">
+                                    <StackPanel Margin="10 5 0 10">
+                                        <StackPanel.Resources>
+                                            <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource GenToggleButton_Disabled}">
+                                                <Setter Property="MinWidth" Value="45"/>
+                                                <Setter Property="MinHeight" Value="36"/>
+                                                <Setter Property="FontSize" Value="12"/>
+                                            </Style>
+                                        </StackPanel.Resources>
+                                        <StackPanel Orientation="Horizontal">
+                                            <StackPanel Orientation="Horizontal">
+                                                <ToggleButton Content="1" IsChecked="{Binding VACPorts[0].IsSelected}"/>
+                                                <ToggleButton Content="2" IsChecked="{Binding VACPorts[1].IsSelected}"/>
+                                                <ToggleButton Content="3" IsChecked="{Binding VACPorts[2].IsSelected}"/>
+                                                <ToggleButton Content="4" IsChecked="{Binding VACPorts[3].IsSelected}"/>
+                                                <ToggleButton Content="5" IsChecked="{Binding VACPorts[4].IsSelected}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0 2 0 0">
+                                            <ToggleButton Content="6" IsChecked="{Binding VACPorts[5].IsSelected}"/>
+                                            <ToggleButton Content="7" IsChecked="{Binding VACPorts[6].IsSelected}"/>
+                                            <ToggleButton Content="8" IsChecked="{Binding VACPorts[7].IsSelected}"/>
+                                            <ToggleButton Content="9" IsChecked="{Binding VACPorts[8].IsSelected}"/>
+                                            <ToggleButton Content="10" IsChecked="{Binding VACPorts[9].IsSelected}"/>
+
+                                        </StackPanel>
+                                    </StackPanel>
+                                </GroupBox>
+                            </dxlc:FlowLayoutControl>-->
+                            <!--#endregion-->
+
+                            <!--#region MON Ports-->
+                            <!--<dxlc:FlowLayoutControl Orientation="Horizontal">
+                                <GroupBox Style="{StaticResource passiveBlackGroupBox}" Header="MON" Width="508" Padding="5">
+                                    <StackPanel Margin="10 5 0 10">
+                                        <StackPanel.Resources>
+                                            <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource GenToggleButton_Disabled}">
+                                                <Setter Property="MinWidth" Value="45"/>
+                                                <Setter Property="MinHeight" Value="36"/>
+                                                <Setter Property="FontSize" Value="12"/>
+                                            </Style>
+                                        </StackPanel.Resources>
+                                        <StackPanel Orientation="Horizontal">
+                                            <StackPanel Orientation="Horizontal">
+                                                <ToggleButton Content="1" IsChecked="{Binding MONPorts[0].IsSelected}"/>
+                                                <ToggleButton Content="2" IsChecked="{Binding MONPorts[1].IsSelected}"/>
+                                                <ToggleButton Content="3" IsChecked="{Binding MONPorts[2].IsSelected}"/>
+                                                <ToggleButton Content="4" IsChecked="{Binding MONPorts[3].IsSelected}"/>
+                                                <ToggleButton Content="5" IsChecked="{Binding MONPorts[4].IsSelected}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0 2 0 0">
+                                            <ToggleButton Content="6" IsChecked="{Binding MONPorts[5].IsSelected}"/>
+                                            <ToggleButton Content="7" IsChecked="{Binding MONPorts[6].IsSelected}"/>
+                                            <ToggleButton Content="8" IsChecked="{Binding MONPorts[7].IsSelected}"/>
+                                            <ToggleButton Content="9" IsChecked="{Binding MONPorts[8].IsSelected}"/>
+                                            <ToggleButton Content="10" IsChecked="{Binding MONPorts[9].IsSelected}"/>
+
+                                        </StackPanel>
+                                    </StackPanel>
+                                </GroupBox>
+                            </dxlc:FlowLayoutControl>-->
+                            <!--#endregion-->
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!--#endregion-->
+                <!--#region Top Side of Autoclave : PTC-MON-VAC Ports-->
+                <Grid
+                    x:Name="portsGrid"
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="3"
+                    Panel.ZIndex="3">
+                    <!--
+                        Opacity="{Binding ElementName=allowShowingSections, Path=IsChecked,
+                        Converter={StaticResource BoolToDouble}}" Visibility="{Binding ElementName=autoclaveTopVb, Path=Opacity,
+                        Converter={StaticResource DoubleToAbsoluteVisiblity}}"
+                    -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.Resources />
+
+                </Grid>
+                <!--#endregion-->
+                <!--#region Front Side of Autoclave-->
+                <Grid
+                    Grid.RowSpan="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Panel.ZIndex="3"
+                    Opacity="{Binding ElementName=allowShowingSections, Path=IsChecked, Converter={StaticResource BoolToDouble}}"
+                    Visibility="{Binding ElementName=autoclaveFrontVb, Path=Opacity, Converter={StaticResource DoubleToAbsoluteVisiblity}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Viewbox
+                        x:Name="autoclaveFrontVb"
+                        Grid.Row="0"
+                        Grid.RowSpan="3"
+                        MaxWidth="350"
+                        Margin="0,75,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Opacity="1" />
+                </Grid>
+                <!--#endregion-->
+                <!--#region Back Side of Autoclave : Heater, Cooler, Circulation-->
+                <!--<Grid Grid.Column="1" Grid.RowSpan="2" Panel.ZIndex="3" Opacity="{Binding ElementName=allowShowingSections, Path=IsChecked,
+                 Converter={StaticResource BoolToDouble}}"
+                 Visibility="{Binding ElementName=autoclaveBackVb, Path=Opacity, Converter={StaticResource DoubleToAbsoluteVisiblity}}">
+                -->
+                <!--
+                    Opacity="{Binding ElementName=allowShowingSections, Path=IsChecked,
+                    Converter={StaticResource BoolToDouble}}"
+                    Visibility="{Binding ElementName=autoclaveBackVb, Path=Opacity, Converter={StaticResource DoubleToAbsoluteVisiblity}}"
+                -->
+                <!--
+
+                    <Viewbox x:Name="autoclaveBackVb" Opacity="1" VerticalAlignment="Center" HorizontalAlignment="Center"
+                         MaxWidth="350" Margin="0 75 0 0">
+                        <Border Style="{StaticResource autoClaveBd_LightGray}" BorderThickness="1 0 1 1" Padding="5">
+                            <StackPanel Orientation="Horizontal">
+                -->
+                <!--#region Heater Section-->
+                <!--
+                                <Border BorderBrush="{StaticResource MainBlueColor}" BorderThickness="2" HorizontalAlignment="Center" Padding="4">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="#D6D6D6" Opacity="0.75"/>
+                                    </Border.Background>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Text="Heater" FontWeight="SemiBold" Foreground="{StaticResource MainBlueColor}"/>
+                                        <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+                                            <TextBox Text="0.0" HorizontalAlignment="Center"/>
+                                            <TextBlock Margin="5 0 2 0" Text="%" FontWeight="SemiBold" Foreground="{StaticResource MainBlueColor}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                -->
+                <!--  endregion  -->
+                <!--
+
+                                <Border Margin="5 0 0 0" BorderBrush="{StaticResource MainBlueColor}" BorderThickness="2"
+                                        HorizontalAlignment="Center" Padding="4">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="#D6D6D6" Opacity="0.75"/>
+                                    </Border.Background>
+                                    <StackPanel>
+                -->
+                <!--#region Cooler 1-->
+                <!--
+                                        <StackPanel Orientation="Horizontal" MaxWidth="150" VerticalAlignment="Bottom" Margin="5 0 0 5">
+                                            <StackPanel>
+                                                <TextBlock Margin="0 0 0 5" Text="Cooler 1" FontWeight="SemiBold" Foreground="{StaticResource MainBlueColor}"/>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBox Text="0.0" HorizontalAlignment="Center" MaxWidth="55"/>
+                                                    <TextBlock Margin="5 0 0 0" Text="%" FontWeight="SemiBold" Foreground="{StaticResource MainBlueColor}"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                -->
+                <!--#endregion-->
+                <!--#region Circulation 1-->
+                <!--
+                                        <StackPanel Orientation="Horizontal" MaxWidth="150" VerticalAlignment="Bottom" Margin="5 0 0 5">
+                                            <StackPanel>
+                                                <TextBlock Margin="0 0 0 5" Text="Circulation 1" FontWeight="SemiBold" Foreground="{StaticResource MainBlueColor}"/>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBox Text="0.0" HorizontalAlignment="Center" MaxWidth="55"/>
+                                                    <TextBlock Margin="5 0 2 0" Text="%" FontWeight="SemiBold" Foreground="{StaticResource MainBlueColor}"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                -->
+                <!--#endregion-->
+                <!--
+                                    </StackPanel>
+
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                    </Viewbox>
+                </Grid>-->
+                <!--#endregion-->
+
+                <!--#region 3D Autoclave Section DISABLED-->
+                <!--<helix:HelixViewport3D x:Name="viewPort3d" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="3" ZoomExtentsWhenLoaded="True" ShowCameraInfo="False" Panel.ZIndex="2"
+                                   CameraChanged="viewPort3d_CameraChanged" ShowViewCube="False" IsMoveEnabled="False">
+                    <helix:SunLight/>
+                </helix:HelixViewport3D>-->
+                <!--#endregion-->
+            </Grid>
+            <!--#endregion-->
+        </DockPanel>
+    </Grid>
+</UserControl>

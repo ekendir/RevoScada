@@ -1,0 +1,768 @@
+﻿<UserControl
+    x:Class="RevoScada.DesktopApplication.Views.CalibrationType3"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:customControls="clr-namespace:RevoScada.DesktopApplication.CustomControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:helpers="clr-namespace:RevoScada.DesktopApplication.Helpers"
+    xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
+    Loaded="UserControl_Loaded"
+    Unloaded="UserControl_Unloaded"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{StaticResource CustomPassiveBlackColor}" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Margin" Value="0,4,0,4" />
+        </Style>
+        <Style BasedOn="{StaticResource ExpanderContentClickable}" TargetType="{x:Type Expander}">
+            <Setter Property="Margin" Value="0,5,0,0" />
+            <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="ToolTip" Value="There is no data to show! (Gösterilecek veri yok!)" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Loaded="Grid_Loaded">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4.5*" />
+            <ColumnDefinition Width="5.5*" />
+        </Grid.ColumnDefinitions>
+
+        <!--#region Left Section-->
+        <Grid Margin="10,0,10,10" Background="{StaticResource LightGrayColor}">
+            <Viewbox
+                MinWidth="450"
+                MinHeight="800"
+                MaxWidth="450"
+                MaxHeight="800"
+                Margin="10"
+                VerticalAlignment="Top">
+                <StackPanel>
+                    <!--#region Step 1-->
+                    <TextBlock Text="Choose the type of sensors for calibration: " />
+
+                    <!--#endregion-->
+
+                    <!--#endregion-->
+                    <!--#endregion-->
+                    <!--#endregion-->
+                    <!--#endregion-->
+                    <!--#endregion-->
+                    <!--<ComboBox x:Name="sensorTypeComboBox" Style="{StaticResource calibrationComboBox}" ItemsSource="{Binding SensorTypeColl}"
+                              Margin="10" MaxWidth="200"  />-->
+
+                    <ComboBox
+                        x:Name="sensorTypeComboBox"
+                        MaxWidth="200"
+                        Margin="10"
+                        DisplayMemberPath="Value"
+                        ItemsSource="{Binding SensorTypeList, Mode=OneTime}"
+                        Loaded="sensorTypeComboBox_Loaded"
+                        SelectedValuePath="Key"
+                        SelectionChanged="sensorTypeComboBox_SelectionChanged"
+                        Style="{StaticResource calibrationComboBox}" />
+
+                    <!--#region step 2 range-->
+                    <TextBlock
+                        x:Name="textBlockRangeSlider"
+                        Text="Connect calibrated source to sensors "
+                        Visibility="Visible" />
+                    <Border
+                        x:Name="borderRangeSlider"
+                        Margin="0,5,0,0"
+                        Padding="5"
+                        BorderBrush="{StaticResource CustomPassiveBlackColor}"
+                        BorderThickness="1"
+                        Visibility="Visible">
+                        <StackPanel>
+                            <TextBlock
+                                Margin="5,0,0,0"
+                                HorizontalAlignment="Left"
+                                FontSize="12"
+                                FontStyle="Italic"
+                                FontWeight="SemiBold"
+                                Text="Enter the sequence of sensors which are connected." />
+                            <!--#region Slider-->
+                            <Grid>
+                                <Border
+                                    Height="3"
+                                    Margin="8"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Background="{StaticResource CustomPassiveBlackColor}" />
+                                <customControls:TwoThumbRangeSlider
+                                    x:Name="twoThumbSlider"
+                                    Height="20"
+                                    Margin="10"
+                                    End="{Binding CalibrationFormInput.SequenceOfSensorRangeEndSelection, Mode=TwoWay}"
+                                    Maximum="{Binding CalibrationFormInput.DefaultSequenceOfSensorMax}"
+                                    Minimum="{Binding CalibrationFormInput.DefaultSequenceOfSensorMin}"
+                                    MouseLeftButtonUp="twoThumbSlider_MouseLeftButtonUp"
+                                    Orientation="Horizontal"
+                                    Start="{Binding CalibrationFormInput.SequenceOfSensorRangeStartSelection, Mode=TwoWay}"
+                                    Thumb.DragCompleted="twoThumbSlider_DragCompleted"
+                                    ToolTip="{Binding ToolTipTwoThumb}" />
+                            </Grid>
+                            <!--#endregion-->
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                <!--  Min Value of slider:  -->
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock VerticalAlignment="Center" Text="Min:" />
+                                    <TextBlock
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{StaticResource CustomPassiveBlackColor}"
+                                        Text="{Binding Start, ElementName=twoThumbSlider}" />
+                                </StackPanel>
+                                <!--  Max Value of slider:  -->
+                                <StackPanel
+                                    x:Name="sliderSec"
+                                    Margin="10,0,0,0"
+                                    Orientation="Horizontal">
+                                    <TextBlock VerticalAlignment="Center" Text="Max:" />
+                                    <TextBlock
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{StaticResource CustomPassiveBlackColor}"
+                                        Text="{Binding End, ElementName=twoThumbSlider}" />
+                                </StackPanel>
+
+                                <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
+                                    <dx:SimpleButton
+                                        x:Name="btnSetSequenceOfSensorRangeSelection"
+                                        Width="70"
+                                        Height="26"
+                                        MinWidth="80"
+                                        MinHeight="20"
+                                        Margin="5"
+                                        Click="btnSetSequenceOfSensorRangeSelection_Click"
+                                        Content="Set"
+                                        FontFamily="Verdana" />
+
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+
+                    </Border>
+
+                    <!--#region Step 3-->
+                    <TextBlock><Run Text="Set source to a low sensor range" /></TextBlock>
+                    <Border
+                        Margin="0,5,0,0"
+                        Padding="5,5,5,0"
+                        BorderBrush="{StaticResource CustomPassiveBlackColor}"
+                        BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock
+                                Margin="5,0,0,0"
+                                HorizontalAlignment="Left"
+                                FontSize="12"
+                                FontStyle="Italic"
+                                FontWeight="SemiBold"
+                                Text="Enter setting below, wait for stability and set the value." />
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                <dxe:TextEdit
+                                    x:Name="txtSetSourceToLowSensorRange"
+                                    Width="70"
+                                    Height="26"
+                                    MinWidth="80"
+                                    MinHeight="20"
+                                    Margin="5"
+                                    HorizontalAlignment="Center"
+                                    FontFamily="Verdana"
+                                    FontSize="14"
+                                    Mask="f"
+                                    MaskBeepOnError="True"
+                                    MaskType="Numeric"
+                                    Text="{Binding CalibrationFormInput.SetSourceToLowSensorRangeValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <dx:SimpleButton
+                                    x:Name="btnSetSourceToLowSensorRange"
+                                    Width="70"
+                                    Height="26"
+                                    MinWidth="80"
+                                    MinHeight="20"
+                                    Margin="5"
+                                    Click="btnSetSourceToLowSensorRange_Click"
+                                    Content="Set"
+                                    FontFamily="Verdana" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <!--#region Step 4-->
+                    <TextBlock><Run Text="Set source to a high sensor range" /></TextBlock>
+                    <Border
+                        Margin="0,5,0,0"
+                        Padding="5,5,5,0"
+                        BorderBrush="{StaticResource CustomPassiveBlackColor}"
+                        BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock
+                                Margin="5,0,0,0"
+                                HorizontalAlignment="Left"
+                                FontSize="12"
+                                FontStyle="Italic"
+                                FontWeight="SemiBold"
+                                Text="Enter setting below, wait for stability and set the value." />
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+
+                                <dxe:TextEdit
+                                    x:Name="txtSetSourceToHighSensorRange"
+                                    Width="70"
+                                    Height="26"
+                                    MinWidth="80"
+                                    MinHeight="20"
+                                    Margin="5,5,5,5"
+                                    HorizontalAlignment="Center"
+                                    FontFamily="Verdana"
+                                    FontSize="14"
+                                    Mask="f"
+                                    MaskBeepOnError="True"
+                                    MaskType="Numeric"
+                                    Text="{Binding CalibrationFormInput.SetSourceToHighSensorRangeValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <dx:SimpleButton
+                                    x:Name="btnSetSourceToHighSensorRange"
+                                    Width="70"
+                                    Height="26"
+                                    MinWidth="80"
+                                    MinHeight="20"
+                                    Margin="5"
+                                    Click="btnSetSourceToHighSensorRange_Click"
+                                    Content="Set"
+                                    FontFamily="Verdana" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+
+                    <!--#region Step 5-->
+                    <TextBlock Text="Press calculate to get new values" />
+                    <Border
+                        Margin="0,5,0,0"
+                        Padding="5,5,5,0"
+                        BorderBrush="{StaticResource CustomPassiveBlackColor}"
+                        BorderThickness="1">
+                        <StackPanel Orientation="Horizontal">
+                            <dx:SimpleButton
+                                x:Name="btnCalculate"
+                                MinWidth="125"
+                                MinHeight="25"
+                                Margin="10"
+                                Click="btnCalculate_Click"
+                                Command="{Binding CalculateCommand}"
+                                Content="Calculate"
+                                FontFamily="Verdana" />
+
+                            <dx:SimpleButton
+                                x:Name="btnReset"
+                                MinWidth="125"
+                                MinHeight="25"
+                                Margin="10"
+                                Command="{Binding ResetCommand}"
+                                CommandParameter="ResetCalculate"
+                                Content="Reset"
+                                FontFamily="Verdana" />
+
+                        </StackPanel>
+                    </Border>
+                    <!--#region Step 6-->
+                    <TextBlock><Run Text="Check consistency and press accept to" /><LineBreak /><Run Text="apply new parameters" /></TextBlock>
+                    <Border
+                        Margin="0,5,0,0"
+                        Padding="5,5,5,0"
+                        BorderBrush="{StaticResource CustomPassiveBlackColor}"
+                        BorderThickness="1">
+                        <StackPanel HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <!--<Button Command="{Binding AcceptCommand}" Margin="10" Style="{StaticResource genBtn_noImg}" MinHeight="25" MinWidth="60" Content="Accept"/>-->
+                                <dx:SimpleButton
+                                    MinWidth="80"
+                                    MinHeight="26"
+                                    Margin="5"
+                                    Command="{Binding AcceptCommand}"
+                                    Content="Accept"
+                                    FontFamily="Verdana" />
+                                <dx:SimpleButton
+                                    MinWidth="80"
+                                    MinHeight="26"
+                                    Margin="5"
+                                    Command="{Binding RefreshCommand}"
+                                    Content="Refresh"
+                                    FontFamily="Verdana" />
+                                <dx:SimpleButton
+                                    MinWidth="80"
+                                    MinHeight="26"
+                                    Margin="5"
+                                    Command="{Binding ResetCommand}"
+                                    CommandParameter="ResetAccept"
+                                    Content="Reset"
+                                    FontFamily="Verdana" />
+                                <dx:SimpleButton
+                                    MinWidth="100"
+                                    MinHeight="26"
+                                    Margin="5"
+                                    Command="{Binding ViewReportCommand}"
+                                    Content="View Report"
+                                    FontFamily="Verdana" />
+                                <dx:SimpleButton
+                                    x:Name="ButtonCalibrationCertification"
+                                    MinWidth="100"
+                                    MinHeight="26"
+                                    Margin="5"
+                                    Command="{Binding OpenCalibrationCertificationWindowCommand}"
+                                    Content="Calibration Certification"
+                                    FontFamily="Verdana" />
+
+                            </StackPanel>
+
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Viewbox>
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region Right Section-->
+        <Grid
+            Grid.Column="1"
+            Margin="0,0,10,10"
+            Background="{StaticResource LightGrayColor}">
+
+            <WrapPanel Margin="10,10,10,0">
+                <!--  Head data grid  -->
+                <DataGrid
+                    x:Name="genGroupTable"
+                    Margin="0,0,20,0"
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    AutoGenerateColumns="False"
+                    BorderThickness="1"
+                    CanUserAddRows="False"
+                    CanUserReorderColumns="False"
+                    CanUserSortColumns="False"
+                    HeadersVisibility="Column"
+                    IsReadOnly="True"
+                    PreviewMouseWheel="GeneralDatagrid_PreviewMouseWheel"
+                    RowHeight="24"
+                    SelectionMode="Extended">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Width="1*"
+                            Binding="{Binding Sensor, UpdateSourceTrigger=PropertyChanged}"
+                            Header="Sensor" />
+                        <DataGridTextColumn
+                            Width="1*"
+                            Binding="{Binding OldCallOffset, UpdateSourceTrigger=PropertyChanged}"
+                            Header="Old Call Offset" />
+                        <DataGridTextColumn
+                            Width="1*"
+                            Binding="{Binding NewCallOffset, UpdateSourceTrigger=PropertyChanged}"
+                            Header="New Call Offset" />
+                        <DataGridTextColumn
+                            Width="1*"
+                            Binding="{Binding OldGain, UpdateSourceTrigger=PropertyChanged}"
+                            Header="Old Gain" />
+                        <DataGridTextColumn
+                            Width="1*"
+                            Binding="{Binding NewGain, UpdateSourceTrigger=PropertyChanged}"
+                            Header="New Gain" />
+                        <DataGridTextColumn
+                            Width="1*"
+                            Binding="{Binding SensorValue, UpdateSourceTrigger=PropertyChanged}"
+                            Header="Sensor Value" />
+                        <DataGridTextColumn
+                            Width="1*"
+                            Binding="{Binding SensorRawValue, UpdateSourceTrigger=PropertyChanged}"
+                            Header="Sensor Raw Value" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!--  Expanders  -->
+                <ScrollViewer
+                    x:Name="dataGridGroupScrollViewer"
+                    Grid.Row="1"
+                    Width="{Binding ActualWidth, ElementName=genGroupTable}"
+                    Margin="0,0,0,40"
+                    VerticalScrollBarVisibility="Auto">
+                    <!--<ScrollViewer Grid.Row="1" x:Name="dataGridGroupScrollViewer" VerticalScrollBarVisibility="Auto">-->
+                    <StackPanel>
+                        <Expander Header="AIRTC - HIGH" IsEnabled="{Binding ElementName=airTcHighTable, Path=HasItems}">
+                            <DataGrid
+                                x:Name="airTcHighTable"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                AutoGenerateColumns="False"
+                                BorderThickness="1,1,0,1"
+                                CanUserAddRows="False"
+                                CanUserReorderColumns="False"
+                                CanUserSortColumns="False"
+                                HeadersVisibility="Row"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding CalibrationListAIRTCHigh}"
+                                PreviewMouseWheel="GeneralDatagrid_PreviewMouseWheel"
+                                RowHeight="24"
+                                SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding Sensor, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding OldCallOffset, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Old Call Offset" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding NewCallOffset, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="New Call Offset" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding OldGain, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Old Gain" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding NewGain, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="New Gain" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding SensorValue, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor Value" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding SensorRawValue, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor Raw Value" />
+                                </DataGrid.Columns>
+                                <DataGrid.CellStyle>
+                                    <Style BasedOn="{StaticResource CannotFocusableDataGridCell}" TargetType="{x:Type DataGridCell}" />
+                                </DataGrid.CellStyle>
+                            </DataGrid>
+                        </Expander>
+                        <Expander Header="AIRTC - MEDIUM" IsEnabled="{Binding ElementName=airTcMedHTable, Path=HasItems}">
+                            <DataGrid
+                                x:Name="airTcMedHTable"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                AutoGenerateColumns="False"
+                                BorderThickness="1,1,0,1"
+                                CanUserAddRows="False"
+                                CanUserReorderColumns="False"
+                                CanUserSortColumns="False"
+                                HeadersVisibility="Row"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding CalibrationListAIRTCMediumHigh}"
+                                PreviewMouseWheel="GeneralDatagrid_PreviewMouseWheel"
+                                RowHeight="24"
+                                SelectionMode="Extended">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding Sensor, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding OldCallOffset, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Old Call Offset" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding NewCallOffset, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="New Call Offset" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding OldGain, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Old Gain" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding NewGain, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="New Gain" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding SensorValue, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor Value" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding SensorRawValue, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor Raw Value" />
+                                </DataGrid.Columns>
+                                <DataGrid.CellStyle>
+                                    <Style BasedOn="{StaticResource CannotFocusableDataGridCell}" TargetType="{x:Type DataGridCell}" />
+                                </DataGrid.CellStyle>
+                            </DataGrid>
+                        </Expander>
+                        <Expander Header="AIRTC - LOW" IsEnabled="{Binding ElementName=airTcLowTable, Path=HasItems}">
+                            <DataGrid
+                                x:Name="airTcLowTable"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                AutoGenerateColumns="False"
+                                BorderThickness="1,1,0,1"
+                                CanUserAddRows="False"
+                                CanUserReorderColumns="False"
+                                CanUserSortColumns="False"
+                                HeadersVisibility="Row"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding CalibrationListAIRTCLow}"
+                                PreviewMouseWheel="GeneralDatagrid_PreviewMouseWheel"
+                                RowHeight="24"
+                                SelectionMode="Extended">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding Sensor, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding OldCallOffset, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Old Call Offset" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding NewCallOffset, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="New Call Offset" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding OldGain, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Old Gain" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding NewGain, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="New Gain" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding SensorValue, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor Value" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding SensorRawValue, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor Raw Value" />
+                                </DataGrid.Columns>
+                                <DataGrid.CellStyle>
+                                    <Style BasedOn="{StaticResource CannotFocusableDataGridCell}" TargetType="{x:Type DataGridCell}" />
+                                </DataGrid.CellStyle>
+                            </DataGrid>
+                        </Expander>
+                        <Expander Header="VAC HEADER" IsEnabled="{Binding ElementName=vacHeadTable, Path=HasItems}">
+                            <DataGrid
+                                x:Name="vacHeadTable"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                AutoGenerateColumns="False"
+                                BorderThickness="1,1,0,1"
+                                CanUserAddRows="False"
+                                CanUserReorderColumns="False"
+                                CanUserSortColumns="False"
+                                HeadersVisibility="Row"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding CalibrationListVACHeaderRight}"
+                                PreviewMouseWheel="GeneralDatagrid_PreviewMouseWheel"
+                                RowHeight="24"
+                                SelectionMode="Extended">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding Sensor, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding OldCallOffset, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Old Call Offset" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding NewCallOffset, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="New Call Offset" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding OldGain, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Old Gain" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding NewGain, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="New Gain" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding SensorValue, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor Value" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding SensorRawValue, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor Raw Value" />
+                                </DataGrid.Columns>
+                                <DataGrid.CellStyle>
+                                    <Style BasedOn="{StaticResource CannotFocusableDataGridCell}" TargetType="{x:Type DataGridCell}" />
+                                </DataGrid.CellStyle>
+                            </DataGrid>
+                        </Expander>
+                        <Expander Header="PTC" IsEnabled="{Binding ElementName=ptcTable, Path=HasItems}">
+                            <DataGrid
+                                x:Name="ptcTable"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                AutoGenerateColumns="False"
+                                BorderThickness="0"
+                                CanUserAddRows="False"
+                                CanUserReorderColumns="False"
+                                CanUserSortColumns="False"
+                                HeadersVisibility="Row"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding CalibrationListPTC}"
+                                PreviewMouseWheel="GeneralDatagrid_PreviewMouseWheel"
+                                RowHeight="24"
+                                SelectionMode="Extended">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding Sensor, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding OldCallOffset, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Old Call Offset" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding NewCallOffset, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="New Call Offset" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding OldGain, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Old Gain" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding NewGain, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="New Gain" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding SensorValue, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor Value" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding SensorRawValue, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor Raw Value" />
+                                </DataGrid.Columns>
+                                <DataGrid.CellStyle>
+                                    <Style BasedOn="{StaticResource CannotFocusableDataGridCell}" TargetType="{x:Type DataGridCell}" />
+                                </DataGrid.CellStyle>
+                            </DataGrid>
+                        </Expander>
+                        <Expander Header="MON" IsEnabled="{Binding ElementName=monTable, Path=HasItems}">
+                            <DataGrid
+                                x:Name="monTable"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                AutoGenerateColumns="False"
+                                BorderThickness="1,1,0,1"
+                                CanUserAddRows="False"
+                                CanUserReorderColumns="False"
+                                CanUserSortColumns="False"
+                                HeadersVisibility="Row"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding CalibrationListMON}"
+                                PreviewMouseWheel="GeneralDatagrid_PreviewMouseWheel"
+                                RowHeight="24"
+                                SelectionMode="Extended">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding Sensor, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding OldCallOffset, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Old Call Offset" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding NewCallOffset, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="New Call Offset" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding OldGain, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Old Gain" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding NewGain, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="New Gain" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding SensorValue, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor Value" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding SensorRawValue, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor Raw Value" />
+                                </DataGrid.Columns>
+                                <DataGrid.CellStyle>
+                                    <Style BasedOn="{StaticResource CannotFocusableDataGridCell}" TargetType="{x:Type DataGridCell}" />
+                                </DataGrid.CellStyle>
+                            </DataGrid>
+                        </Expander>
+
+
+                        <!--<Expander Header="MON CALIBRATION" IsEnabled="{Binding ElementName=monCalibTable, Path=HasItems}">
+                            <DataGrid
+                                x:Name="monCalibTable"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                AutoGenerateColumns="False"
+                                BorderThickness="1,1,0,1"
+                                CanUserAddRows="False"
+                                CanUserReorderColumns="False"
+                                CanUserSortColumns="False"
+                                HeadersVisibility="Row"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding CalibrationListMONCalibration}"
+                                PreviewMouseWheel="GeneralDatagrid_PreviewMouseWheel"
+                                RowHeight="24"
+                                SelectionMode="Extended">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding Sensor, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding OldCallOffset, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Old Call Offset" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding NewCallOffset, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="New Call Offset" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding OldGain, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Old Gain" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding NewGain, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="New Gain" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding SensorValue, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor Value" />
+                                    <DataGridTextColumn
+                                        Width="1*"
+                                        Binding="{Binding SensorRawValue, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Sensor Raw Value" />
+                                </DataGrid.Columns>
+                                <DataGrid.CellStyle>
+                                    <Style BasedOn="{StaticResource CannotFocusableDataGridCell}" TargetType="{x:Type DataGridCell}" />
+                                </DataGrid.CellStyle>
+                            </DataGrid>
+                        </Expander>-->
+
+                    </StackPanel>
+                </ScrollViewer>
+            </WrapPanel>
+
+        </Grid>
+        <!--#endregion-->
+    </Grid>
+
+</UserControl>

@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{25956A51-F1BF-45ED-8F89-16AD92C548A1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RevoScada.Entities</RootNamespace>
+    <AssemblyName>RevoScada.Entities</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.30\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper.Contrib, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.Contrib.2.0.30\lib\net461\Dapper.Contrib.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActiveTag.cs" />
+    <Compile Include="ApplicationProperty.cs" />
+    <Compile Include="Bag.cs" />
+    <Compile Include="Batch.cs" />
+    <Compile Include="BatchQuality.cs" />
+    <Compile Include="BatchQualityDetail.cs" />
+    <Compile Include="Complex\Alarm\AlarmSaveOrder.cs" />
+    <Compile Include="Complex\Alarm\LastDBStatus.cs" />
+    <Compile Include="Complex\Alarm\ReadServiceState.cs" />
+    <Compile Include="Complex\BagDetailDto.cs" />
+    <Compile Include="Complex\BatchSearchDto.cs" />
+    <Compile Include="Complex\PortDetailInfo.cs" />
+    <Compile Include="Complex\ReadResult.cs" />
+    <Compile Include="Complex\Report\AlarmReportModel.cs" />
+    <Compile Include="Complex\Report\BagNumericReportModel.cs" />
+    <Compile Include="Complex\Report\BagSensor.cs" />
+    <Compile Include="Complex\Report\BagSensorAndPartDetail.cs" />
+    <Compile Include="Complex\Report\BatchDetailLotPropertiesReportItem.cs" />
+    <Compile Include="Complex\Report\BatchDetailReportItem.cs" />
+    <Compile Include="Complex\Report\BatchNumericReportModel.cs" />
+    <Compile Include="Complex\Report\BatchReportModel.cs" />
+    <Compile Include="Complex\Report\DataLogReportItem.cs" />
+    <Compile Include="Complex\Report\IntegratedCheckReportItem.cs" />
+    <Compile Include="Complex\Report\NumericReportHeaderInfo.cs" />
+    <Compile Include="Complex\Report\PlcAlarmReportItem.cs" />
+    <Compile Include="Complex\Report\ProcessEventLogReportItem.cs" />
+    <Compile Include="Complex\Report\RecipeDetailFieldNameReportItem.cs" />
+    <Compile Include="Complex\Report\RecipeDetailReportItem.cs" />
+    <Compile Include="Complex\Report\ReportHeaderInfo.cs" />
+    <Compile Include="Complex\Report\SkippedIntegratedCheckReportItem.cs" />
+    <Compile Include="Complex\SetControlItem.cs" />
+    <Compile Include="Complex\SiemensReadRequestItem.cs" />
+    <Compile Include="Complex\SiemensWriteCommandItem.cs" />
+    <Compile Include="Complex\WriteResult.cs" />
+    <Compile Include="Configuration\ApplicationConfiguration.cs" />
+    <Compile Include="Configuration\BaseConfiguration.cs" />
+    <Compile Include="Configuration\Furnace.cs" />
+    <Compile Include="Configuration\FurnaceType.cs" />
+    <Compile Include="Configuration\ITagConfiguration.cs" />
+    <Compile Include="Configuration\OnDemandDataBlock.cs" />
+    <Compile Include="Configuration\PlcDevice.cs" />
+    <Compile Include="Configuration\PlcType.cs" />
+    <Compile Include="Configuration\Service\AlarmServiceConfiguration.cs" />
+    <Compile Include="Configuration\Service\AlarmSettings.cs" />
+    <Compile Include="Configuration\Service\DataLoggerServiceConfiguration.cs" />
+    <Compile Include="Configuration\Service\LogSettings.cs" />
+    <Compile Include="Configuration\Service\ReadServiceConfiguration.cs" />
+    <Compile Include="Configuration\Service\SyncConfiguration.cs" />
+    <Compile Include="Configuration\Service\WorkingEnvironment.cs" />
+    <Compile Include="Configuration\Service\WriteServiceConfiguration.cs" />
+    <Compile Include="Configuration\SiemensPlcConfig.cs" />
+    <Compile Include="Configuration\SiemensTagConfiguration.cs" />
+    <Compile Include="CurrentProcessInfo.cs" />
+    <Compile Include="DataLog.cs" />
+    <Compile Include="DisabledPort.cs" />
+    <Compile Include="Enums\ActiveTagGroups.cs" />
+    <Compile Include="Enums\BatchCurrentState.cs" />
+    <Compile Include="Enums\DataAccessType.cs" />
+    <Compile Include="Enums\IntegrityChecksOperationCommand.cs" />
+    <Compile Include="Enums\LeakageTestInfoCheckStatus.cs" />
+    <Compile Include="Enums\ManuelAutoState.cs" />
+    <Compile Include="Enums\PlcAlarmStatusType.cs" />
+    <Compile Include="Enums\ProcessEventLogType.cs" />
+    <Compile Include="Enums\VacVentOffState.cs" />
+    <Compile Include="IntegratedCheckResult.cs" />
+    <Compile Include="LotProperty.cs" />
+    <Compile Include="PageTagConfiguration.cs" />
+    <Compile Include="PageTagConfigurations\AlarmTagConfigurations.cs" />
+    <Compile Include="PageTagConfigurations\CalibrationItem.cs" />
+    <Compile Include="PageTagConfigurations\CalibrationTagConfigurations.cs" />
+    <Compile Include="PageTagConfigurations\EnterPartsSelectedPortsInfo.cs" />
+    <Compile Include="PageTagConfigurations\EnterPartsTagConfigurations.cs" />
+    <Compile Include="PageTagConfigurations\GlobalTagConfigurations.cs" />
+    <Compile Include="PageTagConfigurations\HamburgerMenuTagConfigurations.cs" />
+    <Compile Include="PageTagConfigurations\IntegrityChecksItem.cs" />
+    <Compile Include="PageTagConfigurations\IntegrityChecksItemsTagConfiguration.cs" />
+    <Compile Include="PageTagConfigurations\IntegrityChecksTagConfigurations.cs" />
+    <Compile Include="PageTagConfigurations\ManualOperationTagConfigurations.cs" />
+    <Compile Include="PageTagConfigurations\OscillationCriteria.cs" />
+    <Compile Include="PageTagConfigurations\OscillationTagConfigurations.cs" />
+    <Compile Include="PageTagConfigurations\PageTagConfigEnum\HamburgerMenuLeft.cs" />
+    <Compile Include="PageTagConfigurations\PageTagConfigEnum\PandIControlName.cs" />
+    <Compile Include="PageTagConfigurations\PageTagConfigEnum\OscillationCriteriaNames.cs" />
+    <Compile Include="PageTagConfigurations\PipingAndInstrumentationTagConfigurations.cs" />
+    <Compile Include="PageTagConfigurations\QualityTagConfigurations.cs" />
+    <Compile Include="PageTagConfigurations\RecipeEditorTagConfigurations.cs" />
+    <Compile Include="PageTagConfigurations\RecipeTagConfigurations.cs" />
+    <Compile Include="PageTagConfigurations\RunOperationTagConfigurations.cs" />
+    <Compile Include="PageTagConfigurations\SensorViewItemsTagConfiguration.cs" />
+    <Compile Include="PageTagConfigurations\SensorViewPorts.cs" />
+    <Compile Include="PageTagConfigurations\SensorViewTagConfigurations.cs" />
+    <Compile Include="PageTagConfigurations\SettingsTagConfigurations.cs" />
+    <Compile Include="PageTagConfigurations\VacuumLinesTagConfigurations.cs" />
+    <Compile Include="PageTagConfigurations\VacuumLinesVacuumItemTag.cs" />
+    <Compile Include="Permission.cs" />
+    <Compile Include="PlcAlarm.cs" />
+    <Compile Include="PredefinedRecipeField.cs" />
+    <Compile Include="ProcessEventLog.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Recipe.cs" />
+    <Compile Include="RecipeDetail.cs" />
+    <Compile Include="RecipeDetailHistory.cs" />
+    <Compile Include="RecipeField.cs" />
+    <Compile Include="RecipeGroup.cs" />
+    <Compile Include="SkippedIntegratedCheckResults.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="UserGroup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,286 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29403.142
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Revo.SiemensDrivers", "Revo.SiemensDrivers\Revo.SiemensDrivers.csproj", "{55DA4645-950A-4931-98DB-07CF634625D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Revo.ServiceUtilities", "Revo.ServiceUtilities\Revo.ServiceUtilities.csproj", "{03CC9EC1-AB1A-4E96-946E-A53451BDB658}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.PlcConnection", "RevoScada.PlcConnection\RevoScada.PlcConnection.csproj", "{065762F4-825B-4CD4-8A97-16247F5A1297}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.PlcAccess", "RevoScada.PlcAccess\RevoScada.PlcAccess.csproj", "{CA188C38-EB4C-4BF5-B78F-8E2430E4F7D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.Cache.Test", "RevoScada.Cache.Test\RevoScada.Cache.Test.csproj", "{357625CD-0BBE-4C02-AE58-3A8F39238410}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.PlcConnection.Test", "RevoScada.PlcConnection.Test\RevoScada.PlcConnection.Test.csproj", "{A0EB9AFC-C99F-4F44-A0B6-CE5685B73CDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Revo.Core", "Revo.Core\Revo.Core.csproj", "{8C3F5AF7-5F3B-4719-BF2A-FED4D814C12D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.PlcAccess.Test", "RevoScada.PlcAccess.Test\RevoScada.PlcAccess.Test.csproj", "{60459440-9813-4177-9C6B-C486366DFBD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.Cache", "RevoScada.Cache\RevoScada.Cache.csproj", "{8855CC60-12C5-4EF7-AB94-C20B7BF499E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.ReadService", "RevoScada.ReadService\RevoScada.ReadService.csproj", "{2E2D9125-5729-4364-A7FA-2A54BE6154CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.WriteService", "RevoScada.WriteService\RevoScada.WriteService.csproj", "{938F441A-5A2B-44D4-B312-D712C3B58131}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.ProcessManagerService", "RevoScada.ProcessManagerService\RevoScada.ProcessManagerService.csproj", "{B38F3ACA-80EB-471B-8F04-D1A7D1C0E043}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.ProcessController", "RevoScada.ProcessController\RevoScada.ProcessController.csproj", "{F391A8BC-0B84-4943-87BA-30E93B83E120}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.ProcessController.Test", "RevoScada.ProcessController.Test\RevoScada.ProcessController.Test.csproj", "{0F6E94EB-96A1-456B-84D4-CC5104BB1887}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.DataLoggerService", "RevoScada.DataLoggerService\RevoScada.DataLoggerService.csproj", "{20193B80-AA1D-4ECE-AC19-04FB55FE5020}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.AlarmService", "RevoScada.AlarmService\RevoScada.AlarmService.csproj", "{FD3142D0-66A1-4433-B5A8-16293F071766}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.Synchronization", "RevoScada.Synchronization\RevoScada.Synchronization.csproj", "{10FC1814-B447-4DB3-8F82-58499A1201EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.Synchronization.Test", "RevoScada.Synchronization.Test\RevoScada.Synchronization.Test.csproj", "{82007D22-4989-454F-AE16-BA0D10F0FD10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.SynchronizationService", "RevoScada.SynchronizationService\RevoScada.SynchronizationService.csproj", "{50CC108B-73F4-474A-8E24-56BD98D2534C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.Business", "RevoScada.Business\RevoScada.Business.csproj", "{3929AA3D-D554-4F4E-88BE-BFC96B656B0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.DataAccess", "RevoScada.DataAccess\RevoScada.DataAccess.csproj", "{F0412F69-7EC7-4D6E-A5F3-74012807BC55}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.Entities", "RevoScada.Entities\RevoScada.Entities.csproj", "{25956A51-F1BF-45ED-8F89-16AD92C548A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.Configurator", "RevoScada.Configurator\RevoScada.Configurator.csproj", "{9A7ADDB5-589B-4456-9ADD-64D82E01DE07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.Business.Test", "RevoScada.Business.Test\RevoScada.Business.Test.csproj", "{46A93D7A-989C-4907-8426-272D3831328E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.Configurator.Test", "RevoScada.Configurator.Test\RevoScada.Configurator.Test.csproj", "{FE0A15BC-0AE7-444C-90F9-119BF7BE5EA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.DataAccess.Test", "RevoScada.DataAccess.Test\RevoScada.DataAccess.Test.csproj", "{DC52E6F5-4F78-4C30-94C2-EDD09E9D02E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.DesktopApplication", "RevoScada.DesktopApplication\RevoScada.DesktopApplication.csproj", "{9E203224-3E32-4CA9-A758-B275337F5A3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.DesktopApplication.Test", "RevoScada.DesktopApplication.Test\RevoScada.DesktopApplication.Test.csproj", "{62C6D69D-A2D1-4A6C-9F76-9B88D3385DA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevoScada.ConfigHelper", "RevoScada.ConfigHelper\RevoScada.ConfigHelper.csproj", "{1F5AEE3C-68FD-48B9-A638-44CC498A3B6A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{55DA4645-950A-4931-98DB-07CF634625D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55DA4645-950A-4931-98DB-07CF634625D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55DA4645-950A-4931-98DB-07CF634625D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55DA4645-950A-4931-98DB-07CF634625D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03CC9EC1-AB1A-4E96-946E-A53451BDB658}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03CC9EC1-AB1A-4E96-946E-A53451BDB658}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03CC9EC1-AB1A-4E96-946E-A53451BDB658}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03CC9EC1-AB1A-4E96-946E-A53451BDB658}.Release|Any CPU.Build.0 = Release|Any CPU
+		{065762F4-825B-4CD4-8A97-16247F5A1297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{065762F4-825B-4CD4-8A97-16247F5A1297}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{065762F4-825B-4CD4-8A97-16247F5A1297}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{065762F4-825B-4CD4-8A97-16247F5A1297}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA188C38-EB4C-4BF5-B78F-8E2430E4F7D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA188C38-EB4C-4BF5-B78F-8E2430E4F7D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA188C38-EB4C-4BF5-B78F-8E2430E4F7D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA188C38-EB4C-4BF5-B78F-8E2430E4F7D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{357625CD-0BBE-4C02-AE58-3A8F39238410}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{357625CD-0BBE-4C02-AE58-3A8F39238410}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{357625CD-0BBE-4C02-AE58-3A8F39238410}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{357625CD-0BBE-4C02-AE58-3A8F39238410}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0EB9AFC-C99F-4F44-A0B6-CE5685B73CDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0EB9AFC-C99F-4F44-A0B6-CE5685B73CDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0EB9AFC-C99F-4F44-A0B6-CE5685B73CDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0EB9AFC-C99F-4F44-A0B6-CE5685B73CDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C3F5AF7-5F3B-4719-BF2A-FED4D814C12D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C3F5AF7-5F3B-4719-BF2A-FED4D814C12D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C3F5AF7-5F3B-4719-BF2A-FED4D814C12D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C3F5AF7-5F3B-4719-BF2A-FED4D814C12D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60459440-9813-4177-9C6B-C486366DFBD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60459440-9813-4177-9C6B-C486366DFBD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60459440-9813-4177-9C6B-C486366DFBD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60459440-9813-4177-9C6B-C486366DFBD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8855CC60-12C5-4EF7-AB94-C20B7BF499E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8855CC60-12C5-4EF7-AB94-C20B7BF499E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8855CC60-12C5-4EF7-AB94-C20B7BF499E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8855CC60-12C5-4EF7-AB94-C20B7BF499E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E2D9125-5729-4364-A7FA-2A54BE6154CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E2D9125-5729-4364-A7FA-2A54BE6154CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E2D9125-5729-4364-A7FA-2A54BE6154CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E2D9125-5729-4364-A7FA-2A54BE6154CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{938F441A-5A2B-44D4-B312-D712C3B58131}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{938F441A-5A2B-44D4-B312-D712C3B58131}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{938F441A-5A2B-44D4-B312-D712C3B58131}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{938F441A-5A2B-44D4-B312-D712C3B58131}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B38F3ACA-80EB-471B-8F04-D1A7D1C0E043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B38F3ACA-80EB-471B-8F04-D1A7D1C0E043}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B38F3ACA-80EB-471B-8F04-D1A7D1C0E043}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B38F3ACA-80EB-471B-8F04-D1A7D1C0E043}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F391A8BC-0B84-4943-87BA-30E93B83E120}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F391A8BC-0B84-4943-87BA-30E93B83E120}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F391A8BC-0B84-4943-87BA-30E93B83E120}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F391A8BC-0B84-4943-87BA-30E93B83E120}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F6E94EB-96A1-456B-84D4-CC5104BB1887}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F6E94EB-96A1-456B-84D4-CC5104BB1887}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F6E94EB-96A1-456B-84D4-CC5104BB1887}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F6E94EB-96A1-456B-84D4-CC5104BB1887}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20193B80-AA1D-4ECE-AC19-04FB55FE5020}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20193B80-AA1D-4ECE-AC19-04FB55FE5020}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20193B80-AA1D-4ECE-AC19-04FB55FE5020}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20193B80-AA1D-4ECE-AC19-04FB55FE5020}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD3142D0-66A1-4433-B5A8-16293F071766}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD3142D0-66A1-4433-B5A8-16293F071766}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD3142D0-66A1-4433-B5A8-16293F071766}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD3142D0-66A1-4433-B5A8-16293F071766}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10FC1814-B447-4DB3-8F82-58499A1201EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10FC1814-B447-4DB3-8F82-58499A1201EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10FC1814-B447-4DB3-8F82-58499A1201EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10FC1814-B447-4DB3-8F82-58499A1201EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82007D22-4989-454F-AE16-BA0D10F0FD10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82007D22-4989-454F-AE16-BA0D10F0FD10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82007D22-4989-454F-AE16-BA0D10F0FD10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82007D22-4989-454F-AE16-BA0D10F0FD10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50CC108B-73F4-474A-8E24-56BD98D2534C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50CC108B-73F4-474A-8E24-56BD98D2534C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50CC108B-73F4-474A-8E24-56BD98D2534C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50CC108B-73F4-474A-8E24-56BD98D2534C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3929AA3D-D554-4F4E-88BE-BFC96B656B0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3929AA3D-D554-4F4E-88BE-BFC96B656B0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3929AA3D-D554-4F4E-88BE-BFC96B656B0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3929AA3D-D554-4F4E-88BE-BFC96B656B0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0412F69-7EC7-4D6E-A5F3-74012807BC55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0412F69-7EC7-4D6E-A5F3-74012807BC55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0412F69-7EC7-4D6E-A5F3-74012807BC55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0412F69-7EC7-4D6E-A5F3-74012807BC55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25956A51-F1BF-45ED-8F89-16AD92C548A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25956A51-F1BF-45ED-8F89-16AD92C548A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25956A51-F1BF-45ED-8F89-16AD92C548A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25956A51-F1BF-45ED-8F89-16AD92C548A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A7ADDB5-589B-4456-9ADD-64D82E01DE07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A7ADDB5-589B-4456-9ADD-64D82E01DE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A7ADDB5-589B-4456-9ADD-64D82E01DE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A7ADDB5-589B-4456-9ADD-64D82E01DE07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46A93D7A-989C-4907-8426-272D3831328E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46A93D7A-989C-4907-8426-272D3831328E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46A93D7A-989C-4907-8426-272D3831328E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46A93D7A-989C-4907-8426-272D3831328E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE0A15BC-0AE7-444C-90F9-119BF7BE5EA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE0A15BC-0AE7-444C-90F9-119BF7BE5EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE0A15BC-0AE7-444C-90F9-119BF7BE5EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE0A15BC-0AE7-444C-90F9-119BF7BE5EA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC52E6F5-4F78-4C30-94C2-EDD09E9D02E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC52E6F5-4F78-4C30-94C2-EDD09E9D02E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC52E6F5-4F78-4C30-94C2-EDD09E9D02E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC52E6F5-4F78-4C30-94C2-EDD09E9D02E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E203224-3E32-4CA9-A758-B275337F5A3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E203224-3E32-4CA9-A758-B275337F5A3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E203224-3E32-4CA9-A758-B275337F5A3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E203224-3E32-4CA9-A758-B275337F5A3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62C6D69D-A2D1-4A6C-9F76-9B88D3385DA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62C6D69D-A2D1-4A6C-9F76-9B88D3385DA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62C6D69D-A2D1-4A6C-9F76-9B88D3385DA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62C6D69D-A2D1-4A6C-9F76-9B88D3385DA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F5AEE3C-68FD-48B9-A638-44CC498A3B6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F5AEE3C-68FD-48B9-A638-44CC498A3B6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F5AEE3C-68FD-48B9-A638-44CC498A3B6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F5AEE3C-68FD-48B9-A638-44CC498A3B6A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D265F8F4-59E2-4B9A-8FC0-3B9535D55BC5}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 30
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://dev.azure.com/revolvind
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Revo.Core\\Revo.Core.csproj
+		SccProjectName1 = Revo.Core
+		SccLocalPath1 = Revo.Core
+		SccProjectUniqueName2 = Revo.ServiceUtilities\\Revo.ServiceUtilities.csproj
+		SccProjectName2 = Revo.ServiceUtilities
+		SccLocalPath2 = Revo.ServiceUtilities
+		SccProjectUniqueName3 = Revo.SiemensDrivers\\Revo.SiemensDrivers.csproj
+		SccProjectName3 = Revo.SiemensDrivers
+		SccLocalPath3 = Revo.SiemensDrivers
+		SccProjectUniqueName4 = RevoScada.Cache.Test\\RevoScada.Cache.Test.csproj
+		SccProjectName4 = RevoScada.Cache.Test
+		SccLocalPath4 = RevoScada.Cache.Test
+		SccProjectUniqueName5 = RevoScada.PlcAccess.Test\\RevoScada.PlcAccess.Test.csproj
+		SccProjectName5 = RevoScada.PlcAccess.Test
+		SccLocalPath5 = RevoScada.PlcAccess.Test
+		SccProjectUniqueName6 = RevoScada.PlcAccess\\RevoScada.PlcAccess.csproj
+		SccProjectName6 = RevoScada.PlcAccess
+		SccLocalPath6 = RevoScada.PlcAccess
+		SccProjectUniqueName7 = RevoScada.PlcConnection.Test\\RevoScada.PlcConnection.Test.csproj
+		SccProjectName7 = RevoScada.PlcConnection.Test
+		SccLocalPath7 = RevoScada.PlcConnection.Test
+		SccProjectUniqueName8 = RevoScada.PlcConnection\\RevoScada.PlcConnection.csproj
+		SccProjectName8 = RevoScada.PlcConnection
+		SccLocalPath8 = RevoScada.PlcConnection
+		SccProjectUniqueName9 = RevoScada.Cache\\RevoScada.Cache.csproj
+		SccProjectName9 = RevoScada.Cache
+		SccLocalPath9 = RevoScada.Cache
+		SccProjectUniqueName10 = RevoScada.ReadService\\RevoScada.ReadService.csproj
+		SccProjectName10 = RevoScada.ReadService
+		SccLocalPath10 = RevoScada.ReadService
+		SccProjectUniqueName11 = RevoScada.WriteService\\RevoScada.WriteService.csproj
+		SccProjectName11 = RevoScada.WriteService
+		SccLocalPath11 = RevoScada.WriteService
+		SccProjectUniqueName12 = RevoScada.ProcessManagerService\\RevoScada.ProcessManagerService.csproj
+		SccProjectName12 = RevoScada.ProcessManagerService
+		SccLocalPath12 = RevoScada.ProcessManagerService
+		SccProjectUniqueName13 = RevoScada.ProcessController\\RevoScada.ProcessController.csproj
+		SccProjectName13 = RevoScada.ProcessController
+		SccLocalPath13 = RevoScada.ProcessController
+		SccProjectUniqueName14 = RevoScada.ProcessController.Test\\RevoScada.ProcessController.Test.csproj
+		SccProjectName14 = RevoScada.ProcessController.Test
+		SccLocalPath14 = RevoScada.ProcessController.Test
+		SccProjectUniqueName15 = RevoScada.DataLoggerService\\RevoScada.DataLoggerService.csproj
+		SccProjectName15 = RevoScada.DataLoggerService
+		SccLocalPath15 = RevoScada.DataLoggerService
+		SccProjectUniqueName16 = RevoScada.AlarmService\\RevoScada.AlarmService.csproj
+		SccProjectName16 = RevoScada.AlarmService
+		SccLocalPath16 = RevoScada.AlarmService
+		SccProjectUniqueName17 = RevoScada.Synchronization\\RevoScada.Synchronization.csproj
+		SccProjectName17 = RevoScada.Synchronization
+		SccLocalPath17 = RevoScada.Synchronization
+		SccProjectUniqueName18 = RevoScada.Synchronization.Test\\RevoScada.Synchronization.Test.csproj
+		SccProjectName18 = RevoScada.Synchronization.Test
+		SccLocalPath18 = RevoScada.Synchronization.Test
+		SccProjectUniqueName19 = RevoScada.SynchronizationService\\RevoScada.SynchronizationService.csproj
+		SccProjectName19 = RevoScada.SynchronizationService
+		SccLocalPath19 = RevoScada.SynchronizationService
+		SccProjectUniqueName20 = RevoScada.Business\\RevoScada.Business.csproj
+		SccProjectName20 = RevoScada.Business
+		SccLocalPath20 = RevoScada.Business
+		SccProjectUniqueName21 = RevoScada.DataAccess\\RevoScada.DataAccess.csproj
+		SccProjectName21 = RevoScada.DataAccess
+		SccLocalPath21 = RevoScada.DataAccess
+		SccProjectUniqueName22 = RevoScada.Entities\\RevoScada.Entities.csproj
+		SccProjectName22 = RevoScada.Entities
+		SccLocalPath22 = RevoScada.Entities
+		SccProjectUniqueName23 = RevoScada.Configurator\\RevoScada.Configurator.csproj
+		SccProjectName23 = RevoScada.Configurator
+		SccLocalPath23 = RevoScada.Configurator
+		SccProjectUniqueName24 = RevoScada.Business.Test\\RevoScada.Business.Test.csproj
+		SccProjectName24 = RevoScada.Business.Test
+		SccLocalPath24 = RevoScada.Business.Test
+		SccProjectUniqueName25 = RevoScada.Configurator.Test\\RevoScada.Configurator.Test.csproj
+		SccProjectName25 = RevoScada.Configurator.Test
+		SccLocalPath25 = RevoScada.Configurator.Test
+		SccProjectUniqueName26 = RevoScada.DataAccess.Test\\RevoScada.DataAccess.Test.csproj
+		SccProjectName26 = RevoScada.DataAccess.Test
+		SccLocalPath26 = RevoScada.DataAccess.Test
+		SccProjectUniqueName27 = RevoScada.DesktopApplication\\RevoScada.DesktopApplication.csproj
+		SccProjectName27 = RevoScada.DesktopApplication
+		SccLocalPath27 = RevoScada.DesktopApplication
+		SccProjectUniqueName28 = RevoScada.DesktopApplication.Test\\RevoScada.DesktopApplication.Test.csproj
+		SccProjectName28 = RevoScada.DesktopApplication.Test
+		SccLocalPath28 = RevoScada.DesktopApplication.Test
+		SccProjectUniqueName29 = RevoScada.ConfigHelper\\RevoScada.ConfigHelper.csproj
+		SccProjectName29 = RevoScada.ConfigHelper
+		SccLocalPath29 = RevoScada.ConfigHelper
+	EndGlobalSection
+EndGlobal

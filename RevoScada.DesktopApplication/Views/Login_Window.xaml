@@ -1,0 +1,231 @@
+﻿<Window
+    x:Class="RevoScada.DesktopApplication.Views.Login_Window"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:RevoScada.DesktopApplication.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:RevoScada.DesktopApplication.ViewModels"
+    Title="Login"
+    Width="1920"
+    Height="1080"
+    AllowsTransparency="True"
+    FontFamily="Verdana"
+    FontSize="14"
+    Loaded="Window_Loaded"
+    ResizeMode="NoResize"
+    Unloaded="Window_Unloaded"
+    WindowState="Maximized"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Window.Background>
+        <SolidColorBrush Opacity="0.75" Color="#606060" />
+    </Window.Background>
+    <Window.DataContext>
+        <vm:LoginVM />
+    </Window.DataContext>
+    <Window.Resources>
+        <converters:BoolToString x:Key="BoolToString" />
+        <converters:VisibilityToOppositeVisibility x:Key="VisibilityToOppositeVisibility" />
+        <converters:TagToVisibility x:Key="TagToVisibility" />
+        <converters:BoolToVisibility x:Key="BoolToVisibility" />
+
+        <Style TargetType="{x:Type dxe:TextEdit}">
+            <Setter Property="Width" Value="220" />
+            <Setter Property="Height" Value="26" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ValidationError.ErrorContent, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
+                    <Setter Property="ShowErrorToolTip" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type dxe:PasswordBoxEdit}">
+            <Setter Property="Width" Value="220" />
+            <Setter Property="Height" Value="26" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ValidationError.ErrorContent, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
+                    <Setter Property="ShowErrorToolTip" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="Foreground" Value="{StaticResource CustomPassiveBlackColor}" />
+        </Style>
+    </Window.Resources>
+    <DockPanel HorizontalAlignment="Center">
+
+        <Border
+            Margin="30,30,30,10"
+            Padding="25"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Background="#ebebeb"
+            Visibility="{Binding LoginSectionVisibility}">
+            <StackPanel x:Name="loginSp" dxe:ValidationService.IsValidationContainer="True">
+                <Label
+                    Margin="60,15"
+                    HorizontalContentAlignment="Center"
+                    Content="User Login"
+                    FontSize="20"
+                    FontWeight="SemiBold"
+                    Foreground="{StaticResource CustomPassiveBlackColor}" />
+                <Separator Margin="0,-10,0,10" />
+                <Label Content="User Name" FontWeight="{Binding ElementName=loginUserName, Path=IsFocused, Converter={StaticResource BoolToString}}" />
+                <dxe:TextEdit
+                    x:Name="loginUserName"
+                    HorizontalAlignment="Left"
+                    Focusable="True"
+                    InvalidValueBehavior="AllowLeaveEditor"
+                    KeyUp="GenInput_KeyUp"
+                    Validate="GeneralNameValidate" />
+                <Label Content="Password" FontWeight="{Binding ElementName=loginPassword, Path=IsFocused, Converter={StaticResource BoolToString}}" />
+                <StackPanel Orientation="Horizontal">
+                    <dxe:PasswordBoxEdit
+                        x:Name="loginPassword"
+                        HorizontalAlignment="Left"
+                        InvalidValueBehavior="AllowLeaveEditor"
+                        KeyUp="GenInput_KeyUp"
+                        Validate="GeneralNameValidate"
+                        Visibility="{Binding ElementName=eyeBtn, Path=Tag, Converter={StaticResource TagToVisibility}}" />
+                    <dxe:TextEdit
+                        EditValue="{Binding ElementName=loginPassword, Path=Password}"
+                        IsReadOnly="True"
+                        Visibility="{Binding ElementName=eyeBtn, Path=IsPressed, Converter={StaticResource BoolToVisibility}}" />
+                    <Button
+                        x:Name="eyeBtn"
+                        Margin="10,0,0,0"
+                        IsEnabled="{Binding ElementName=loginPassword, Path=HasValidationError, Converter={StaticResource ReverseBool}}"
+                        Style="{StaticResource eyeBtn}" />
+                </StackPanel>
+
+                <!--  Sign Up button  -->
+                <Button
+                    x:Name="createAccountBtn"
+                    Height="20"
+                    Margin="0,5,0,0"
+                    HorizontalAlignment="Left"
+                    Click="createAccountBtn_Click"
+                    Content="Create Account"
+                    Foreground="{StaticResource CustomPassiveBlackColor}"
+                    IsEnabled="{Binding IsCreateAccountBtnEnabled}"
+                    Style="{StaticResource changeUserBtn_underlined}" />
+                <!---->
+
+                <StackPanel
+                    Margin="0,15,10,15"
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal">
+                    <dx:SimpleButton
+                        x:Name="loginBtn"
+                        Width="100"
+                        Height="26"
+                        Click="LoginBtn_Click"
+                        Content="Login" />
+                    <dx:SimpleButton
+                        x:Name="closeBtn"
+                        Width="100"
+                        Height="26"
+                        Margin="20,0,0,0"
+                        Click="CloseBtn_Click"
+                        Content="Close" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <Border
+            Margin="30,30,30,10"
+            Padding="25"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Background="#ebebeb"
+            Visibility="{Binding LoginSectionVisibility, Converter={StaticResource VisibilityToOppositeVisibility}}">
+            <Border.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Width" Value="175" />
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                    <Setter Property="Margin" Value="0,5" />
+                    <Setter Property="Foreground" Value="{StaticResource CustomPassiveBlackColor}" />
+                </Style>
+            </Border.Resources>
+            <StackPanel>
+                <Label
+                    Margin="60,15"
+                    HorizontalContentAlignment="Center"
+                    Content="Active User"
+                    FontSize="20"
+                    FontWeight="SemiBold"
+                    Foreground="{StaticResource CustomPassiveBlackColor}" />
+                <Separator Margin="0,-10,0,10" />
+                <StackPanel Orientation="Horizontal">
+                    <Label
+                        Width="100"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="User Name"
+                        FontSize="15"
+                        FontWeight="Bold" />
+                    <TextBlock Text="{Binding ActiveUser.UserName}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Label
+                        Width="100"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="First Name"
+                        FontSize="15"
+                        FontWeight="Bold" />
+                    <TextBlock Text="{Binding ActiveUser.FirstName}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Label
+                        Width="100"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Last Name"
+                        FontSize="15"
+                        FontWeight="Bold" />
+                    <TextBlock Text="{Binding ActiveUser.LastName}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Label
+                        Width="100"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Group"
+                        FontSize="15"
+                        FontWeight="Bold" />
+                    <TextBlock Text="{Binding ActiveUser.GroupName}" />
+                </StackPanel>
+
+                <StackPanel
+                    Margin="0,10,10,15"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <dx:SimpleButton
+                        x:Name="logoutBtn"
+                        Width="100"
+                        Height="26"
+                        Click="logoutBtn_Click"
+                        Content="Logout" />
+                    <dx:SimpleButton
+                        x:Name="closeLogoutBtn"
+                        Width="100"
+                        Height="26"
+                        Margin="20,0,0,0"
+                        Click="CloseBtn_Click"
+                        Content="Close" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </DockPanel>
+</Window>

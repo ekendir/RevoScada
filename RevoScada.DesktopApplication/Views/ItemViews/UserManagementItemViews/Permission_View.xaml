@@ -1,0 +1,309 @@
+﻿<UserControl x:Class="RevoScada.DesktopApplication.Views.ItemViews.UserManagementItemViews.Permission_View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views.ItemViews.UserManagementItemViews"
+             mc:Ignorable="d" d:DesignHeight="1080" d:DesignWidth="1920" Loaded="UserControl_Loaded" Background="White">
+    <UserControl.Resources>
+        <Storyboard x:Key="dbResultPositiveFadeOutStoryBoard">
+            <DoubleAnimation
+                Storyboard.TargetName="dbSaveResultPositivePopup"
+                Storyboard.TargetProperty="Opacity"
+                From="0"
+                To="1"
+                Duration="0:0:0.5" />
+            <DoubleAnimation
+                BeginTime="0:0:1.75"
+                Storyboard.TargetName="dbSaveResultPositivePopup"
+                Storyboard.TargetProperty="Opacity"
+                From="1"
+                To="0"
+                Duration="0:0:0.5" />
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="dbSaveResultPositivePopup" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
+                <DiscreteObjectKeyFrame KeyTime="0:0:2.25" Value="{x:Static Visibility.Collapsed}" />
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Key="dbResultNegativeFadeOutStoryBoard">
+            <DoubleAnimation
+                Storyboard.TargetName="dbSaveResultNegativePopup"
+                Storyboard.TargetProperty="Opacity"
+                From="0"
+                To="1"
+                Duration="0:0:0.5" />
+            <DoubleAnimation
+                BeginTime="0:0:1.75"
+                Storyboard.TargetName="dbSaveResultNegativePopup"
+                Storyboard.TargetProperty="Opacity"
+                From="1"
+                To="0"
+                Duration="0:0:0.5" />
+            <ObjectAnimationUsingKeyFrames
+                BeginTime="00:00:00"
+                Storyboard.TargetName="dbSaveResultNegativePopup"
+                Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
+                <DiscreteObjectKeyFrame KeyTime="0:0:2.25" Value="{x:Static Visibility.Collapsed}" />
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+    <StackPanel Orientation="Horizontal" Background="{StaticResource LightGrayColor}">
+        <!--#region Save Result Popups-->
+        <Grid
+            x:Name="dbSaveResultNegativePopup"
+            Grid.ColumnSpan="2"
+            Panel.ZIndex="5"
+            Opacity="0"
+            Visibility="Collapsed">
+            <Border
+                Width="230"
+                Height="60"
+                Background="{StaticResource LightGrayColor}">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource AlarmRedColor}"
+                        Text="İşlem başarısız oldu!" />
+                    <Image
+                        Width="24"
+                        Height="24"
+                        Margin="7,0,0,0"
+                        Source="pack://siteoforigin:,,,/Resources/Red_Cross_48px.png" />
+                </StackPanel>
+            </Border>
+            <Grid.Background>
+                <SolidColorBrush Opacity="0.4" Color="#606060" />
+            </Grid.Background>
+        </Grid>
+        <Grid
+            x:Name="dbSaveResultPositivePopup"
+            Grid.ColumnSpan="2"
+            Panel.ZIndex="5"
+            Opacity="0"
+            Visibility="Collapsed">
+            <Border
+                Width="220"
+                Height="60"
+                Background="{StaticResource LightGrayColor}">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource CustomPassiveBlackColor}"
+                        Text="İşlem başarılı oldu." />
+                    <Image
+                        Width="24"
+                        Height="24"
+                        Margin="7,0,0,0"
+                        Source="pack://siteoforigin:,,,/Resources/Green_Tick_48px.png" />
+                </StackPanel>
+            </Border>
+            <Grid.Background>
+                <SolidColorBrush Opacity="0.4" Color="#606060" />
+            </Grid.Background>
+        </Grid>
+        <!--#endregion-->
+
+        <DockPanel>
+            <ComboBox DockPanel.Dock="Top"
+                     x:Name="userGroupCombobox"
+                     Width="550"
+                     Margin="10,5,0,5"
+                     HorizontalAlignment="Left"
+                     DisplayMemberPath="GroupName"
+                     FontSize="15"
+                     ItemsSource="{Binding ActiveUserGroups, NotifyOnTargetUpdated=True}"
+                     SelectedItem="{Binding SelectedUserGroup, Mode=TwoWay}"
+                     SelectionChanged="userGroupCombobox_SelectionChanged"
+                     Style="{StaticResource calibrationComboBox}"
+                     Text="Select a user group" />
+            <!-- Assigned users -->
+            <DockPanel Visibility="{Binding AssignedUsersVisibility}">
+                <DockPanel.Style>
+                    <Style TargetType="{x:Type DockPanel}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding AssignedUsersVisibility}" Value="Visible">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="0"
+                                            To="1"
+                                            Duration="0:0:0.5" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="1"
+                                            To="0"
+                                            Duration="0:0:0.5" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DockPanel.Style>
+                <TextBlock DockPanel.Dock="Top" Margin="10,0,0,5" Text="Assigned users" />
+                <ListView DockPanel.Dock="Bottom"
+                         x:Name="assignedUsersListbox"
+                         Width="550"
+                         Margin="10,0,0,5"
+                         HorizontalAlignment="Left"
+                         Background="White"
+                         DisplayMemberPath="UserName"
+                         FontSize="18"
+                         FontWeight="DemiBold"
+                         ItemsSource="{Binding AssignedUsers}"
+                         SelectionMode="Single" />
+            </DockPanel>
+        </DockPanel>
+        <!--#region Permission Control Grid-->
+        <dxg:GridControl
+                    x:Name="permissionControlGrid"
+                    Grid.Column="1"
+                    Width="550"
+                    Margin="10,5,10,5"
+                    HorizontalAlignment="Left"
+                    HorizontalContentAlignment="Center"
+                    AllowDrop="False"
+                    ItemsSource="{Binding PermissionGridData}"
+                    SelectionMode="Row"
+                    Visibility="{Binding AssignedUsersVisibility}">
+            <dxg:GridControl.Style>
+                <Style TargetType="{x:Type dxg:GridControl}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding AssignedUsersVisibility}" Value="Visible">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="0"
+                                            To="1"
+                                            Duration="0:0:0.5" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="1"
+                                            To="0"
+                                            Duration="0:0:0.5" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </dxg:GridControl.Style>
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn
+                            Width="4*"
+                            FieldName="Permission"
+                            HorizontalHeaderContentAlignment="Center"
+                            ReadOnly="True">
+                    <dxg:GridColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                      Margin="5,0,5,0"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Center"
+                                      FontSize="14"
+                                      Foreground="{StaticResource CustomPassiveBlackColor}"
+                                      Text="{Binding RowData.Row.PermissionTag}">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding RowData.DataContext.IsEnabled}" Value="False">
+                                                <Setter Property="Opacity" Value="0.5" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding RowData.DataContext.PermissionGroup}" Value="1">
+                                                <Setter Property="FontWeight" Value="Bold" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding RowData.DataContext.PermissionGroup}" Value="0">
+                                                <Setter Property="FontWeight" Value="SemiBold" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </dxg:GridColumn.CellTemplate>
+                </dxg:GridColumn>
+                <dxg:GridColumn
+                            Width="1*"
+                            HorizontalHeaderContentAlignment="Center"
+                            ReadOnly="True">
+                    <dxg:GridColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <CheckBox
+                                      x:Name="allPermissionsCheckbox"
+                                      Command="{Binding Path=DataContext.SelectAllPermissionsCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dxg:GridControl}}}"
+                                      CommandParameter="{Binding ElementName=allPermissionsCheckbox, Path=IsChecked}"
+                                      IsChecked="{Binding Path=DataContext.IsSelectAllPermissions, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dxg:GridControl}}}"
+                                      IsEnabled="{Binding Path=DataContext.IsSelectAllPermissionsCbEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dxg:GridControl}}}"
+                                      Style="{StaticResource passiveBlack_checkbox}" />
+                        </DataTemplate>
+                    </dxg:GridColumn.HeaderTemplate>
+                    <dxg:GridColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox
+                                     x:Name="permissionCb"
+                                     HorizontalAlignment="Center"
+                                     Checked="permissionCb_Checked"
+                                     IsChecked="{Binding RowData.Row.IsSelected}"
+                                     IsEnabled="{Binding RowData.Row.IsEnabled}"
+                                     Style="{StaticResource passiveBlack_checkbox}"
+                                     Tag="{Binding RowData.Row.CheckboxTag}"
+                                     Unchecked="permissionCb_Unchecked" />
+                        </DataTemplate>
+                    </dxg:GridColumn.CellTemplate>
+                </dxg:GridColumn>
+
+            </dxg:GridControl.Columns>
+            <dxg:GridControl.View>
+                <dxg:TableView
+                            AllowColumnMoving="False"
+                            AllowEditing="False"
+                            NavigationStyle="Row"
+                            ShowGroupPanel="False"
+                            ShowIndicator="False"
+                            VerticalScrollbarVisibility="Auto" />
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+        <!--#endregion-->
+        <StackPanel.Style>
+            <Style TargetType="{x:Type StackPanel}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding HasGenControlPermissionGranted}" Value="False">
+                        <Setter Property="Opacity" Value="0.5"/>
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Setter Property="ToolTip" Value="{Binding DisabledControlTooltipText}"/>
+                        <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </StackPanel.Style>
+    </StackPanel>
+</UserControl>

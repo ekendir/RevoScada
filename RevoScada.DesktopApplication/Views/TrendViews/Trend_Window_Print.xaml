@@ -1,0 +1,275 @@
+﻿<Window x:Class="RevoScada.DesktopApplication.Views.TrendViews.Trend_Window_Print"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:tvm="clr-namespace:RevoScada.DesktopApplication.ViewModels.TrendViewModels"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+        xmlns:converters="clr-namespace:RevoScada.DesktopApplication.Converters"
+        xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views.TrendViews"
+        mc:Ignorable="d"
+        Title="Trend Print" Height="768" Width="1104" Loaded="Window_Loaded">
+    <Window.Resources>
+        <converters:StringLengthToFontSize x:Key="StringLengthToFontSize" />
+
+        <Style TargetType="dxg:HeaderContentControl" x:Key="HeaderStyle">
+            <Setter Property="TextBlock.FontSize" Value="10"/>
+        </Style>
+
+        <Style TargetType="{x:Type Label}" x:Key="labelTitle">
+            <Setter Property="Foreground" Value="{StaticResource CustomBlackColor}"/>
+            <Setter Property="Background" Value="{StaticResource GrayColor}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="3 2 3 2"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Width" Value="90"/>
+        </Style>
+        <Style TargetType="{x:Type TextBlock}" x:Key="tbContent">
+            <Setter Property="Foreground" Value="{StaticResource CustomBlackColor}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="1 3 1 3"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    <Window.DataContext>
+        <tvm:TrendPrintVM/>
+    </Window.DataContext>
+    <Grid Margin="20 10 10 10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.2*"/>
+            <RowDefinition Height="7.2*"/>
+            <RowDefinition Height="1.6*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Background="{StaticResource GeneralWhite}">
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 5 0 0">
+                <StackPanel Width="400">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="BATCH NAME:" Margin="2" Style="{StaticResource labelTitle}"/>
+                        <TextBlock Margin="5 2 2 2" Text="{Binding BatchName}" Style="{StaticResource tbContent}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="BAG NAME:" Margin="2" Style="{StaticResource labelTitle}"/>
+                        <TextBlock x:Name="bagNameContent" Margin="5 2 2 2" 
+                                   Text="{Binding BagName}" 
+                                   TextWrapping="Wrap" Style="{StaticResource tbContent}" Width="285"
+                                   FontSize="{Binding ElementName=bagNameContent, Path=Text.Length, Converter={StaticResource StringLengthToFontSize}}"/>
+                    </StackPanel>
+                </StackPanel>
+                
+                <!--Second Section-->
+                <StackPanel Width="220" Panel.ZIndex="1">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="SOIR NAME:" Margin="2" Style="{StaticResource labelTitle}"/>
+                        <TextBlock Margin="5 2 2 2" Text="{Binding SoirName}" Style="{StaticResource tbContent}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="PART NAME:" Margin="2" Style="{StaticResource labelTitle}"/>
+                        <TextBlock Margin="5 2 2 2" Text="{Binding PartName}" Style="{StaticResource tbContent}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="TOOL NAME:" Margin="2" Style="{StaticResource labelTitle}"/>
+                        <TextBlock Margin="5 2 2 2" Text="{Binding ToolName}" Style="{StaticResource tbContent}"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!--Third Section-->
+                <StackPanel VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="RECIPE NAME:" Margin="2" Style="{StaticResource labelTitle}"/>
+                        <TextBlock Margin="5 2 2 2" Text="{Binding RecipeName}" Style="{StaticResource tbContent}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="START DATE:" Margin="2" Style="{StaticResource labelTitle}"/>
+                        <TextBlock Margin="5 2 2 2" Text="{Binding StartDate}" Style="{StaticResource tbContent}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="END DATE:" Margin="2" Style="{StaticResource labelTitle}"/>
+                        <TextBlock Margin="5 2 2 2" Text="{Binding EndDate}" Style="{StaticResource tbContent}"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            <!--Logo Section-->
+            <Image Grid.RowSpan="2" x:Name="ApplicationLogo" HorizontalAlignment="Right" 
+                   VerticalAlignment="Center" Width="156" Height="96" Margin="0 10 5 0" Panel.ZIndex="-1"/>
+        </Grid>
+        
+        <dxc:ChartControl
+            x:Name="dxTrendChart"
+            Grid.Row="1"
+            AutoLayout="False">
+            <dxc:ChartControl.Diagram>
+                <dxc:XYDiagram2D x:Name="trendXyDiagram2d_temp">
+                    <dxc:XYDiagram2D.NavigationOptions>
+                        <dxc:NavigationOptions x:Name="navOptions" UseMouse="False"/>
+                    </dxc:XYDiagram2D.NavigationOptions>
+                    <dxc:XYDiagram2D.AxisY>
+                        <dxc:AxisY2D Interlaced="False" GridLinesVisible="True" GridLinesMinorVisible="True">
+                            <dxc:AxisY2D.WholeRange>
+                                <dxc:Range dxc:AxisY2D.AlwaysShowZeroLevel="True"/>
+                            </dxc:AxisY2D.WholeRange>
+                            <dxc:AxisY2D.NumericScaleOptions>
+                                <dxc:ContinuousNumericScaleOptions AutoGrid="False" GridSpacing="25"/>
+                            </dxc:AxisY2D.NumericScaleOptions>
+                        </dxc:AxisY2D>
+                    </dxc:XYDiagram2D.AxisY>
+                    <dxc:XYDiagram2D.AxisX>
+                        <dxc:AxisX2D Name="axisX"  GridLinesVisible="False" GridLinesMinorVisible="True"  Interlaced="True" >
+                            <dxc:AxisX2D.DateTimeScaleOptions>
+
+                                <!--<dxc:AxisX2D.DateTimeScaleOptions>
+                                        <dxc:ManualDateTimeScaleOptions
+                                            AggregateFunction="Average"
+                                            AutoGrid="True"
+                                            MeasureUnit="Minute" />
+                                    </dxc:AxisX2D.DateTimeScaleOptions>-->
+
+
+                                <dxc:ManualDateTimeScaleOptions AggregateFunction="Average" AutoGrid="True"
+                                                             MeasureUnit="Minute" GridAlignment="Year"   
+                                                           />
+                                <!--<dxc:ContinuousDateTimeScaleOptions AutoGrid="False" GridSpacing="10"></dxc:ContinuousDateTimeScaleOptions>-->
+                            </dxc:AxisX2D.DateTimeScaleOptions>
+                            <dxc:AxisX2D.Label>
+                                <dxc:AxisLabel TextPattern="{}{A:HH:mm:ss&#10;dd/MM/yyyy}" /> <!--&#10; means new line-->
+                            </dxc:AxisX2D.Label>
+                            <dxc:AxisX2D.WholeRange>
+                                <dxc:Range dxc:AxisY2D.AlwaysShowZeroLevel="True" SideMarginsValue="0"/>
+                            </dxc:AxisX2D.WholeRange>
+                        </dxc:AxisX2D>
+                    </dxc:XYDiagram2D.AxisX>
+                    <dxc:XYDiagram2D.SecondaryAxesY>
+                        <dxc:SecondaryAxisY2D x:Name="trendXyDiagram2d_vacuum" Alignment="Near"
+                                                      Brush="#2F82A8">
+                            <dxc:SecondaryAxisY2D.WholeRange>
+                                <dxc:Range dxc:AxisY2D.AlwaysShowZeroLevel="True"/>
+                            </dxc:SecondaryAxisY2D.WholeRange>
+                            <dxc:SecondaryAxisY2D.NumericScaleOptions>
+                                <dxc:ContinuousNumericScaleOptions AutoGrid="False" GridSpacing="200"/>
+                            </dxc:SecondaryAxisY2D.NumericScaleOptions>
+                        </dxc:SecondaryAxisY2D>
+                        <dxc:SecondaryAxisY2D x:Name="trendXyDiagram2d_pressure"
+                                              Brush="{StaticResource CustomYellowColorDark}">
+                            <dxc:SecondaryAxisY2D.WholeRange>
+                                <dxc:Range dxc:AxisY2D.AlwaysShowZeroLevel="True" />
+                            </dxc:SecondaryAxisY2D.WholeRange>
+                            <dxc:SecondaryAxisY2D.NumericScaleOptions>
+                                <dxc:ContinuousNumericScaleOptions AutoGrid="False" GridSpacing="2"/>
+                            </dxc:SecondaryAxisY2D.NumericScaleOptions>
+                        </dxc:SecondaryAxisY2D>
+                    </dxc:XYDiagram2D.SecondaryAxesY>
+                </dxc:XYDiagram2D>
+            </dxc:ChartControl.Diagram>
+        </dxc:ChartControl>
+
+        <Grid Grid.Row="2" Background="{StaticResource GeneralWhite}">
+            <!--#region Min-Max-Duration Grid-->
+            <dxg:GridControl
+                    x:Name="seriesDetailsGrid"
+                    HorizontalContentAlignment="Center"
+                    Visibility="Hidden"
+                    ItemsSource="{Binding SeriesDetails}"
+                    SelectionMode="None">
+                <dxg:GridControl.Columns>
+                    <dxg:GridColumn
+                            Width="3.5*"
+                            FieldName="Name"
+                            HorizontalHeaderContentAlignment="Center">
+                        <dxg:GridColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="10" Margin="10 0 0 0" Text="{Binding RowData.Row.DisplayName}"
+                                           HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                            </DataTemplate>
+                        </dxg:GridColumn.CellTemplate>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn
+                            Width="3.5*"
+                            FieldName="Minimum"
+                            HorizontalHeaderContentAlignment="Center">
+                        <dxg:GridColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="10" Margin="10 0 0 0" Text="{Binding RowData.Row.Minimum}"
+                                           HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                            </DataTemplate>
+                        </dxg:GridColumn.CellTemplate>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn
+                            Width="3.5*"
+                            FieldName="Maximum"
+                            HorizontalHeaderContentAlignment="Center">
+                        <dxg:GridColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="10" Margin="10 0 0 0" Text="{Binding RowData.Row.Maximum}"
+                                           HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                            </DataTemplate>
+                        </dxg:GridColumn.CellTemplate>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn
+                            Width="3.5*"
+                            FieldName="Duration"
+                            HorizontalHeaderContentAlignment="Center">
+                        <dxg:GridColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="10" Margin="10 0 0 0" Text="{Binding RowData.Row.Duration, StringFormat=HH:mm:ss}"
+                                           HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                            </DataTemplate>
+                        </dxg:GridColumn.CellTemplate>
+                    </dxg:GridColumn>
+                </dxg:GridControl.Columns>
+                <dxg:GridControl.View>
+                    <dxg:TableView
+                            AllowColumnMoving="False"
+                            AllowGroupingSortingBySingleColumnOnly="False"
+                            AllowPerPixelScrolling="True"
+                            AutoWidth="True"
+                            RowMinHeight="13"
+                            ShowGroupPanel="False"
+                            ShowIndicator="False"
+                            VerticalScrollbarVisibility="Hidden"
+                            ColumnHeaderContentStyle="{StaticResource HeaderStyle}">
+                        <dxg:TableView.RowStyle>
+                            <Style TargetType="{x:Type dxg:RowControl}">
+                                <Setter Property="Height" Value="1"/>
+                            </Style>
+                        </dxg:TableView.RowStyle>
+                        <dxg:TableView.CellStyle>
+                            <Style TargetType="dxg:LightweightCellEditor">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=RowData.Row.Type}" Value="Pressure PV">
+                                        <DataTrigger.Setters>
+                                            <Setter Property="Foreground" Value="Blue"/>
+                                        </DataTrigger.Setters>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=RowData.Row.Type}" Value="Air TC PV">
+                                        <DataTrigger.Setters>
+                                            <Setter Property="Foreground" Value="Green"/>
+                                        </DataTrigger.Setters>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=RowData.Row.Type}" Value="High TC">
+                                        <DataTrigger.Setters>
+                                            <Setter Property="Foreground" Value="Red"/>
+                                        </DataTrigger.Setters>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=RowData.Row.Type}" Value="PTC">
+                                        <DataTrigger.Setters>
+                                            <Setter Property="Foreground" Value="#E06F00"/>
+                                        </DataTrigger.Setters>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=RowData.Row.Type}" Value="MON">
+                                        <DataTrigger.Setters>
+                                            <Setter Property="Foreground" Value="Purple"/>
+                                        </DataTrigger.Setters>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </dxg:TableView.CellStyle>
+                    </dxg:TableView>
+                </dxg:GridControl.View>
+            </dxg:GridControl>
+            <!--#endregion-->
+        </Grid>
+    </Grid>
+</Window>

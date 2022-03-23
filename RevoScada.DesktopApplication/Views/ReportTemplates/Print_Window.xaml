@@ -1,0 +1,23 @@
+﻿<Window x:Class="RevoScada.DesktopApplication.Views.ReportTemplates.Print_Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views.ReportTemplates"
+        mc:Ignorable="d"
+        Title="Print" Height="768" Width="1104" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Button x:Name="BtnPrint" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="33" 
+                Click="BtnPrint_Click" Panel.ZIndex="10" Opacity="0" ToolTip="Print"/>
+
+        <DocumentViewer Grid.Column="1" x:Name="PreviewD" 
+                        ShowPageBorders="True">
+            <DocumentViewer.Resources>
+                <Style TargetType="ContentControl">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Style>
+            </DocumentViewer.Resources>
+        
+        </DocumentViewer>
+    </Grid>
+</Window>

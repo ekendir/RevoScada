@@ -1,0 +1,1843 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9E203224-3E32-4CA9-A758-B275337F5A3B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>RevoScada.DesktopApplication</RootNamespace>
+    <AssemblyName>RevoScada.DesktopApplication</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>C:\RevoScada.Files\Application\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>applicationIcon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Charts.v19.2.Core, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Charts.v19.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Data.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.DataAccess.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.DataAccess.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Docs.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Docs.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Images.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Images.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Mvvm.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Office.v19.2.Core, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Office.v19.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Pdf.v19.2.Core, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Pdf.v19.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.PivotGrid.v19.2.Core, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.PivotGrid.v19.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v19.2.Core, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Printing.v19.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v19.2.Core, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.RichEdit.v19.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v19.2.Export, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.RichEdit.v19.2.Export.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Sparkline.v19.2.Core, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Sparkline.v19.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Spreadsheet.v19.2.Core, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Spreadsheet.v19.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Charts.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Xpf.Charts.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Controls.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Xpf.Controls.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Core.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Xpf.Core.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Docking.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Xpf.Docking.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.DocumentViewer.v19.2.Core, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Xpf.DocumentViewer.v19.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Gauges.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Xpf.Gauges.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Grid.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Xpf.Grid.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Grid.v19.2.Core, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Xpf.Grid.v19.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Layout.v19.2.Core, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Xpf.Layout.v19.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.LayoutControl.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Xpf.LayoutControl.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.PdfViewer.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Xpf.PdfViewer.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Printing.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Xpf.Printing.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Themes.Office2016White.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Xpf.Themes.Office2016White.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpo.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.Xpo.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.XtraCharts.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGauges.v19.2.Core, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.XtraGauges.v19.2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.XtraGrid.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.CodeParser.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.CodeParser.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v19.2, Version=19.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\DevExpress19.2.8\DevExpress.XtraReports.v19.2.dll</HintPath>
+    </Reference>
+    <Reference Include="Itenso.Windows.Controls.ListViewLayout, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPF.ListViewLayoutManager.2.0.0\lib\net40\Itenso.Windows.Controls.ListViewLayout.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyModel, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\Microsoft.Extensions.DependencyModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ReachFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Interactive.Async">
+      <HintPath>..\dependencies\System.Interactive.Async.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Windows.Controls.DataVisualization.Toolkit, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9e7cd3b544a090dc, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAnimatedGif.2.0.0\lib\net40\WpfAnimatedGif.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Helpers\ArrowHelper\AdjustableArrowBezierCurve.cs" />
+    <Compile Include="Helpers\ArrowHelper\AdjustableArrowQuadraticBezier.cs" />
+    <Compile Include="Helpers\ArrowHelper\ArrowBase.cs" />
+    <Compile Include="Helpers\ArrowHelper\ArrowBezierCurve.cs" />
+    <Compile Include="Helpers\ArrowHelper\ArrowEnds.cs" />
+    <Compile Include="Helpers\ArrowHelper\ArrowLine.cs" />
+    <Compile Include="Helpers\ArrowHelper\ArrowLineWithText.cs" />
+    <Compile Include="Helpers\ArrowHelper\ArrowQuadraticBezier.cs" />
+    <Compile Include="Helpers\WindowsExtensions.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelTypes\CalibrationCertificationPageControls.cs" />
+    <Compile Include="Models\ModelTypes\CalibrationCertificationParameters.cs" />
+    <Compile Include="Models\ModelTypes\CalibrationCertificationSettingsModel.cs" />
+    <Compile Include="Models\ModelTypes\CalibrationStabilityCheckValue.cs" />
+    <Compile Include="Models\PipingAndInstrumentationFurnaceControlModel.cs" />
+    <Compile Include="Models\SeriesDetailModel.cs" />
+    <Compile Include="Models\SettingModels\AirTcSelection.cs" />
+    <Compile Include="Models\SettingModels\ApplicationColors.cs" />
+    <Compile Include="Models\SettingModels\ApplicationLanguageSettings.cs" />
+    <Compile Include="Models\SettingModels\ApplicationLanguageDetails.cs" />
+    <Compile Include="Models\SettingModels\FormatOfIntegretyCheckItems.cs" />
+    <Compile Include="Models\SettingModels\OrderByPortInEnterPart.cs" />
+    <Compile Include="Models\SettingModels\TrendChartYAxisParamaters.cs" />
+    <Compile Include="Reports\BatchReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\BatchReport.designer.cs">
+      <DependentUpon>BatchReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\CalibrationReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\CalibrationReport.designer.cs">
+      <DependentUpon>CalibrationReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ExcelReportManager.cs" />
+    <Compile Include="Reports\IntegrityCheckReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\IntegrityCheckReport.designer.cs">
+      <DependentUpon>IntegrityCheckReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\NumericBagReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\NumericBagReport.designer.cs">
+      <DependentUpon>NumericBagReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\NumericReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\NumericReport.designer.cs">
+      <DependentUpon>NumericReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\QualityBatchReportCreator.cs" />
+    <Compile Include="Reports\QualityReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\QualityReport.Designer.cs">
+      <DependentUpon>QualityReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RecipeReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\RecipeReport.designer.cs">
+      <DependentUpon>RecipeReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ReportCreator.cs" />
+    <Compile Include="Reports\SpreadsheetControl.cs" />
+    <Compile Include="Reports\TrendReport.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\TrendReport.designer.cs">
+      <DependentUpon>TrendReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\XtraReport1.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\XtraReport1.Designer.cs">
+      <DependentUpon>XtraReport1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ActiveRecipeVM.cs" />
+    <Compile Include="ViewModels\AlarmVM.cs" />
+    <Compile Include="ViewModels\AppViewModel.cs" />
+    <Compile Include="ViewModels\CalibrationViewModels\CalibrationBase.cs" />
+    <Compile Include="ViewModels\CalibrationViewModels\CalibrationCertificationAdapter.cs" />
+    <Compile Include="ViewModels\CalibrationViewModels\CalibrationCertificationVM.cs" />
+    <Compile Include="ViewModels\CalibrationViewModels\CalibrationType1VM.cs" />
+    <Compile Include="ViewModels\CalibrationViewModels\CalibrationType4VM.cs" />
+    <Compile Include="ViewModels\CalibrationViewModels\CalibrationType2VM.cs" />
+    <Compile Include="ViewModels\CalibrationViewModels\CalibrationType3VM.cs" />
+    <Compile Include="ViewModels\CalibrationViewModels\CalibrationType20VM.cs" />
+    <Compile Include="ViewModels\EmergencyVM.cs" />
+    <Compile Include="ViewModels\EnterPartsVM.cs" />
+    <Compile Include="ViewModels\FurnaceSelectorVM.cs" />
+    <Compile Include="ViewModels\IntegrityChecksVM.cs" />
+    <Compile Include="ViewModels\LoginVM.cs" />
+    <Compile Include="ViewModels\ManualOperationViewModels\ManualOperationManagementVM.cs" />
+    <Compile Include="ViewModels\ManualOperationViewModels\ManualOperationVM.cs" />
+    <Compile Include="ViewModels\OscillationVM.cs" />
+    <Compile Include="ViewModels\PipingAndInstrumentationVM.cs" />
+    <Compile Include="ViewModels\QualityVM.cs" />
+    <Compile Include="ViewModels\RecipeEditorVM.cs" />
+    <Compile Include="ViewModels\RecipeRowItemVM.cs" />
+    <Compile Include="ViewModels\ReportsVM.cs" />
+    <Compile Include="ViewModels\RunOperationVM.cs" />
+    <Compile Include="ViewModels\ScadaSettingsVM.cs" />
+    <Compile Include="ViewModels\SensorViewVM.cs" />
+    <Compile Include="ViewModels\TrendViewModels\TrendManagementVM.cs" />
+    <Compile Include="ViewModels\TrendViewModels\TrendPrintVM.cs" />
+    <Compile Include="ViewModels\TrendViewModels\TrendVM.cs" />
+    <Compile Include="ViewModels\UserControlBaseVM.cs" />
+    <Compile Include="ViewModels\UserManagementVM.cs" />
+    <Compile Include="ViewModels\VacuumLinesVM.cs" />
+    <Compile Include="Views\ActiveRecipeControl.xaml.cs">
+      <DependentUpon>ActiveRecipeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Alarm.xaml.cs">
+      <DependentUpon>Alarm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Alarm_Window.xaml.cs">
+      <DependentUpon>Alarm_Window.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CalibrationViews\CalibrationCertificationWindow.xaml.cs">
+      <DependentUpon>CalibrationCertificationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CalibrationViews\CalibrationType1.xaml.cs">
+      <DependentUpon>CalibrationType1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CalibrationViews\CalibrationType4.xaml.cs">
+      <DependentUpon>CalibrationType4.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CalibrationViews\CalibrationType2.xaml.cs">
+      <DependentUpon>CalibrationType2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CalibrationViews\CalibrationType20.xaml.cs">
+      <DependentUpon>CalibrationType20.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CalibrationViews\CalibrationType3.xaml.cs">
+      <DependentUpon>CalibrationType3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Calibration_Window.xaml.cs">
+      <DependentUpon>Calibration_Window.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EmergencyView.xaml.cs">
+      <DependentUpon>EmergencyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Enter_Parts.xaml.cs">
+      <DependentUpon>Enter_Parts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FurnaceSelector.xaml.cs">
+      <DependentUpon>FurnaceSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Integrity_Checks.xaml.cs">
+      <DependentUpon>Integrity_Checks.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ItemViews\Bottom_Bar.xaml.cs">
+      <DependentUpon>Bottom_Bar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ItemViews\HamburgerMenuViews\Hamburger_MenuType1.xaml.cs">
+      <DependentUpon>Hamburger_MenuType1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ItemViews\HamburgerMenuViews\Hamburger_MenuType2.xaml.cs">
+      <DependentUpon>Hamburger_MenuType2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ItemViews\HamburgerMenuViews\Hamburger_MenuType3.xaml.cs">
+      <DependentUpon>Hamburger_MenuType3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ItemViews\No_Data_Available.xaml.cs">
+      <DependentUpon>No_Data_Available.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ItemViews\Selected_Vac_Not_Found.xaml.cs">
+      <DependentUpon>Selected_Vac_Not_Found.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ItemViews\UserManagementItemViews\Assignment_View.xaml.cs">
+      <DependentUpon>Assignment_View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ItemViews\UserManagementItemViews\Create_Users_And_Groups_View.xaml.cs">
+      <DependentUpon>Create_Users_And_Groups_View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ItemViews\UserManagementItemViews\Permission_View.xaml.cs">
+      <DependentUpon>Permission_View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ItemViews\VacuumLinesControlSectionViews\VacuumControlSectionType1.xaml.cs">
+      <DependentUpon>VacuumControlSectionType1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ItemViews\VacuumLinesControlSectionViews\VacuumControlSectionType2.xaml.cs">
+      <DependentUpon>VacuumControlSectionType2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ItemViews\VacuumLinesControlSectionViews\VacuumControlSectionType3.xaml.cs">
+      <DependentUpon>VacuumControlSectionType3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ItemViews\WizardControlBox.xaml.cs">
+      <DependentUpon>WizardControlBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Login_Window.xaml.cs">
+      <DependentUpon>Login_Window.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ManualOperationViews\ManualOperationManagement.xaml.cs">
+      <DependentUpon>ManualOperationManagement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ManualOperationViews\ManualOperationType1.xaml.cs">
+      <DependentUpon>ManualOperationType1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ManualOperationViews\ManualOperationType4.xaml.cs">
+      <DependentUpon>ManualOperationType4.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ManualOperationViews\ManualOperationType2.xaml.cs">
+      <DependentUpon>ManualOperationType2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ManualOperationViews\ManualOperationType20.xaml.cs">
+      <DependentUpon>ManualOperationType20.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ManualOperationViews\ManualOperationType3.xaml.cs">
+      <DependentUpon>ManualOperationType3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Manual_Operation_Window.xaml.cs">
+      <DependentUpon>Manual_Operation_Window.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Oscillation.xaml.cs">
+      <DependentUpon>Oscillation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pdf_Viewer.xaml.cs">
+      <DependentUpon>Pdf_Viewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Piping_and_Instrumentation_Diagram_Window.xaml.cs">
+      <DependentUpon>Piping_and_Instrumentation_Diagram_Window.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Popups\PressureSupplyControl.xaml.cs">
+      <DependentUpon>PressureSupplyControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Popups\ValveControlOnOff.xaml.cs">
+      <DependentUpon>ValveControlOnOff.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Popups\ValveControlAutoManual.xaml.cs">
+      <DependentUpon>ValveControlAutoManual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Popups\FurnaceControl.xaml.cs">
+      <DependentUpon>FurnaceControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Popups\RecipeActivation.xaml.cs">
+      <DependentUpon>RecipeActivation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Popups\PNI_Full_Screen_Set_Alarm.xaml.cs">
+      <DependentUpon>PNI_Full_Screen_Set_Alarm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Popups\PNI_Full_Screen_Text_Edit.xaml.cs">
+      <DependentUpon>PNI_Full_Screen_Text_Edit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Popups\Leakage_Test_Failure_Criteria.xaml.cs">
+      <DependentUpon>Leakage_Test_Failure_Criteria.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Popups\LoadNumberEditorPopup.xaml.cs">
+      <DependentUpon>LoadNumberEditorPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Popups\LogoutTime_Edit.xaml.cs">
+      <DependentUpon>LogoutTime_Edit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Popups\Password_Edit.xaml.cs">
+      <DependentUpon>Password_Edit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Popups\Recipe_Simulate.xaml.cs">
+      <DependentUpon>Recipe_Simulate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Popups\Text_Edit.xaml.cs">
+      <DependentUpon>Text_Edit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Popups\Trend_Properties.xaml.cs">
+      <DependentUpon>Trend_Properties.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Quality.xaml.cs">
+      <DependentUpon>Quality.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Recipe_Editor.xaml.cs">
+      <DependentUpon>Recipe_Editor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports.xaml.cs">
+      <DependentUpon>Reports.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports_Window.xaml.cs">
+      <DependentUpon>Reports_Window.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportTemplates\Print_Window.xaml.cs">
+      <DependentUpon>Print_Window.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportTemplates\ReportViewer.xaml.cs">
+      <DependentUpon>ReportViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Run_Operation.xaml.cs">
+      <DependentUpon>Run_Operation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ScadaSettings.xaml.cs">
+      <DependentUpon>ScadaSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SensorViewUC.xaml.cs">
+      <DependentUpon>SensorViewUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Sensor_View_Window.xaml.cs">
+      <DependentUpon>Sensor_View_Window.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TrendViews\Trend_Management.xaml.cs">
+      <DependentUpon>Trend_Management.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TrendViews\Trend_Report_Window.xaml.cs">
+      <DependentUpon>Trend_Report_Window.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TrendViews\Trend_View.xaml.cs">
+      <DependentUpon>Trend_View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TrendViews\Trend_View_Print.xaml.cs">
+      <DependentUpon>Trend_View_Print.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TrendViews\Trend_View_Type_20.xaml.cs">
+      <DependentUpon>Trend_View_Type_20.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TrendViews\Trend_Window.xaml.cs">
+      <DependentUpon>Trend_Window.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TrendViews\Trend_Window_Print.xaml.cs">
+      <DependentUpon>Trend_Window_Print.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\User_Control.xaml.cs">
+      <DependentUpon>User_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\User_Management_View.xaml.cs">
+      <DependentUpon>User_Management_View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Vacuum_Lines.xaml.cs">
+      <DependentUpon>Vacuum_Lines.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Converters\Converters.cs" />
+    <Compile Include="CustomControls\TwoThumbRangeSlider.cs" />
+    <Compile Include="Helpers\BindableSelectedItem.cs" />
+    <Compile Include="Helpers\CollectionUtils.cs" />
+    <Compile Include="Helpers\EditorHelper.cs" />
+    <Compile Include="Helpers\FurnaceSwicther.cs" />
+    <Compile Include="Helpers\ListViewLayoutHelpers\LayoutColumn.cs" />
+    <Compile Include="Helpers\ListViewLayoutHelpers\ListViewLayoutManager.cs" />
+    <Compile Include="Helpers\ListViewLayoutHelpers\ProportionalColumn.cs" />
+    <Compile Include="Helpers\MenuButtonBehavior.cs" />
+    <Compile Include="Helpers\MessageBoxLocalizer.cs" />
+    <Compile Include="Helpers\ProcessEventLogAdapter.cs" />
+    <Compile Include="Helpers\TreeViewHelpers.cs" />
+    <Compile Include="Helpers\VirtualOneClickExpandButtonBehavior.cs" />
+    <Compile Include="Helpers\WaitIndicatorControl.cs" />
+    <Compile Include="Models\ActiveRecipeInfo.cs" />
+    <Compile Include="Models\AlarmLogGridModel.cs" />
+    <Compile Include="Models\BatchInformationGrid.cs" />
+    <Compile Include="Models\BatchQualityDetailModel.cs" />
+    <Compile Include="Models\BatchQualityModel.cs" />
+    <Compile Include="Models\CalibrationDataGrid.cs" />
+    <Compile Include="Models\CalibrationFormInput.cs" />
+    <Compile Include="Models\CalibrationSensorTypeItem.cs" />
+    <Compile Include="Models\CalibrationSettingsModel.cs" />
+    <Compile Include="Models\DataLogGridModel.cs" />
+    <Compile Include="Models\DataPoint.cs" />
+    <Compile Include="Models\DialogService.cs" />
+    <Compile Include="Models\EmergencyGridModel.cs" />
+    <Compile Include="Models\EnterPartsBagDetail.cs" />
+    <Compile Include="Models\EnterPartsPortDetail.cs" />
+    <Compile Include="Models\EnterPartsSelectedBatchModel.cs" />
+    <Compile Include="Models\EnterPartsUIElementStates.cs" />
+    <Compile Include="Models\FurnaceSelectionModel.cs" />
+    <Compile Include="Models\HamburgerMenuLeftModel.cs" />
+    <Compile Include="Models\IDialogService.cs" />
+    <Compile Include="Models\IntegratedCheckGridModel.cs" />
+    <Compile Include="Models\IntegrityChecksItemsTableRow.cs" />
+    <Compile Include="Models\ManualOperationFurnaceControlModel.cs" />
+    <Compile Include="Models\ManualOperationPortControlModel.cs" />
+    <Compile Include="Models\MinsLogNum.cs" />
+    <Compile Include="Models\ModelEnums\CalibrationSensorType.cs" />
+    <Compile Include="Models\ModelEnums\FilterByPortState.cs" />
+    <Compile Include="Models\ModelEnums\GeneralFilterState.cs" />
+    <Compile Include="Models\ModelEnums\PageLoadState.cs" />
+    <Compile Include="Models\ObservableObject.cs" />
+    <Compile Include="Models\OscillationCriteriaModel.cs" />
+    <Compile Include="Models\PartVacuumMon.cs" />
+    <Compile Include="Models\PermissionGridModel.cs" />
+    <Compile Include="Models\PlcAlarmGridModel.cs" />
+    <Compile Include="Models\ProcessEventLogGridModel.cs" />
+    <Compile Include="Models\RecipeInfo.cs" />
+    <Compile Include="Models\RelayCommand.cs" />
+    <Compile Include="Models\ReportBatchGridModel.cs" />
+    <Compile Include="Models\ReportDbGridModel.cs" />
+    <Compile Include="Models\RunOperationProcessStartStepsModel.cs" />
+    <Compile Include="Models\SensorView.cs" />
+    <Compile Include="Models\SensorViewFilterSettingsModel.cs" />
+    <Compile Include="Models\SensorViewItemsTableRow.cs" />
+    <Compile Include="Models\SettingModels\ReportExportSettings.cs" />
+    <Compile Include="Models\SettingsLastDBStatusGridModel.cs" />
+    <Compile Include="Models\SoirRow.cs" />
+    <Compile Include="Models\TableSegmentDataGrid.cs" />
+    <Compile Include="Models\TrendModel.cs" />
+    <Compile Include="Models\TrendSelectedPortUIProperty.cs" />
+    <Compile Include="Models\UserGridModel.cs" />
+    <Compile Include="Models\UserGroupGridModel.cs" />
+    <Compile Include="Models\VacuumLinesSettingsModel.cs" />
+    <Compile Include="Models\VacuumPortItem.cs" />
+    <Compile Include="Models\ValueWrapper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\BatchReport.resx">
+      <DependentUpon>BatchReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\CalibrationReport.resx">
+      <DependentUpon>CalibrationReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\IntegrityCheckReport.resx">
+      <DependentUpon>IntegrityCheckReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\NumericBagReport.resx">
+      <DependentUpon>NumericBagReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\NumericReport.resx">
+      <DependentUpon>NumericReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\QualityReport.resx">
+      <DependentUpon>QualityReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RecipeReport.resx">
+      <DependentUpon>RecipeReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\TrendReport.resx">
+      <DependentUpon>TrendReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\XtraReport1.resx">
+      <DependentUpon>XtraReport1.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Resource Include="Styles\Fonts\Proxima_Nova_Med.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\app_emergency.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow_customGray_48px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bottom_help.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bottom_service_status_notrunning.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bottom_service_status_running.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bottom_settings.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bottombar_help.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clipboard_approve_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\copy_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Edit_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Edit_Blue_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Edit_Dark_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit_gray_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Edit_Pencil_40px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Edit_Pencil_DarkBlue_40px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Edit_Pencil_GenWhite_40px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Edit_Pencil_Gray_40px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\enterparts_move_to_prepare.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\error_126px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exit_application.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eye_invisible_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eye_visible_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Filter_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\filter_Blue_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\filter_DarkBlue_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\filter_Light_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Furnace_1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Furnace_2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Furnace_3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Furnace_4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Furnace_5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Furnace_6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gray_trash_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Green_Tick_48px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\help_24px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lifebuoy_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_menu_activerecipe.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_menu_activerecipe_reports.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_menu_alarm.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_menu_alarm_incoming.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_menu_calibration.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_menu_enterparts.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_menu_integrityChecks.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_menu_manualoperation.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_menu_oscillation.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_menu_quality_48px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_menu_recipeEditor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_menu_reports.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_menu_sensorview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_menu_start.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_menu_trend.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_menu_user_management.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\main_menu_vacuumLines.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu_24px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Microsoft Excel_16px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\More_50px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\paste_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\recipeEditor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Red_Cross_48px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reset_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\runoperation_back.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\runoperation_next.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\runoperation_pause.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\runoperation_run.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\runoperation_stop.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\runstep_doorstatus.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\runstep_enterparts.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\runstep_integrity.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\runstep_ok.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\runstep_recipe.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\save_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\service_status_notrunning.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\service_status_running.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\settings_error.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\settings_moderate.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\settings_success.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\skip_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sort_Down_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sort_Down_Dark_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sort_Up_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sort_Up_Dark_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\steps ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\switch_application.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\synchronize_16px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TAI_Logo_Gif_01.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\trash_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Trash_Can_DarkRed_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\vacuumLines.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\view_report_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Models\DataTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Buttons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Checkbox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Colors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Combobox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\DataGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Expanders.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\InputBoxes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Labels.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\OtherStuff.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ScrollBars.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Slider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\TabControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\TextBlocks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\TreeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\TwoThumbRangeSlider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ActiveRecipeControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Alarm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Alarm_Window.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CalibrationViews\CalibrationCertificationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CalibrationViews\CalibrationType1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CalibrationViews\CalibrationType4.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CalibrationViews\CalibrationType2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CalibrationViews\CalibrationType20.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CalibrationViews\CalibrationType3.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Calibration_Window.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EmergencyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Enter_Parts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FurnaceSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Integrity_Checks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ItemViews\Bottom_Bar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ItemViews\HamburgerMenuViews\Hamburger_MenuType1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ItemViews\HamburgerMenuViews\Hamburger_MenuType2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ItemViews\HamburgerMenuViews\Hamburger_MenuType3.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Views\ItemViews\No_Data_Available.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ItemViews\Selected_Vac_Not_Found.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ItemViews\UserManagementItemViews\Assignment_View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ItemViews\UserManagementItemViews\Create_Users_And_Groups_View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ItemViews\UserManagementItemViews\Permission_View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ItemViews\VacuumLinesControlSectionViews\VacuumControlSectionType1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ItemViews\VacuumLinesControlSectionViews\VacuumControlSectionType2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ItemViews\VacuumLinesControlSectionViews\VacuumControlSectionType3.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ItemViews\WizardControlBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Login_Window.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ManualOperationViews\ManualOperationManagement.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ManualOperationViews\ManualOperationType1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ManualOperationViews\ManualOperationType4.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ManualOperationViews\ManualOperationType2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Views\ManualOperationViews\ManualOperationType20.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ManualOperationViews\ManualOperationType3.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Manual_Operation_Window.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Oscillation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Pdf_Viewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Piping_and_Instrumentation_Diagram_Window.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Popups\PressureSupplyControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Popups\ValveControlOnOff.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Popups\ValveControlAutoManual.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Popups\FurnaceControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Popups\RecipeActivation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Popups\PNI_Full_Screen_Set_Alarm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Popups\PNI_Full_Screen_Text_Edit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Popups\Leakage_Test_Failure_Criteria.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Popups\LoadNumberEditorPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Popups\LogoutTime_Edit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Popups\Password_Edit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Popups\Recipe_Simulate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Popups\Text_Edit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Popups\Trend_Properties.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Quality.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Recipe_Editor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Reports.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Reports_Window.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportTemplates\Print_Window.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportTemplates\ReportViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Run_Operation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ScadaSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SensorViewUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Sensor_View_Window.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TrendViews\Trend_Management.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TrendViews\Trend_Report_Window.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TrendViews\Trend_View.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TrendViews\Trend_View_Print.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TrendViews\Trend_View_Type_20.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TrendViews\Trend_Window.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TrendViews\Trend_Window_Print.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\User_Control.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\User_Management_View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Vacuum_Lines.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Revo.Core\Revo.Core.csproj">
+      <Project>{8c3f5af7-5f3b-4719-bf2a-fed4d814c12d}</Project>
+      <Name>Revo.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Revo.ServiceUtilities\Revo.ServiceUtilities.csproj">
+      <Project>{03cc9ec1-ab1a-4e96-946e-a53451bdb658}</Project>
+      <Name>Revo.ServiceUtilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RevoScada.Business\RevoScada.Business.csproj">
+      <Project>{3929aa3d-d554-4f4e-88be-bfc96b656b0b}</Project>
+      <Name>RevoScada.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RevoScada.Cache\RevoScada.Cache.csproj">
+      <Project>{8855cc60-12c5-4ef7-ab94-c20b7bf499e0}</Project>
+      <Name>RevoScada.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RevoScada.Configurator\RevoScada.Configurator.csproj">
+      <Project>{9a7addb5-589b-4456-9add-64d82e01de07}</Project>
+      <Name>RevoScada.Configurator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RevoScada.Entities\RevoScada.Entities.csproj">
+      <Project>{25956a51-f1bf-45ed-8f89-16ad92c548a1}</Project>
+      <Name>RevoScada.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RevoScada.ProcessController\RevoScada.ProcessController.csproj">
+      <Project>{f391a8bc-0b84-4943-87ba-30e93b83e120}</Project>
+      <Name>RevoScada.ProcessController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RevoScada.Synchronization\RevoScada.Synchronization.csproj">
+      <Project>{10fc1814-b447-4db3-8f82-58499a1201ea}</Project>
+      <Name>RevoScada.Synchronization</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rename_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.8 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\microsoft_excel_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pdf_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\applicationIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="applicationIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\p_and_id_furnace01.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Polyethylene_tank_01.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pneumatic_brake_gray.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pneumatic_brake_green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pneumatic_brake_red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3-D_Finned_exchanger_gray.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3-D_Finned_exchanger_green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3-D_Finned_exchanger_red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3-D_Gate_valve_gray.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3-D_Gate_valve_green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3-D_Gate_valve_red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3-D_Target_type_sensor_gray.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3-D_Target_type_sensor_green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3-D_Target_type_sensor_red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3-D_Valve_gray.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3-D_Valve_green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3-D_Valve_red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3-D_Valve_with_actuator.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3-D_Valve_with_actuator_gray.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3-D_Valve_with_actuator_red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chiller_gray.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chiller_green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chiller_red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Control_cabinet_01_gray.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Control_cabinet_01_green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Control_cabinet_01_red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Green_pilot_light.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Horizontal_pump_right_gray.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Horizontal_pump_right_green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Horizontal_pump_right_red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Motor_01_gray.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Motor_01_green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Motor_01_red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pilot_light_off.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Red_pilot_light.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Simple_tank_01.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Vacuum_pump_gray.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Vacuum_pump_green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Vacuum_pump_red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3-D_Precipitator.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\info_126px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\toggle_on_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SlienceHorn.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\check_mark_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cross_mark_32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\check_mark_24px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cross_mark_24px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\standing_man_64px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrowRed32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrowGreen32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow1Green32px.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

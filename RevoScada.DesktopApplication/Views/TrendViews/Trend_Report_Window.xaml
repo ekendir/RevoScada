@@ -1,0 +1,219 @@
+﻿<Window
+    x:Class="RevoScada.DesktopApplication.Views.Trend_Report_Window"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:RevoScada.DesktopApplication.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:itemViews="clr-namespace:RevoScada.DesktopApplication.Views.ItemViews"
+    xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Trend Report"
+    Width="1440"
+    Height="960"
+    Background="{StaticResource LightGrayColor}"
+    Loaded="Window_Loaded"
+    ResizeMode="NoResize"
+    Unloaded="Window_Unloaded"
+    WindowState="Normal"
+    WindowStyle="ToolWindow"
+    mc:Ignorable="d" KeyDown="dxTrendChart_KeyDown" KeyUp="dxTrendChart_KeyUp">
+    <Window.Resources>
+        <converters:BoolToOppositeVisibility x:Key="BoolToOppositeVisibility"/>
+        <converters:MultiDoubleVisibilityToOppositeVisibility x:Key="MultiDoubleVisibilityToOppositeVisibility"/>
+        <converters:VisibilityToOppositeVisibility x:Key="VisibilityToOppositeVisibility"/>
+
+        <ContextMenu x:Key="contextMenu">
+            <MenuItem Header="Reset Zoom"
+                      Click="ResetRanges_OnClick"
+                      CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}"/>
+        </ContextMenu>
+
+        <DataTemplate x:Key="rateCustomPopupTemplate">
+            <Border Background="{StaticResource GeneralWhite}" BorderBrush="{StaticResource CreamColorOnHover}" 
+                                        BorderThickness="2" Padding="4" Margin="60 0 0 30">
+                <ItemsControl ItemsSource="{Binding PresentationData}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ContentPresenter Content="{Binding}"
+                                          ContentTemplate="{Binding Path=CrosshairSeriesLabelTemplate}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+        </DataTemplate>
+
+        <!--#region StoryBoard Animations-->
+        <Storyboard x:Key="showFirstMonitorSec">
+            <DoubleAnimation Storyboard.TargetName="firstValuesLayout" Storyboard.TargetProperty="(dxlc:LayoutGroup.Opacity)"
+                             From="0" To="1" Duration="0:0:0.5"/>
+        </Storyboard>
+        <Storyboard x:Key="hideFirstMonitorSec">
+            <DoubleAnimation Storyboard.TargetName="firstValuesLayout" Storyboard.TargetProperty="(dxlc:LayoutGroup.Opacity)"
+                             From="1" To="0" Duration="0:0:0.5"/>
+        </Storyboard>
+        <Storyboard x:Key="showLastMonitorSec">
+            <DoubleAnimation Storyboard.TargetName="lastValuesLayout" Storyboard.TargetProperty="(dxlc:LayoutGroup.Opacity)"
+                             From="0" To="1" Duration="0:0:0.5"/>
+        </Storyboard>
+        <Storyboard x:Key="hideLastMonitorSec">
+            <DoubleAnimation Storyboard.TargetName="lastValuesLayout" Storyboard.TargetProperty="(dxlc:LayoutGroup.Opacity)"
+                             From="1" To="0" Duration="0:0:0.5"/>
+        </Storyboard>
+        <!--#endregion-->
+
+        <Style x:Key="tbTitle" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{StaticResource CustomPassiveBlackColor}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="tbDetail" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{StaticResource CustomPassiveBlackColor}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5 0 0 0"/>
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+
+        <!--#region First-Last section-->
+        <dxlc:LayoutControl x:Name="firstLastFlowLayout" Margin="10 0 10 0" Padding="5" Panel.ZIndex="5" Orientation="Horizontal" Background="{StaticResource GeneralWhite}" 
+                                ScrollBars="None" DragScrolling="False" DockPanel.Dock="Top" StretchContentVertically="True"
+                                VerticalAlignment="Top" VerticalOffset="5" Visibility="{Binding WaitIndicatorControl.IsWaitIndicatorVisible, 
+                                                                                        Converter={StaticResource BoolToOppositeVisibility}}">
+
+            <dxlc:LayoutGroup x:Name="firstValuesLayout" HorizontalAlignment="Left" Opacity="0"
+                                  Orientation="Horizontal" VerticalAlignment="Top" VerticalOffset="0" DragScrolling="False" ScrollBars="None">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="10 0 0 0" Text="MINUTE" Width="65" Style="{StaticResource tbTitle}"/>
+                    <TextBlock x:Name="first_minTb" Style="{StaticResource tbDetail}"/>
+                    <TextBlock Text="FIRST" Margin="10 0 5 0" Style="{StaticResource tbTitle}"/>
+                    <TextBlock x:Name="first_seriesTb" Style="{StaticResource tbDetail}"/>
+                    <TextBlock Style="{StaticResource tbTitle}" Text=":"/>
+                    <TextBlock x:Name="first_valueTb" Style="{StaticResource tbDetail}" Margin="5 0 10 0"/>
+                </StackPanel>
+            </dxlc:LayoutGroup>
+
+            <dxlc:LayoutGroup x:Name="lastValuesLayout" HorizontalAlignment="Left" Opacity="0"
+                                  Orientation="Horizontal" VerticalAlignment="Top" VerticalOffset="0" DragScrolling="False" ScrollBars="None">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="|" Margin="0 0 10 0" Style="{StaticResource tbTitle}" Width="10"/>
+                    <TextBlock Text="MINUTE" Width="65" Style="{StaticResource tbTitle}"/>
+                    <TextBlock x:Name="last_minTb" Style="{StaticResource tbDetail}"/>
+                    <TextBlock Margin="10 0 5 0" Text="LAST" Style="{StaticResource tbTitle}"/>
+                    <TextBlock x:Name="last_seriesTb" Style="{StaticResource tbDetail}"/>
+                    <TextBlock Text=":" Style="{StaticResource tbTitle}"/>
+                    <TextBlock x:Name="last_valueTb" Style="{StaticResource tbDetail}" Margin="5 0 10 0"/>
+                </StackPanel>
+            </dxlc:LayoutGroup>
+
+            <dxlc:LayoutGroup
+                    Margin="0,5,10,5"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    DockPanel.Dock="Top"
+                    DragScrolling="False"
+                    Orientation="Horizontal"
+                    ScrollBars="None"
+                    VerticalOffset="0"
+                    Visibility="{Binding ElementName=trendNoDataSec, Path=Visibility, Converter={StaticResource VisibilityToOppositeVisibility}}">
+            <CheckBox
+                x:Name="showCommonForAllSeries"
+                Checked="showCommonForAllSeries_Checked"
+                Content="Show Common For All Series"
+                FontSize="13"
+                Style="{StaticResource passiveBlack_checkbox}"
+                Unchecked="showCommonForAllSeries_Checked" />
+            </dxlc:LayoutGroup>
+        </dxlc:LayoutControl>
+        <!--#endregion-->
+
+        <dxc:ChartControl
+            x:Name="dxTrendChart"
+            Margin="10,0,10,10"
+            AutoLayout="True" MouseEnter="dxTrendChart_MouseEnter"
+                              PreviewMouseMove="dxTrendChart_PreviewMouseMove" PreviewMouseLeftButtonUp="dxTrendChart_PreviewMouseLeftButtonUp" 
+                              PreviewMouseLeftButtonDown="dxTrendChart_PreviewMouseLeftButtonDown"
+                              CustomDrawCrosshair="dxTrendChart_CustomDrawCrosshair" MouseWheel="dxTrendChart_MouseWheel"
+            Visibility="{Binding ElementName=trendNoDataSec, Path=Visibility, Converter={StaticResource VisibilityToOppositeVisibility}}">
+            <dxc:ChartControl.ToolTipController>
+                <dxc:ChartToolTipController CloseOnClick="False" />
+            </dxc:ChartControl.ToolTipController>
+            <dxc:ChartControl.CrosshairOptions>
+                <dxc:CrosshairOptions
+                    x:Name="dxTrendCrosshairOptions"
+                    CrosshairLabelMode="ShowForNearestSeries"
+                    ShowCrosshairLabels="True">
+                    <dxc:CrosshairOptions.CommonLabelPosition>
+                        <dxc:CrosshairMousePosition />
+                    </dxc:CrosshairOptions.CommonLabelPosition>
+                </dxc:CrosshairOptions>
+            </dxc:ChartControl.CrosshairOptions>
+            <dxc:ChartControl.Legends>
+                <dxc:Legend
+                    HorizontalPosition="RightOutside"
+                    MarkerMode="CheckBox"
+                    VerticalPosition="Top">
+                    <dxc:Legend.Title>
+                        <dxc:LegendTitle HorizontalAlignment="Center" Content="Series" />
+                    </dxc:Legend.Title>
+                </dxc:Legend>
+            </dxc:ChartControl.Legends>
+            <dxc:ChartControl.Diagram>
+                <dxc:XYDiagram2D x:Name="trendXyDiagram2d" EnableAxisXNavigation="True" EnableAxisYNavigation="True">
+                    <dxc:XYDiagram2D.NavigationOptions>
+                        <dxc:NavigationOptions x:Name="navOptions" UseMouse="False"/>
+                    </dxc:XYDiagram2D.NavigationOptions>
+                    <dxc:XYDiagram2D.AxisY>
+                        <dxc:AxisY2D Interlaced="False" GridLinesVisible="True" GridLinesMinorVisible="True">
+                                    <dxc:AxisY2D.WholeRange>
+                                <dxc:Range dxc:AxisY2D.AlwaysShowZeroLevel="True" AutoSideMargins="True"/>
+                                    </dxc:AxisY2D.WholeRange>
+                                </dxc:AxisY2D>
+                    </dxc:XYDiagram2D.AxisY>
+                    <dxc:XYDiagram2D.AxisX>
+                        <dxc:AxisX2D Name="axisX" GridLinesMinorVisible="True" GridLinesVisible="True" Interlaced="True" >
+                            <!--<dxc:AxisX2D.DateTimeScaleOptions>
+                                <dxc:ManualDateTimeScaleOptions
+                                            AggregateFunction="Average"
+                                            AutoGrid="True"
+                                            MeasureUnit="Minute" />
+                            </dxc:AxisX2D.DateTimeScaleOptions>-->
+
+                            <dxc:AxisX2D.NumericScaleOptions>
+                                <dxc:ManualNumericScaleOptions AggregateFunction="Average" GridSpacing="20"/>
+                            </dxc:AxisX2D.NumericScaleOptions>
+
+                            <dxc:AxisX2D.Title>
+                                <dxc:AxisTitle Content="Minutes" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource CustomPassiveBlackColor}"/>
+                            </dxc:AxisX2D.Title>
+                            <dxc:AxisX2D.Label>
+                                <dxc:AxisLabel/>
+                            </dxc:AxisX2D.Label>
+                            <dxc:AxisX2D.WholeRange>
+                                <dxc:Range AutoSideMargins="False"/>
+                            </dxc:AxisX2D.WholeRange>
+                        </dxc:AxisX2D>
+                    </dxc:XYDiagram2D.AxisX>
+                 
+                </dxc:XYDiagram2D>
+            </dxc:ChartControl.Diagram>
+        </dxc:ChartControl>
+
+        <!--#region No Data Available Section-->
+        <Viewbox
+            x:Name="trendNoDataSec"
+            MaxWidth="500"
+            VerticalAlignment="Center"
+            Visibility="Collapsed">
+            <ContentControl>
+                <itemViews:No_Data_Available />
+            </ContentControl>
+        </Viewbox>
+        <!--#endregion-->
+    </DockPanel>
+</Window>

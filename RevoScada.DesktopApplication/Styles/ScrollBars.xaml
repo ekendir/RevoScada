@@ -1,0 +1,443 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxdv="http://schemas.devexpress.com/winfx/2008/xaml/documentviewer"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxt="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys"
+    xmlns:local="clr-namespace:RevoScada.DesktopApplication.Styles"
+    xmlns:pdfViewer="http://schemas.devexpress.com/winfx/2008/xaml/pdf"
+    xmlns:themes="http://schemas.devexpress.com/winfx/2008/xaml/pdf/themekeys">
+
+    <!--#region Control colors-->
+    <Color x:Key="DisabledForegroundColor">#FF888888</Color>
+    <!--#endregion-->
+
+    <!--#region General Scrollbar Design-->
+
+    <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Border
+                        x:Name="border"
+                        Width="{TemplateBinding Width}"
+                        Height="{TemplateBinding Height}"
+                        Background="{StaticResource CustomPassiveBlackColor}"
+                        CornerRadius="4"
+                        Opacity="0.5"
+                        SnapsToDevicePixels="True" />
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="border"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="1"
+                                            Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="border"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.5"
+                                            Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="IsDragging" Value="true">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation
+                                            Storyboard.TargetName="border"
+                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                            To="#404040"
+                                            Duration="0:0:0.15" />
+                                        <!--  Custom Black Color  -->
+
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation
+                                            Storyboard.TargetName="border"
+                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                            To="#606060"
+                                            Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border
+                        x:Name="Border"
+                        Margin="1"
+                        Background="{StaticResource CustomPassiveBlackColor}"
+                        BorderBrush="{StaticResource CustomBlackColor}"
+                        BorderThickness="1"
+                        CornerRadius="2">
+                        <Path
+                            x:Name="Arrow"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Data="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}">
+                            <Path.Fill>
+                                <SolidColorBrush Color="White" />
+                            </Path.Fill>
+                        </Path>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Arrow" Storyboard.TargetProperty="(Shape.Fill).                                                 (SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#D6D6D6" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Arrow" Storyboard.TargetProperty="(Shape.Fill).                                                 (SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#D6D6D6" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Arrow" Storyboard.TargetProperty="(Shape.Fill).                                                 (SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource DisabledForegroundColor}" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border Background="Transparent" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate x:Key="HorizontalScrollBar" TargetType="{x:Type ScrollBar}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MaxWidth="18" />
+                <ColumnDefinition Width="0.00001*" />
+                <ColumnDefinition MaxWidth="18" />
+            </Grid.ColumnDefinitions>
+            <Border
+                Grid.ColumnSpan="3"
+                Background="{StaticResource LightGrayColor}"
+                CornerRadius="2" />
+            <RepeatButton
+                Grid.Column="0"
+                Width="18"
+                Command="ScrollBar.LineLeftCommand"
+                Content="M 4 0 L 4 8 L 0 4 Z"
+                Style="{StaticResource ScrollBarLineButton}" />
+            <Track
+                x:Name="PART_Track"
+                Grid.Column="1"
+                IsDirectionReversed="False">
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton Command="ScrollBar.PageLeftCommand" Style="{StaticResource ScrollBarPageButton}" />
+                </Track.DecreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb Margin="0,1,0,1" Style="{StaticResource ScrollBarThumb}" />
+                </Track.Thumb>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton Command="ScrollBar.PageRightCommand" Style="{StaticResource ScrollBarPageButton}" />
+                </Track.IncreaseRepeatButton>
+            </Track>
+            <RepeatButton
+                Grid.Column="2"
+                Width="18"
+                Command="ScrollBar.LineRightCommand"
+                Content="M 0 0 L 4 4 L 0 8 Z"
+                Style="{StaticResource ScrollBarLineButton}" />
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="VerticalScrollBar" TargetType="{x:Type ScrollBar}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition MaxHeight="18" />
+                <RowDefinition Height="0.00001*" />
+                <RowDefinition MaxHeight="18" />
+            </Grid.RowDefinitions>
+            <Border
+                Grid.RowSpan="3"
+                Background="{StaticResource LightGrayColor}"
+                CornerRadius="2" />
+
+            <RepeatButton
+                Grid.Row="0"
+                Height="18"
+                Command="ScrollBar.LineUpCommand"
+                Content="M 0 4 L 8 4 L 4 0 Z"
+                Style="{StaticResource ScrollBarLineButton}" />
+            <Track
+                x:Name="PART_Track"
+                Grid.Row="1"
+                IsDirectionReversed="true">
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton Command="ScrollBar.PageUpCommand" Style="{StaticResource ScrollBarPageButton}" />
+                </Track.DecreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb Margin="1,0,1,0" Style="{StaticResource ScrollBarThumb}" />
+                </Track.Thumb>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton Command="ScrollBar.PageDownCommand" Style="{StaticResource ScrollBarPageButton}" />
+                </Track.IncreaseRepeatButton>
+            </Track>
+            <RepeatButton
+                Grid.Row="2"
+                Height="18"
+                Command="ScrollBar.LineDownCommand"
+                Content="M 0 0 L 4 4 L 8 0 Z"
+                Style="{StaticResource ScrollBarLineButton}" />
+        </Grid>
+    </ControlTemplate>
+
+    <Style BasedOn="{StaticResource {x:Type ScrollBar}}" TargetType="{x:Type ScrollBar}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Width" Value="Auto" />
+                <Setter Property="Height" Value="18" />
+                <Setter Property="Template" Value="{StaticResource HorizontalScrollBar}" />
+            </Trigger>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Width" Value="18" />
+                <Setter Property="Height" Value="Auto" />
+                <Setter Property="Template" Value="{StaticResource VerticalScrollBar}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style
+        x:Key="GridViewScrollbar"
+        BasedOn="{StaticResource {x:Type ScrollBar}}"
+        TargetType="{x:Type ScrollBar}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Width" Value="Auto" />
+                <Setter Property="Height" Value="18" />
+                <Setter Property="Template" Value="{StaticResource HorizontalScrollBar}" />
+            </Trigger>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Width" Value="18" />
+                <Setter Property="Height" Value="Auto" />
+                <Setter Property="Template" Value="{StaticResource VerticalScrollBar}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--#endregion-->
+
+    <!--#region DevExpress PDF Viewer hide unused scrollbars-->
+    <ControlTemplate x:Key="ScrollViewerTemplate" TargetType="{x:Type pdfViewer:DXScrollViewer}">
+        <Grid
+            x:Name="Grid"
+            Margin="{TemplateBinding Margin}"
+            Background="{TemplateBinding Background}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ScrollContentPresenter
+                x:Name="PART_ScrollContentPresenter"
+                Margin="{TemplateBinding Padding}"
+                CanContentScroll="{TemplateBinding CanContentScroll}"
+                CanHorizontallyScroll="False"
+                CanVerticallyScroll="False">
+                <Grid.RowSpan>
+                    <Binding Path="(dx:ScrollBarExtensions.ScrollBarMode)" RelativeSource="{RelativeSource TemplatedParent}">
+                        <Binding.Converter>
+                            <dx:EnumToObjectConverter DefaultValue="1">
+                                <dx:EnumToObjectConverter.Values>
+                                    <dx:EnumObjectProvider x:Key="TouchOverlap" Value="2" />
+                                </dx:EnumToObjectConverter.Values>
+                            </dx:EnumToObjectConverter>
+                        </Binding.Converter>
+                    </Binding>
+                </Grid.RowSpan>
+                <Grid.ColumnSpan>
+                    <Binding Path="(dx:ScrollBarExtensions.ScrollBarMode)" RelativeSource="{RelativeSource TemplatedParent}">
+                        <Binding.Converter>
+                            <dx:EnumToObjectConverter DefaultValue="1">
+                                <dx:EnumToObjectConverter.Values>
+                                    <dx:EnumObjectProvider x:Key="TouchOverlap" Value="2" />
+                                </dx:EnumToObjectConverter.Values>
+                            </dx:EnumToObjectConverter>
+                        </Binding.Converter>
+                    </Binding>
+                </Grid.ColumnSpan>
+            </ScrollContentPresenter>
+            <ScrollBar
+                x:Name="PART_VerticalScrollBar"
+                Grid.Row="0"
+                Grid.Column="1"
+                AutomationProperties.AutomationId="VerticalScrollBar"
+                Cursor="Arrow"
+                Maximum="{TemplateBinding ScrollableHeight}"
+                Minimum="0"
+                ViewportSize="{TemplateBinding ViewportHeight}"
+                Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                Value="{Binding Path=VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}">
+                <Grid.RowSpan>
+                    <MultiBinding>
+                        <MultiBinding.Bindings>
+                            <Binding Path="(dx:ScrollBarExtensions.ScrollBarMode)" RelativeSource="{RelativeSource Self}" />
+                            <Binding Path="(dx:ScrollBarExtensions.ScrollViewerOrientation)" RelativeSource="{RelativeSource TemplatedParent}" />
+                        </MultiBinding.Bindings>
+                        <MultiBinding.Converter>
+                            <dx:VerticalScrollBarRowSpanConverter />
+                        </MultiBinding.Converter>
+                    </MultiBinding>
+                </Grid.RowSpan>
+            </ScrollBar>
+            <ScrollBar
+                x:Name="PART_HorizontalScrollBar"
+                Grid.Row="1"
+                Grid.Column="0"
+                AutomationProperties.AutomationId="HorizontalScrollBar"
+                Cursor="Arrow"
+                Maximum="{TemplateBinding ScrollableWidth}"
+                Minimum="0"
+                Orientation="Horizontal"
+                ViewportSize="{TemplateBinding ViewportWidth}"
+                Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                Value="{Binding Path=HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}">
+                <Grid.ColumnSpan>
+                    <MultiBinding>
+                        <MultiBinding.Bindings>
+                            <Binding Path="(dx:ScrollBarExtensions.ScrollBarMode)" RelativeSource="{RelativeSource Self}" />
+                            <Binding Path="(dx:ScrollBarExtensions.ScrollViewerOrientation)" RelativeSource="{RelativeSource TemplatedParent}" />
+                        </MultiBinding.Bindings>
+                        <MultiBinding.Converter>
+                            <dx:HorizontalScrollBarRowSpanConverter />
+                        </MultiBinding.Converter>
+                    </MultiBinding>
+                </Grid.ColumnSpan>
+            </ScrollBar>
+            <Border
+                x:Name="Corner"
+                Grid.Row="1"
+                Grid.Column="1"
+                Style="{DynamicResource {dxt:ScrollBarThemeKey ResourceKey=ScrollingCornerStyle}}">
+                <Border.Visibility>
+                    <Binding Path="(dx:ScrollBarExtensions.ScrollBarMode)" RelativeSource="{RelativeSource TemplatedParent}">
+                        <Binding.Converter>
+                            <dx:EnumToObjectConverter DefaultValue="Visible">
+                                <dx:EnumToObjectConverter.Values>
+                                    <dx:EnumObjectProvider x:Key="TouchOverlap" Value="Collapsed" />
+                                </dx:EnumToObjectConverter.Values>
+                            </dx:EnumToObjectConverter>
+                        </Binding.Converter>
+                    </Binding>
+                </Border.Visibility>
+            </Border>
+            <dxe:FlyoutControl
+                x:Name="PART_FlyoutControl"
+                VerticalAlignment="Center"
+                AllowMoveAnimation="False"
+                ContentTemplate="{DynamicResource ResourceKey={themes:PdfViewerThemeKey ResourceKey=PdfFlyoutControlPaginationTemplate,
+                                                                                        ThemeName=Office2016White}}"
+                IsOpen="False"
+                PlacementTarget="{Binding ElementName=PART_VerticalScrollBar}">
+                <dxe:FlyoutControl.Settings>
+                    <dxe:FlyoutSettings Placement="Left" ShowIndicator="True" />
+                </dxe:FlyoutControl.Settings>
+            </dxe:FlyoutControl>
+        </Grid>
+    </ControlTemplate>
+
+    <pdfViewer:CursorModeToCanMouseScrollConverter x:Key="cursorModeToCanMouseScrollConverter" />
+
+    <ControlTemplate x:Key="{themes:PdfViewerThemeKey ResourceKey=PdfPageSelectorTemplate, ThemeName=Office2016White}" TargetType="{x:Type pdfViewer:PdfPagesSelector}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="{Binding Path=VerticalScrollBarWidth, ElementName=PART_ScrollViewer}" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <dxdv:DocumentPresenterDecorator
+                x:Name="PART_Decorator"
+                Grid.RowSpan="2"
+                Grid.ColumnSpan="2"
+                FocusVisualStyle="{x:Null}"
+                Focusable="True">
+                <pdfViewer:DXScrollViewer
+                    x:Name="PART_ScrollViewer"
+                    Padding="{TemplateBinding Padding}"
+                    dx:ScrollBarExtensions.ScrollBehavior="{dx:ScrollViewerScrollBehavior}"
+                    dx:ScrollViewerTouchBehavior.IsEnabled="True"
+                    CanContentScroll="True"
+                    CanMouseScroll="{Binding Path=(pdfViewer:PdfViewerControl.ActualViewer).CursorMode, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource cursorModeToCanMouseScrollConverter}}"
+                    Focusable="false"
+                    HorizontalScrollBarVisibility="{Binding Path=(pdfViewer:PdfViewerControl.ActualViewer).(ScrollViewer.HorizontalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}"
+                    Template="{StaticResource ScrollViewerTemplate}"
+                    VerticalScrollBarVisibility="{Binding Path=(pdfViewer:PdfViewerControl.ActualViewer).(ScrollViewer.VerticalScrollBarVisibility), RelativeSource={RelativeSource TemplatedParent}}">
+                    <ItemsPresenter x:Name="PART_ItemsPresenter" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                </pdfViewer:DXScrollViewer>
+            </dxdv:DocumentPresenterDecorator>
+            <dx:DXExpander
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                FlowDirection="{Binding Path=(pdfViewer:PdfViewerControl.ActualViewer).FlowDirection, RelativeSource={RelativeSource TemplatedParent}}"
+                IsExpanded="{Binding Path=IsSearchControlVisible, RelativeSource={RelativeSource TemplatedParent}}"
+                Opacity="{Binding Path=AnimationProgress, RelativeSource={RelativeSource Self}}">
+                <dxdv:SearchControlContainer IsSearchControlVisible="{Binding Path=IsSearchControlVisible, RelativeSource={RelativeSource TemplatedParent}}" SearchParameter="{Binding Path=SearchParameter, RelativeSource={RelativeSource TemplatedParent}}" />
+            </dx:DXExpander>
+        </Grid>
+    </ControlTemplate>
+    <!--#endregion-->
+</ResourceDictionary>

@@ -1,0 +1,114 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:RevoScada.DesktopApplication.Styles">
+
+    <!--  Solid colors  -->
+    <SolidColorBrush x:Key="LoginInputDefColor" Color="#5475FF" />
+    <SolidColorBrush x:Key="LoginInputHoverColor" Color="#549BFF" />
+    <SolidColorBrush x:Key="LoginInputFocusedColor" Color="#4B4CFF" />
+    <SolidColorBrush x:Key="MainBlueColor" Color="#326690" />
+    <SolidColorBrush x:Key="MainBlueDarkColor" Color="#2A5578" />
+    <SolidColorBrush x:Key="LightBlue" Color="#D9E8F5" />
+    <SolidColorBrush x:Key="Blueberry" Color="#4D648D" />
+    <SolidColorBrush x:Key="Periwinkle" Color="#D0E1F9" />
+    <SolidColorBrush x:Key="TechnicalLightBlue" Color="#0083C4" />
+    <SolidColorBrush x:Key="CustomYellowColor" Color="#E8C876" />
+    <SolidColorBrush x:Key="CustomYellowColorDark" Color="#DEB03B" />
+    <SolidColorBrush x:Key="LoadingYellowColor" Color="#FFFF80" />
+    <SolidColorBrush x:Key="LightYellow" Color="#F1F5D4" />
+    <SolidColorBrush x:Key="RowColorDark" Color="#d1d1d1" />
+    <SolidColorBrush x:Key="RowColorLight" Color="#e1e1e1" />
+    <SolidColorBrush x:Key="MainWindowLight" Color="#a0a0a0" />
+    <SolidColorBrush x:Key="CustomBlackColor" Color="#404040" />
+    <SolidColorBrush x:Key="CustomPassiveBlackColor" Color="#606060" />
+    <SolidColorBrush x:Key="GeneralWhite" Color="#FaFaFa" />
+    <SolidColorBrush x:Key="GeneralDarkWhite" Color="#EDEDED" />
+    <SolidColorBrush x:Key="SistemTeknikBlueColor" Color="#0091d9" />
+    <SolidColorBrush x:Key="CreamColor" Color="#F0F0F0" />
+    <SolidColorBrush x:Key="CreamColorOnHover" Color="#DEDEDE" />
+    <SolidColorBrush x:Key="LightGreenColor" Color="#88F000" />
+    <SolidColorBrush x:Key="SystemGreenColor" Color="#35E600" />
+    <SolidColorBrush x:Key="TechnicalGreenColor" Color="#4CBF2C" />
+    <SolidColorBrush x:Key="LightGrayColor" Color="#ebebeb" />
+    <SolidColorBrush x:Key="SkyGrayColor" Color="#D6D6D6" />
+    <SolidColorBrush x:Key="GrayColor" Color="#BFBFBF" />
+    <SolidColorBrush x:Key="ActiveSegmentColor" Color="#698796" />
+    <SolidColorBrush x:Key="DarkGrayColor" Color="#575757" />
+    <SolidColorBrush x:Key="DarkGrayIconColor" Color="#4c4c4c" />
+    <SolidColorBrush x:Key="LightRed" Color="#F01E02" />
+    <SolidColorBrush x:Key="RedColor" Color="#BC0201" />
+    <SolidColorBrush x:Key="DarkRedColor" Color="#810201" />
+    <SolidColorBrush x:Key="AlarmRedColor" Color="#c42424" />
+    <SolidColorBrush x:Key="TurquoiseColor" Color="#428A75" />
+    <SolidColorBrush x:Key="DataGridLineBrush" Color="#B5B5B5" />
+    <SolidColorBrush x:Key="TurquoiseColorOnHover" Color="#64CCAB" />
+    <LinearGradientBrush x:Key="GrayLinearGradColor" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Offset="0" Color="#d0d0d0" />
+        <GradientStop Offset="0.5" Color="#efefef" />
+        <GradientStop Offset="1" Color="#d0d0d0" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="MenuBarForeground" StartPoint="1,0" EndPoint="0,0">
+        <GradientStop Offset="0" Color="#BFBFBF" />
+        <!--  GrayColor  -->
+        <GradientStop Offset="0" Color="#326690" />
+        <!--  Main Blue Color  -->
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="WhiteLinearGradColor" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Offset="0" Color="#00bcd4" />
+        <GradientStop Offset="0.5" Color="#00bcd4" />
+        <GradientStop Offset="1" Color="#00bcd4" />
+    </LinearGradientBrush>
+
+    <!--#region P and I Diagram Colors-->
+    <SolidColorBrush x:Key="pAndIGreen" Color="#009900" />
+    <SolidColorBrush x:Key="pAndIRed" Color="#DF0000" />
+    <SolidColorBrush x:Key="pAndIBlue" Color="#0000fa" />
+    <SolidColorBrush x:Key="pAndIGray" Color="#787878" />
+    <SolidColorBrush x:Key="pAndIBrown" Color="#796748" />
+    <SolidColorBrush x:Key="pAndIYellow" Color="#cccc00" />
+
+
+    <!--#endregion-->
+
+    <!--  Sensor View Colors  -->
+    <SolidColorBrush x:Key="Sensor_DarkGreen" Color="#397300" />
+    <SolidColorBrush x:Key="Sensor_Gray" Color="#878787" />
+    <SolidColorBrush x:Key="Sensor_Red" Color="#C31902" />
+    <SolidColorBrush x:Key="Sensor_Green" Color="#62C400" />
+
+    <!--  Hamburger Menu red progressbar color  -->
+    <LinearGradientBrush x:Key="HamMenuRedColor" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Offset="0" Color="#f7c3c3" />
+        <GradientStop Offset="0.5" Color="#f1b0b0" />
+        <GradientStop Offset="1" Color="#f2c2c2" />
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="HamProgressRedBG" Color="#ffefef" />
+    <SolidColorBrush x:Key="HamProgressRedBorder" Color="#ff9d9d" />
+    <!--  Hamburger Menu purple progressbar color  -->
+    <LinearGradientBrush x:Key="HamMenuPurpleColor" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Offset="0" Color="#cdcdff" />
+        <GradientStop Offset="0.5" Color="#bcbcfd" />
+        <GradientStop Offset="1" Color="#ccccfb" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="HamProgressPurpleBG" Color="#f2f2ff" />
+    <SolidColorBrush x:Key="HamProgressPurpleBorder" Color="#b2b2ff" />
+    <!--  Hamburger Menu cyan progressbar color  -->
+    <LinearGradientBrush x:Key="HamMenuCyanColor" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Offset="0" Color="#BBFFFF" />
+        <GradientStop Offset="0.5" Color="#63EDED" />
+        <GradientStop Offset="1" Color="#B5FFFF" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="HamProgressCyanBG" Color="#d9ffff" />
+    <SolidColorBrush x:Key="HamProgressCyanBorder" Color="#34f4f4" />
+
+    <!--  Hamburger Menu orange progressbar color  -->
+    <SolidColorBrush x:Key="HamProgressOrangeColor" Color="#003cb3" />
+    <SolidColorBrush x:Key="HamProgressOrangeBG" Color="#ccddff" />
+    <SolidColorBrush x:Key="HamProgressOrangeBorder" Color="#002b80" />
+
+    <!--  Font families  -->
+    <FontFamily x:Key="ProximaNova">pack://application:,,,/Styles/Fonts/#Proxima_Nova_Med</FontFamily>
+
+</ResourceDictionary>

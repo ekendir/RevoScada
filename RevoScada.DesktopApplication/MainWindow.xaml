@@ -1,0 +1,939 @@
+﻿<Window
+    x:Class="RevoScada.DesktopApplication.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="clr-namespace:RevoScada.DesktopApplication.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:gif="http://wpfanimatedgif.codeplex.com"
+    xmlns:helpers="clr-namespace:RevoScada.DesktopApplication.Helpers"
+    xmlns:itemViews="clr-namespace:RevoScada.DesktopApplication.Views.ItemViews"
+    xmlns:local="clr-namespace:RevoScada.DesktopApplication"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:RevoScada.DesktopApplication.ViewModels"
+    Title="RevoScada Cure Monitoring"
+    Width="1920"
+    Height="1080"
+    MinWidth="800"
+    MinHeight="600"
+    Background="{StaticResource MainWindowLight}"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    WindowStyle="{Binding WindowStyleProperty}"
+    mc:Ignorable="d">
+
+    <!--  *** Do not allow shutting down program by pressing ALT-F4 !***  -->
+    <!--<Window.InputBindings>
+        <KeyBinding Modifiers="Alt" Key="F4" Command="{Binding Prevent_AltF4_Command}"/>
+    </Window.InputBindings>-->
+    <Window.Resources>
+        <converter:DoubleToInt x:Key="DoubleToInt" />
+        <converter:ScaleToBool x:Key="ScaleToBool" />
+        <converter:DoubleToVisiblity x:Key="DoubleToVisiblity" />
+        <converter:OpacityToZIndex x:Key="OpacityToZIndex" />
+        <converter:ReverseOpacity x:Key="ReverseOpacity" />
+        <converter:BoolToVisibility x:Key="BoolToVisibility" />
+        <converter:AnyVisibilityAvailable x:Key="AnyVisibilityAvailable" />
+        <!--#region Storyboard Animations-->
+        <!--#region Content Title Animation-->
+        <Storyboard x:Key="contentTitleAnim">
+            <ThicknessAnimation
+                Storyboard.TargetName="contentTitle"
+                Storyboard.TargetProperty="Margin"
+                From="0,0,100,0"
+                To="0,0,0,0"
+                Duration="0:0:1" />
+        </Storyboard>
+        <!--#endregion-->
+
+        <!--#region Hamburger Menu Animations-->
+        <!--  Hamburger Menu sliding animations  -->
+        <Storyboard x:Key="sbShowLeftMenu">
+            <DoubleAnimation
+                Storyboard.TargetProperty="(StackPanel.RenderTransform).(TranslateTransform.X)"
+                From="-300"
+                To="0"
+                Duration="0:0:0.5" />
+            <DoubleAnimation
+                Storyboard.TargetProperty="(StackPanel.Opacity)"
+                From="0"
+                To="1"
+                Duration="0:0:0.5" />
+        </Storyboard>
+        <Storyboard x:Key="sbHideLeftMenu">
+            <DoubleAnimation
+                Storyboard.TargetProperty="(StackPanel.RenderTransform).(TranslateTransform.X)"
+                From="0"
+                To="-300"
+                Duration="0:0:0.5" />
+            <DoubleAnimation
+                Storyboard.TargetProperty="(StackPanel.Opacity)"
+                From="1"
+                To="0"
+                Duration="0:0:0.5" />
+        </Storyboard>
+
+        <!--  Main content change column  -->
+        <Storyboard x:Key="mainContentGridCol1Anim">
+            <Int32Animation
+                Storyboard.TargetProperty="(Grid.Column)"
+                From="0"
+                To="1"
+                Duration="0:0:0.1" />
+        </Storyboard>
+        <Storyboard x:Key="mainContentGridCol0Anim">
+            <Int32Animation
+                Storyboard.TargetProperty="(Grid.Column)"
+                From="1"
+                To="0"
+                Duration="0:0:0.9" />
+        </Storyboard>
+
+        <!--  Hamburger Menu buttons animations  -->
+        <Storyboard x:Key="btnHamMenuShow_visible">
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="{x:Static Visibility.Visible}" />
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="btnHamMenuShow_hide">
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Hidden}" />
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+        <!--#endregion-->
+        <!--#endregion-->
+
+        <!--#region Menu buttons border lines-->
+        <Style x:Key="verticalLinesBd" TargetType="{x:Type Border}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=serviceWarningGrid, Path=Visibility}" Value="Visible">
+                    <Setter Property="Border.Background">
+                        <Setter.Value>
+                            <SolidColorBrush Opacity="0.32" Color="Black" />
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=serviceWarningGrid, Path=Visibility}" Value="Collapsed">
+                    <Setter Property="Border.Effect">
+                        <Setter.Value>
+                            <DropShadowEffect ShadowDepth="2" Color="Black" />
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <!--#endregion-->
+    </Window.Resources>
+    <Window.DataContext>
+        <vm:AppViewModel />
+    </Window.DataContext>
+    <Grid x:Name="MainGrid" Loaded="Grid_Loaded">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.8*" />
+            <RowDefinition Height="8*" />
+            <RowDefinition Height="3.5*" />
+            <RowDefinition Height="84.3*" />
+            <RowDefinition Height="2.4*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="143*" />
+            <ColumnDefinition Width="1769*" />
+        </Grid.ColumnDefinitions>
+
+        <!--#region General Loader-->
+        <Grid
+            Grid.RowSpan="5"
+            Grid.ColumnSpan="2"
+            Panel.ZIndex="16"
+            Visibility="{Binding WaitIndicatorControl.IsWaitIndicatorVisible, Converter={StaticResource BoolToVisibility}}">
+            <Grid.Background>
+                <SolidColorBrush Opacity="0.25" Color="#303030" />
+            </Grid.Background>
+            <dx:WaitIndicator x:Name="generalWaitIndicator" DeferedVisibility="{Binding WaitIndicatorControl.IsWaitIndicatorTextActive}">
+                <dx:WaitIndicator.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock FontSize="20" Text="Please Wait" />
+                            <TextBlock Text="Loading..." />
+                        </StackPanel>
+                    </DataTemplate>
+                </dx:WaitIndicator.ContentTemplate>
+            </dx:WaitIndicator>
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region Service Warning Panel-->
+        <Grid
+            x:Name="serviceWarningGrid"
+            Grid.RowSpan="5"
+            Grid.ColumnSpan="2"
+            Panel.ZIndex="15">
+            <Grid.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Margin" Value="10,0,0,0" />
+                    <Setter Property="FontSize" Value="26" />
+                    <Setter Property="FontFamily" Value="{StaticResource ProximaNova}" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Foreground">
+                        <Setter.Value>
+                            <SolidColorBrush Opacity="0.4" Color="#ebebeb" />
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Grid.Resources>
+            <Grid.Visibility>
+                <MultiBinding Converter="{StaticResource AnyVisibilityAvailable}">
+                    <Binding Path="ServiceWarningPanelVisibility" />
+                    <Binding Path="AccountWarningPanelVisibility" />
+                    <Binding Path="MasterWarningPanelVisibility" />
+                    <Binding Path="InActivityPanelVisibility" />
+                </MultiBinding>
+            </Grid.Visibility>
+            <Grid.Background>
+                <SolidColorBrush Opacity="0.6" Color="#4c4c4c" />
+            </Grid.Background>
+            <StackPanel VerticalAlignment="Center">
+                <Border
+                    Padding="5"
+                    HorizontalAlignment="Center"
+                    CornerRadius="1"
+                    Visibility="{Binding InActivityPanelVisibility}">
+                    <Border.Background>
+                        <SolidColorBrush Opacity="0.8" Color="#ebebeb" />
+                    </Border.Background>
+                    <StackPanel
+                        Width="780"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Image Style="{StaticResource genInfoImg}" />
+                        <TextBlock Text="{Binding InActivityText}" ToolTip="Şuanki oturumunuzda bir sürelik hareketsizlik tespit edildi! Tepki vermezseniz aktif kullanıcı oturumunuz sonlandırılacaktır!">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Margin" Value="10,0,0,0" />
+                                    <Setter Property="FontSize" Value="26" />
+                                    <Setter Property="FontFamily" Value="{StaticResource ProximaNova}" />
+                                    <Setter Property="FontWeight" Value="SemiBold" />
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                    <Setter Property="Foreground">
+                                        <Setter.Value>
+                                            <SolidColorBrush Opacity="0.4" Color="#404040" />
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <EventTrigger RoutedEvent="TextBlock.Loaded">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation
+                                                        AccelerationRatio="0.1"
+                                                        AutoReverse="True"
+                                                        DecelerationRatio="0.9"
+                                                        RepeatBehavior="Forever"
+                                                        Storyboard.TargetProperty="Opacity"
+                                                        From="0"
+                                                        To="1"
+                                                        Duration="0:0:01" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+                <StackPanel
+                    Width="770"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Visibility="{Binding ServiceWarningPanelVisibility}">
+                    <Image Style="{StaticResource serviceWarningImg}" />
+                    <TextBlock Text="Please check running services and plc connection!" ToolTip="Lütfen çalışan servisleri ve plc bağlantısını kontrol ediniz!" />
+                </StackPanel>
+                <StackPanel
+                    Width="770"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Visibility="{Binding MasterWarningPanelVisibility}">
+                    <Image Style="{StaticResource serviceWarningImg}" />
+                    <TextBlock Text="An application is already running for this furnace!" ToolTip="Bu fırın için aktif çalışan uygulama olduğundan kullanılamaz!" />
+                </StackPanel>
+                <StackPanel
+                    Width="770"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Visibility="{Binding AccountWarningPanelVisibility}">
+                    <Image Style="{StaticResource serviceWarningImg}" />
+                    <TextBlock Text="Please sign in with the active account!" ToolTip="Lütfen aktif olan bir hesap ile giriş yapın!" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region Top Border-->
+        <Viewbox
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="-2,0"
+            Stretch="Fill">
+            <StackPanel>
+                <Border
+                    Width="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}"
+                    Height="50"
+                    Background="#8f8f8f"
+                    BorderBrush="Transparent"
+                    BorderThickness="2.4">
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="1" Color="Black" />
+                    </Border.Effect>
+                </Border>
+
+            </StackPanel>
+        </Viewbox>
+        <!--#endregion-->
+
+        <!--#region Application Name Section-->
+        <TextBlock
+            Grid.ColumnSpan="2"
+            Margin="-25,0,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="11.5"
+            FontWeight="Bold"
+            Foreground="{StaticResource CustomPassiveBlackColor}">
+            RevoScada Cure Monitoring
+        </TextBlock>
+        <!--#endregion-->
+
+        <!--#region Bottom Border-->
+        <Viewbox
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Panel.ZIndex="-50"
+            Stretch="Fill">
+            <Border
+                Width="{Binding Source={x:Static SystemParameters.FullPrimaryScreenWidth}}"
+                Height="50"
+                Background="#999999"
+                BorderBrush="Transparent"
+                BorderThickness="2.4">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="2" Color="Black" />
+                </Border.Effect>
+            </Border>
+        </Viewbox>
+        <!--#endregion-->
+
+        <!--  region Menu Bar Buttons  -->
+        <!--  *** Run Operation Section ***  -->
+        <DockPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="5,0,0,0"
+            Panel.ZIndex="15"
+            Background="#a0a0a0"
+            LastChildFill="False">
+            <Viewbox Panel.ZIndex="{Binding ElementName=VacuumBtn, Path=RenderTransform.ScaleX, Converter={StaticResource DoubleToInt}}">
+                <!--<Border x:Name="vacuumPanel">
+                    <Border.Background>
+                        <SolidColorBrush Color="#4c4c4c" Opacity="0.75"/>
+                    </Border.Background>-->
+                <ToggleButton
+                    x:Name="VacuumBtn"
+                    helpers:MenuButtonBehavior.PageTagName="vacuumLinesPage"
+                    Background="#a0a0a0"
+                    Click="VacuumBtn_Click"
+                    Command="{Binding Load_VacuumLines_Command}"
+                    Content="Vacuum Lines"
+                    FontFamily="{StaticResource ProximaNova}"
+                    Foreground="#444455"
+                    Style="{StaticResource VacuumBtnStyle}">
+                    <ToggleButton.RenderTransform>
+                        <ScaleTransform CenterX="60" CenterY="50" ScaleX="1" ScaleY="1" />
+                    </ToggleButton.RenderTransform>
+                </ToggleButton>
+                <!--</Border>-->
+            </Viewbox>
+
+            <CheckBox
+                x:Name="EnterPartsChecker"
+                IsChecked="{Binding IsEnterPartsChecked}"
+                Visibility="Collapsed" />
+            <Viewbox Panel.ZIndex="{Binding ElementName=EnterPartsBtn, Path=RenderTransform.ScaleX, Converter={StaticResource DoubleToInt}}">
+                <ToggleButton
+                    x:Name="EnterPartsBtn"
+                    helpers:MenuButtonBehavior.PageTagName="enterPartsPage"
+                    Background="{StaticResource MainWindowLight}"
+                    Click="EnterPartsBtn_Click"
+                    Command="{Binding Load_EnterParts_Command}"
+                    Content="Enter Parts"
+                    FontFamily="{StaticResource ProximaNova}"
+                    Foreground="#444455"
+                    Style="{StaticResource EnterPartsBtnStyle}">
+                    <ToggleButton.RenderTransform>
+                        <ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" />
+                    </ToggleButton.RenderTransform>
+                </ToggleButton>
+            </Viewbox>
+
+            <CheckBox
+                x:Name="RecipeEditorChecker"
+                IsChecked="{Binding IsRecipeEditorChecked}"
+                Visibility="Collapsed" />
+            <Viewbox Panel.ZIndex="{Binding ElementName=RecipeEditBtn, Path=RenderTransform.ScaleX, Converter={StaticResource DoubleToInt}}">
+                <StackPanel>
+                    <ToggleButton
+                        x:Name="RecipeEditBtn"
+                        helpers:MenuButtonBehavior.PageTagName="recipeEditorPage"
+                        Background="{StaticResource MainWindowLight}"
+                        Click="RecipeEditBtn_Click"
+                        Command="{Binding Load_RecipeEditor_Command}"
+                        Content="Recipe Editor"
+                        FontFamily="{StaticResource ProximaNova}"
+                        Foreground="#444455"
+                        Style="{StaticResource RecipeEditorBtnStyle}">
+                        <ToggleButton.RenderTransform>
+                            <ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" />
+                        </ToggleButton.RenderTransform>
+                    </ToggleButton>
+                </StackPanel>
+            </Viewbox>
+
+            <CheckBox
+                x:Name="IntegrityPageChecker"
+                IsChecked="{Binding IsIntegrityChecked}"
+                Visibility="Collapsed" />
+            <Viewbox Panel.ZIndex="{Binding ElementName=IntegrityChecksBtn, Path=RenderTransform.ScaleX, Converter={StaticResource DoubleToInt}}">
+                <StackPanel Orientation="Vertical">
+                    <ToggleButton
+                        x:Name="IntegrityChecksBtn"
+                        helpers:MenuButtonBehavior.PageTagName="integrityChecksPage"
+                        Background="{StaticResource MainWindowLight}"
+                        Click="IntegrityChecksBtn_Click"
+                        Command="{Binding Load_IntegrityChecks_Command}"
+                        Content="Integrity Checks"
+                        FontFamily="{StaticResource ProximaNova}"
+                        Foreground="#444455"
+                        Style="{StaticResource IntegrityChecksBtnStyle}">
+                        <ToggleButton.RenderTransform>
+                            <ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" />
+                        </ToggleButton.RenderTransform>
+                    </ToggleButton>
+                    <!--  Run Operation Section Title  -->
+                    <Label
+                        Margin="-100,0,0,-100"
+                        Content="Run Operation"
+                        FontFamily="{StaticResource ProximaNova}"
+                        Style="{StaticResource runOperationTitStyle}">
+                        <Label.RenderTransform>
+                            <TranslateTransform X="-5" Y="-29" />
+                        </Label.RenderTransform>
+                    </Label>
+                    <!--  Run Operation Section Mouse Hover Checker  -->
+                    <CheckBox x:Name="runOperSecHoverChecker" Visibility="Collapsed">
+                        <CheckBox.IsChecked>
+                            <MultiBinding Converter="{StaticResource ScaleToBool}">
+                                <Binding ElementName="VacuumBtn" Path="RenderTransform.ScaleX" />
+                                <Binding ElementName="EnterPartsBtn" Path="RenderTransform.ScaleX" />
+                                <Binding ElementName="RecipeEditBtn" Path="RenderTransform.ScaleX" />
+                                <Binding ElementName="IntegrityChecksBtn" Path="RenderTransform.ScaleX" />
+                                <Binding ElementName="SensorViewBtn" Path="RenderTransform.ScaleX" />
+                                <Binding ElementName="RunOperBtn" Path="RenderTransform.ScaleX" />
+                            </MultiBinding>
+                        </CheckBox.IsChecked>
+                    </CheckBox>
+                </StackPanel>
+            </Viewbox>
+            <Viewbox Panel.ZIndex="{Binding ElementName=SensorViewBtn, Path=RenderTransform.ScaleX, Converter={StaticResource DoubleToInt}}">
+                <StackPanel>
+                    <ToggleButton
+                        x:Name="SensorViewBtn"
+                        helpers:MenuButtonBehavior.PageTagName="sensorViewPage"
+                        Background="{StaticResource MainWindowLight}"
+                        Click="SensorViewBtn_Click"
+                        Command="{Binding Load_SensorView_Command}"
+                        Content="Sensor View"
+                        FontFamily="{StaticResource ProximaNova}"
+                        Foreground="#444455"
+                        Style="{StaticResource SensorViewBtnStyle}">
+                        <ToggleButton.RenderTransform>
+                            <ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" />
+                        </ToggleButton.RenderTransform>
+                    </ToggleButton>
+
+                    <!--  Sensor View Window Button  -->
+                    <ToggleButton
+                        x:Name="SensorViewNewWindowBtn"
+                        Margin="0,-20,0,-100"
+                        Panel.ZIndex="5"
+                        Background="{StaticResource MainWindowLight}"
+                        Click="SensorViewNewWindowBtn_Click"
+                        Command="{Binding Load_SensorViewWindow_Command}"
+                        FontFamily="{StaticResource ProximaNova}"
+                        Foreground="#303030"
+                        Style="{StaticResource SensorViewNewWindowBtnStyle}">
+                        <ToggleButton.RenderTransform>
+                            <TransformGroup>
+                                <TranslateTransform Y="-50" />
+                                <ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" />
+                            </TransformGroup>
+                        </ToggleButton.RenderTransform>
+                    </ToggleButton>
+                </StackPanel>
+            </Viewbox>
+            <Viewbox Panel.ZIndex="{Binding ElementName=RunOperBtn, Path=RenderTransform.ScaleX, Converter={StaticResource DoubleToInt}}">
+                <ToggleButton
+                    x:Name="RunOperBtn"
+                    helpers:MenuButtonBehavior.PageTagName="runOperationPage"
+                    Background="{StaticResource MainWindowLight}"
+                    Click="RunOperBtn_Click"
+                    Command="{Binding Load_RunOperation_Command}"
+                    Content="Run Operation"
+                    FontFamily="{StaticResource ProximaNova}"
+                    Foreground="#444455"
+                    Style="{StaticResource RunOperationBtnStyle}">
+                    <ToggleButton.RenderTransform>
+                        <ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" />
+                    </ToggleButton.RenderTransform>
+                </ToggleButton>
+            </Viewbox>
+            <!--  *****!!! Run Operation Ending Vertical Line !!!*****  -->
+            <Viewbox Grid.RowSpan="2">
+                <Border Style="{StaticResource verticalLinesBd}">
+                    <Rectangle
+                        Width="2.5"
+                        Height="300"
+                        Margin="0,-1,10,-89"
+                        Fill="Black"
+                        Opacity="0.2" />
+                </Border>
+            </Viewbox>
+            <!--  ***** Active Process Section *****  -->
+            <Viewbox Panel.ZIndex="{Binding ElementName=ManOperationBtn, Path=RenderTransform.ScaleX, Converter={StaticResource DoubleToInt}}">
+                <ToggleButton
+                    x:Name="ManOperationBtn"
+                    helpers:MenuButtonBehavior.PageTagName="manualOperationPage"
+                    Background="{StaticResource MainWindowLight}"
+                    Click="ManOperationBtn_Click"
+                    Command="{Binding Load_ManOperation_Command}"
+                    Content="Manual Operation"
+                    FontFamily="{StaticResource ProximaNova}"
+                    Foreground="#444455"
+                    Style="{StaticResource ManOperationBtnStyle}">
+                    <ToggleButton.RenderTransform>
+                        <ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" />
+                    </ToggleButton.RenderTransform>
+                </ToggleButton>
+            </Viewbox>
+            <Viewbox Panel.ZIndex="{Binding ElementName=TrendBtn, Path=RenderTransform.ScaleX, Converter={StaticResource DoubleToInt}}">
+                <StackPanel>
+                    <ToggleButton
+                        x:Name="TrendBtn"
+                        helpers:MenuButtonBehavior.PageTagName="trendPage"
+                        Background="{StaticResource MainWindowLight}"
+                        Click="TrendBtn_Click"
+                        Command="{Binding Load_TrendView_Command}"
+                        Content="Trend"
+                        FontFamily="{StaticResource ProximaNova}"
+                        Foreground="#444455"
+                        Style="{StaticResource TrendBtnStyle}">
+                        <ToggleButton.RenderTransform>
+                            <ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" />
+                        </ToggleButton.RenderTransform>
+                    </ToggleButton>
+                    <!--  Trend New Window Button  -->
+                    <ToggleButton
+                        x:Name="TrendNewWindowBtn"
+                        Margin="0,-20,0,-100"
+                        Panel.ZIndex="5"
+                        Background="{StaticResource MainWindowLight}"
+                        Click="TrendNewWindowBtn_Click"
+                        Command="{Binding Load_TrendWindow_Command}"
+                        FontFamily="{StaticResource ProximaNova}"
+                        Foreground="#303030"
+                        Style="{StaticResource TrendNewWindowBtnStyle}">
+                        <ToggleButton.RenderTransform>
+                            <TransformGroup>
+                                <TranslateTransform Y="-50" />
+                                <ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" />
+                            </TransformGroup>
+                        </ToggleButton.RenderTransform>
+                    </ToggleButton>
+                    <!--  Active Process Section Title  -->
+                    <Label
+                        Margin="-100,0,0,-100"
+                        helpers:MenuButtonBehavior.PageTagName="enterPartsPage"
+                        Content="Active Process"
+                        FontFamily="{StaticResource ProximaNova}"
+                        Style="{StaticResource activeProcessTitStyle}">
+                        <Label.RenderTransform>
+                            <TranslateTransform X="100" Y="-29" />
+                        </Label.RenderTransform>
+                    </Label>
+                    <!--  Active Process Section Mouse Hover Checker  -->
+                    <CheckBox x:Name="activeProcessHoverChecker" Visibility="Collapsed">
+                        <CheckBox.IsChecked>
+                            <MultiBinding Converter="{StaticResource ScaleToBool}">
+                                <Binding ElementName="ManOperationBtn" Path="RenderTransform.ScaleX" />
+                                <Binding ElementName="TrendBtn" Path="RenderTransform.ScaleX" />
+                                <Binding ElementName="AlarmBtn" Path="RenderTransform.ScaleX" />
+                                <Binding ElementName="RecipeBtn" Path="RenderTransform.ScaleX" />
+                            </MultiBinding>
+                        </CheckBox.IsChecked>
+                    </CheckBox>
+                </StackPanel>
+            </Viewbox>
+            <CheckBox
+                x:Name="IncomingAlarmsChecker"
+                IsChecked="{Binding IncomingAlarmsChecker.Value}"
+                Visibility="Collapsed" />
+            <Viewbox Panel.ZIndex="{Binding ElementName=AlarmBtn, Path=RenderTransform.ScaleX, Converter={StaticResource DoubleToInt}, IsAsync=False}">
+                <ToggleButton
+                    x:Name="AlarmBtn"
+                    helpers:MenuButtonBehavior.PageTagName="alarmPage"
+                    Background="{StaticResource MainWindowLight}"
+                    Click="AlarmBtn_Click"
+                    Command="{Binding Load_Alarm_Command}"
+                    Content="Alarm"
+                    FontFamily="{StaticResource ProximaNova}"
+                    Foreground="#444455"
+                    Style="{StaticResource AlarmBtnStyle}">
+                    <ToggleButton.RenderTransform>
+                        <ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" />
+                    </ToggleButton.RenderTransform>
+                </ToggleButton>
+            </Viewbox>
+            <Viewbox Panel.ZIndex="{Binding ElementName=RecipeBtn, Path=RenderTransform.ScaleX, Converter={StaticResource DoubleToInt}}">
+                <ToggleButton
+                    x:Name="RecipeBtn"
+                    helpers:MenuButtonBehavior.PageTagName="activeRecipePage"
+                    Background="{StaticResource MainWindowLight}"
+                    Click="RecipeBtn_Click"
+                    Command="{Binding Load_Recipe_Command}"
+                    Content="Active Recipe"
+                    FontFamily="{StaticResource ProximaNova}"
+                    Foreground="#444455"
+                    Style="{StaticResource RecipeBtnStyle}">
+                    <ToggleButton.RenderTransform>
+                        <ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" />
+                    </ToggleButton.RenderTransform>
+                </ToggleButton>
+            </Viewbox>
+            <!--  *****!!! Active Process Ending Vertical Line !!!*****  -->
+            <Viewbox Grid.RowSpan="2">
+                <Border Style="{StaticResource verticalLinesBd}">
+                    <Rectangle
+                        Width="2.5"
+                        Height="300"
+                        Margin="12,-1,10,-89"
+                        Fill="Black"
+                        Opacity="0.2" />
+                </Border>
+            </Viewbox>
+            <!--  ***** Active Process Section *****  -->
+            <Viewbox Panel.ZIndex="{Binding ElementName=ReportsBtn, Path=RenderTransform.ScaleX, Converter={StaticResource DoubleToInt}}">
+                <StackPanel Orientation="Vertical">
+                    <ToggleButton
+                        x:Name="ReportsBtn"
+                        helpers:MenuButtonBehavior.PageTagName="reportsPage"
+                        Background="{StaticResource MainWindowLight}"
+                        Click="ReportsBtn_Click"
+                        Command="{Binding Load_Reports_Command}"
+                        Content="Reports"
+                        FontFamily="{StaticResource ProximaNova}"
+                        Foreground="#444455"
+                        Style="{StaticResource ReportsBtnStyle}">
+                        <ToggleButton.RenderTransform>
+                            <ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" />
+                        </ToggleButton.RenderTransform>
+                    </ToggleButton>
+                    <!--  Reports Section Title  -->
+                    <Label
+                        Margin="0,0,0,-100"
+                        HorizontalAlignment="Center"
+                        Content="Reports"
+                        FontFamily="{StaticResource ProximaNova}"
+                        Style="{StaticResource reportsTitStyle}">
+                        <Label.RenderTransform>
+                            <TranslateTransform X="52" Y="-29" />
+                        </Label.RenderTransform>
+                    </Label>
+                    <!--  Reports Section Mouse Hover Checker  -->
+                    <CheckBox x:Name="reportsHoverChecker" Visibility="Collapsed">
+                        <CheckBox.IsChecked>
+                            <MultiBinding Converter="{StaticResource ScaleToBool}">
+                                <Binding ElementName="ReportsBtn" Path="RenderTransform.ScaleX" />
+                                <Binding ElementName="QualityBtn" Path="RenderTransform.ScaleX" />
+                            </MultiBinding>
+                        </CheckBox.IsChecked>
+                    </CheckBox>
+                </StackPanel>
+            </Viewbox>
+
+
+
+
+            <Viewbox Panel.ZIndex="{Binding ElementName=QualityBtn, Path=RenderTransform.ScaleX, Converter={StaticResource DoubleToInt}, IsAsync=False}">
+                <ToggleButton
+                    x:Name="QualityBtn"
+                    helpers:MenuButtonBehavior.PageTagName="qualityPage"
+                    Background="{StaticResource MainWindowLight}"
+                    Click="QualityBtn_Click"
+                    Command="{Binding Load_Quality_Command}"
+                    Content="Quality"
+                    FontFamily="{StaticResource ProximaNova}"
+                    Foreground="#444455"
+                    Style="{StaticResource QualityBtnStyle}">
+                    <ToggleButton.RenderTransform>
+                        <ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" />
+                    </ToggleButton.RenderTransform>
+                </ToggleButton>
+            </Viewbox>
+            <!--  *****!!! Reports Ending Vertical Line !!!*****  -->
+            <Viewbox Grid.RowSpan="2">
+                <Border Style="{StaticResource verticalLinesBd}">
+                    <Rectangle
+                        Width="2.5"
+                        Height="300"
+                        Margin="12,-1,10,-89"
+                        Fill="Black"
+                        Opacity="0.2" />
+                </Border>
+            </Viewbox>
+            <!--  ***** Settings Section *****  -->
+            <Viewbox Panel.ZIndex="{Binding ElementName=CalibrationBtn, Path=RenderTransform.ScaleX, Converter={StaticResource DoubleToInt}}">
+                <StackPanel>
+                    <ToggleButton
+                        x:Name="CalibrationBtn"
+                        helpers:MenuButtonBehavior.PageTagName="calibrationPage"
+                        Background="{StaticResource MainWindowLight}"
+                        Click="CalibrationBtn_Click"
+                        Command="{Binding Load_Calibration_Command}"
+                        Content="Calibration"
+                        FontFamily="{StaticResource ProximaNova}"
+                        Foreground="#444455"
+                        Style="{StaticResource CalibrationBtnStyle}">
+                        <ToggleButton.RenderTransform>
+                            <ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" />
+                        </ToggleButton.RenderTransform>
+                    </ToggleButton>
+                    <!--  Calibration New Window Button  -->
+                    <ToggleButton
+                        x:Name="CalibrationNewWindowBtn"
+                        Margin="0,-20,0,-100"
+                        Panel.ZIndex="5"
+                        Background="{StaticResource MainWindowLight}"
+                        Click="CalibrationNewWindowBtn_Click"
+                        Command="{Binding Load_CalibrationWindow_Command}"
+                        FontFamily="{StaticResource ProximaNova}"
+                        Foreground="#303030"
+                        Style="{StaticResource CalibrationNewWindowBtnStyle}">
+                        <ToggleButton.RenderTransform>
+                            <TransformGroup>
+                                <TranslateTransform Y="-50" />
+                                <ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" />
+                            </TransformGroup>
+                        </ToggleButton.RenderTransform>
+                    </ToggleButton>
+                </StackPanel>
+            </Viewbox>
+            <Viewbox Panel.ZIndex="{Binding ElementName=OscillationBtn, Path=RenderTransform.ScaleX, Converter={StaticResource DoubleToInt}}">
+                <StackPanel Orientation="Vertical">
+                    <ToggleButton
+                        x:Name="OscillationBtn"
+                        helpers:MenuButtonBehavior.PageTagName="OscillationPage"
+                        Background="{StaticResource MainWindowLight}"
+                        Click="OscillationBtn_Click"
+                        Command="{Binding Load_Oscillation_Command}"
+                        Content="Oscillation"
+                        FontFamily="{StaticResource ProximaNova}"
+                        Foreground="#444455"
+                        Style="{StaticResource OscillationBtnStyle}">
+                        <ToggleButton.RenderTransform>
+                            <ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" />
+                        </ToggleButton.RenderTransform>
+                    </ToggleButton>
+                    <!--  Settings Section Title  -->
+                    <Label
+                        Margin="-100,0,0,-100"
+                        HorizontalAlignment="Left"
+                        Content="Settings"
+                        FontFamily="{StaticResource ProximaNova}"
+                        Style="{StaticResource settingsTitStyle}">
+                        <Label.RenderTransform>
+                            <TranslateTransform X="120" Y="-29" />
+                        </Label.RenderTransform>
+                    </Label>
+                    <!--  Settings Section Mouse Hover Checker  -->
+                    <CheckBox x:Name="settingsHoverChecker" Visibility="Collapsed">
+                        <CheckBox.IsChecked>
+                            <MultiBinding Converter="{StaticResource ScaleToBool}">
+                                <Binding ElementName="CalibrationBtn" Path="RenderTransform.ScaleX" />
+                                <Binding ElementName="OscillationBtn" Path="RenderTransform.ScaleX" />
+                                <Binding ElementName="UserManagementBtn" Path="RenderTransform.ScaleX" />
+                            </MultiBinding>
+                        </CheckBox.IsChecked>
+                    </CheckBox>
+                </StackPanel>
+            </Viewbox>
+            <Viewbox Panel.ZIndex="{Binding ElementName=UserManagementBtn, Path=RenderTransform.ScaleX, Converter={StaticResource DoubleToInt}}">
+                <ToggleButton
+                    x:Name="UserManagementBtn"
+                    helpers:MenuButtonBehavior.PageTagName="userManagementPage"
+                    Background="{StaticResource MainWindowLight}"
+                    Click="UserManagementBtn_Click"
+                    Command="{Binding Load_UserControl_Command}"
+                    Content="User Management"
+                    FontFamily="{StaticResource ProximaNova}"
+                    Foreground="#444455"
+                    Style="{StaticResource UserControlBtnStyle}">
+                    <ToggleButton.RenderTransform>
+                        <ScaleTransform CenterX="50" CenterY="50" ScaleX="1" ScaleY="1" />
+                    </ToggleButton.RenderTransform>
+                </ToggleButton>
+            </Viewbox>
+            <!--  *****!!! Settings Vertical Line !!!*****  -->
+            <Viewbox>
+                <Border Style="{StaticResource verticalLinesBd}">
+                    <Rectangle
+                        Width="2.5"
+                        Height="300"
+                        Margin="1,-1,10,-89"
+                        Fill="Black"
+                        Opacity="0.2" />
+                </Border>
+            </Viewbox>
+            <!--  T.H.U.Z and S.T I.F image on the top-right  -->
+            <Viewbox
+                x:Name="logoImageGif"
+                DockPanel.Dock="Right"
+                Stretch="UniformToFill">
+                <Grid>
+                    <Grid Panel.ZIndex="2">
+                        <Grid.Style>
+                            <Style>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=serviceWarningGrid, Path=Visibility}" Value="Visible">
+                                        <Setter Property="Border.Background">
+                                            <Setter.Value>
+                                                <SolidColorBrush Opacity="0.32" Color="Black" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                    </Grid>
+                    <Image
+                        x:Name="ApplicationLogo"
+                        gif:ImageBehavior.RepeatBehavior="Forever"
+                        MouseRightButtonDown="ApplicationLogo_MouseRightButtonDown" />
+                </Grid>
+            </Viewbox>
+        </DockPanel>
+        <!--#endregion-->
+
+        <!--#region Main Content and Hamburger Menu-->
+        <Grid
+            Grid.Row="3"
+            Grid.ColumnSpan="2"
+            Panel.ZIndex="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="17*" />
+                <ColumnDefinition Width="83*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <!--<RowDefinition Height="5*"/>-->
+                <RowDefinition Height="20*" />
+                <RowDefinition Height="20*" />
+                <RowDefinition Height="30*" />
+                <RowDefinition Height="20*" />
+                <RowDefinition Height="40*" />
+            </Grid.RowDefinitions>
+
+            <!--  Hamburger Menu open button  -->
+            <Grid
+                Grid.Row="0"
+                Margin="0,7,0,0"
+                VerticalAlignment="Top"
+                Opacity="{Binding ElementName=blackOutGrid, Path=Opacity, Converter={StaticResource ReverseOpacity}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="30*" />
+                    <RowDefinition Height="20*" />
+                </Grid.RowDefinitions>
+                <Viewbox
+                    Grid.Row="1"
+                    Margin="3,0,0,0"
+                    HorizontalAlignment="Left">
+                    <Button
+                        Name="btnHamMenuShow"
+                        Click="btnHamMenuShow_Click"
+                        Style="{StaticResource hamBtn}" />
+                </Viewbox>
+            </Grid>
+
+            <!--  Hamburger Menu Section  -->
+            <Viewbox
+                Grid.RowSpan="6"
+                Margin="0,7,0,0"
+                VerticalAlignment="Top"
+                Panel.ZIndex="-20"
+                Opacity="{Binding ElementName=blackOutGrid, Path=Opacity, Converter={StaticResource ReverseOpacity}}">
+                <StackPanel
+                    x:Name="hamMenuSp"
+                    Opacity="0"
+                    Orientation="Horizontal">
+
+                    <ContentControl
+                        Margin="3,0,15,0"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        Content="{Binding HamburgerMenuItemView}" />
+
+                    <!--#region Hamburger menu hide button-->
+                    <Button
+                        Name="btnHamMenuHide"
+                        VerticalAlignment="Top"
+                        Click="btnHamMenuHide_Click"
+                        Style="{StaticResource hamBtn_flipped}"
+                        Visibility="Hidden" />
+                    <!--#endregion-->
+
+                    <StackPanel.RenderTransform>
+                        <TranslateTransform X="-300" />
+                    </StackPanel.RenderTransform>
+                </StackPanel>
+                <Viewbox.RenderTransform>
+                    <ScaleTransform ScaleX="1.05" ScaleY="1.05" />
+                </Viewbox.RenderTransform>
+            </Viewbox>
+
+            <!--  *****! CONTENT SECTION !*****  -->
+            <ContentControl
+                x:Name="contentSec"
+                Grid.Row="0"
+                Grid.RowSpan="6"
+                Grid.ColumnSpan="2"
+                Margin="28,7,0,0"
+                Content="{Binding CurrentView}" />
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region Bottom Bar Section-->
+        <ContentControl
+            Grid.Row="4"
+            Grid.ColumnSpan="2"
+            Panel.ZIndex="20">
+            <itemViews:Bottom_Bar />
+        </ContentControl>
+        <!--#endregion-->
+    </Grid>
+</Window>

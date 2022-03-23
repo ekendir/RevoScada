@@ -1,0 +1,17 @@
+﻿<Window x:Class="RevoScada.DesktopApplication.Views.Pdf_Viewer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dxpdf="http://schemas.devexpress.com/winfx/2008/xaml/pdf"
+        xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views"
+        mc:Ignorable="d"
+        Title="Help Documentation" Height="1080" Width="1920" ResizeMode="NoResize" WindowState="Maximized" WindowStyle="ToolWindow">
+    
+    <dxpdf:PdfViewerControl Name="viewer" DocumentSource="{Binding Path=PdfStream}" CommandBarStyle="None"
+                            ResetSettingsOnDocumentClose="False" ZoomMode="FitToWidth">
+        <dxpdf:PdfViewerControl.OutlinesViewerSettings>
+            <dxpdf:PdfOutlinesViewerSettings OutlinesViewerInitialState="Visible"/>
+        </dxpdf:PdfViewerControl.OutlinesViewerSettings>
+    </dxpdf:PdfViewerControl>
+</Window>

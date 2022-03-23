@@ -1,0 +1,758 @@
+﻿<UserControl
+    x:Class="RevoScada.DesktopApplication.Views.ItemViews.VacuumControlSectionType3"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="clr-namespace:RevoScada.DesktopApplication.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+    xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views.ItemViews"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Height="300"
+    d:DesignWidth="1200"
+    Background="{StaticResource MainWindowLight}"
+    Unloaded="UserControl_Unloaded"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converter:BoolToOpacity x:Key="BoolToOpacity" />
+        <converter:OpacityToEnabled x:Key="OpacityToEnabled" />
+        <converter:ZeroToBool x:Key="ZeroToBool" />
+        <converter:TwoValueToBool x:Key="TwoValueToBool" />
+
+        <Style BasedOn="{StaticResource centeredTextBox}" TargetType="{x:Type TextBox}">
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="IsReadOnlyCaretVisible" Value="False" />
+        </Style>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style BasedOn="{StaticResource vacControlGroupBox}" TargetType="{x:Type GroupBox}">
+            <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="ToolTip" Value="{Binding DisabledControlTooltipText}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type RadioButton}">
+            <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <BulletDecorator Background="Transparent">
+                            <BulletDecorator.Bullet>
+                                <Grid
+                                    Width="14"
+                                    Height="14"
+                                    Margin="0,1,0,0">
+                                    <!--  Define size of the Bullet  -->
+                                    <!--  The two borders  -->
+                                    <Border
+                                        Name="RadioOuter"
+                                        Background="Transparent"
+                                        BorderBrush="{StaticResource CustomBlackColor}"
+                                        BorderThickness="1"
+                                        CornerRadius="2" />
+                                    <Border
+                                        Name="RadioMark"
+                                        Margin="4"
+                                        Background="{StaticResource CustomBlackColor}"
+                                        CornerRadius="0"
+                                        Visibility="Hidden" />
+                                </Grid>
+                            </BulletDecorator.Bullet>
+                            <!--  Text element  -->
+                            <TextBlock
+                                x:Name="RadioText"
+                                Margin="6,0,0,0"
+                                FontSize="{TemplateBinding FontSize}"
+                                FontWeight="Bold"
+                                Foreground="{StaticResource CustomBlackColor}">
+                                <ContentPresenter />
+                            </TextBlock>
+                        </BulletDecorator>
+                        <!--  If item is checked, trigger the visibility of the mark  -->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <!--  If item is checked, trigger the visibility of the mark and change the color of the selected bullet into a darker gray for better highlighting  -->
+                                <Setter TargetName="RadioMark" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="RadioMark" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="RadioMark" Property="Opacity" Value="0.5" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="ToolTip" Value="{Binding DisabledControlTooltipText}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style
+            x:Key="GenToggleButton"
+            BasedOn="{StaticResource GenToggleButton}"
+            TargetType="{x:Type RadioButton}">
+            <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="ToolTip" Value="{Binding DisabledControlTooltipText}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <dxlc:FlowLayoutControl
+            x:Name="flowLayout"
+            Background="{StaticResource LightGrayColor}"
+            Focusable="True"
+            ItemSpace="0"
+            Loaded="flowLayout_Loaded"
+            Orientation="Horizontal">
+
+            <GroupBox
+                MinHeight="{Binding ElementName=monLinesGroupBox, Path=ActualHeight}"
+                Header="Pump Control State (L)"
+                IsEnabled="{Binding Permissions[vacuumControl]}">
+                <dxlc:LayoutGroup
+                    VerticalAlignment="Top"
+                    ItemSpace="10"
+                    Orientation="Vertical">
+                    <Border
+                        x:Name="pumpControlBorder"
+                        MinWidth="120"
+                        Margin="0,5,0,0"
+                        Padding="3"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource radioBtnBorder}">
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <RadioButton
+                                x:Name="vacPumpAuto"
+                                Margin="0,0,6,2"
+                                Click="vacPumpAuto_Clicked"
+                                Content="Auto"
+                                FontSize="12"
+                                Loaded="vacPumpAuto_Loaded"
+                                Tag="{Binding VacuumPumpControlStateAutoValue, NotifyOnTargetUpdated=True}"
+                                TargetUpdated="vacPumpAuto_TargetUpdated" />
+                            <RadioButton
+                                x:Name="vacPumpMan"
+                                Click="vacPumpMan_Clicked"
+                                Content="Man"
+                                FontSize="12"
+                                Loaded="vacPumpMan_Loaded"
+                                Tag="{Binding VacuumPumpControlStateAutoValue, NotifyOnTargetUpdated=True}"
+                                TargetUpdated="vacPumpMan_TargetUpdated" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border
+                        x:Name="vacPumpStateOnOffBorder"
+                        MinWidth="120"
+                        Padding="3"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource radioBtnBorder}">
+                        <StackPanel
+                            Margin="6,0,0,0"
+                            HorizontalAlignment="Left"
+                            Orientation="Horizontal">
+                            <RadioButton
+                                x:Name="vacPumpOn"
+                                Margin="0,0,6,2"
+                                HorizontalAlignment="Left"
+                                Click="vacPumpOn_Clicked"
+                                Content="On"
+                                FontSize="12"
+                                Loaded="vacPumpOn_Loaded"
+                                Tag="{Binding VacuumPumpControlStateOnOffValue, NotifyOnTargetUpdated=True}"
+                                TargetUpdated="vacPumpOn_TargetUpdated" />
+                            <RadioButton
+                                x:Name="vacPumpOff"
+                                Margin="12,0,0,0"
+                                Click="vacPumpOff_Clicked"
+                                Content="Off"
+                                FontSize="12"
+                                Loaded="vacPumpOff_Loaded"
+                                Tag="{Binding VacuumPumpControlStateOnOffValue, NotifyOnTargetUpdated=True}"
+                                TargetUpdated="vacPumpOff_TargetUpdated" />
+                        </StackPanel>
+                    </Border>
+
+                    <!--<ToggleButton x:Name="vacPumpStateOnOffBtn"
+                                  Tag="{Binding VacuumPumpControlStateOnOffValue, NotifyOnTargetUpdated=True}"
+                                  Content="On" Loaded="vacPumpStateOnOffBtn_Loaded"
+                                  Click="vacPumpStateOnOffBtn_Clicked" Width="50" MinWidth="55"
+                                  Height="{Binding ElementName=pumpControlBorder, Path=ActualHeight}"
+                                  FontSize="11" HorizontalAlignment="Left"
+                                  Style="{StaticResource turquoiseBtn_onOff}"
+                                  VerticalAlignment="Bottom" TargetUpdated="vacPumpStateOnOffBtn_TargetUpdated"/>-->
+
+                </dxlc:LayoutGroup>
+            </GroupBox>
+            <GroupBox
+                MinHeight="{Binding ElementName=monLinesGroupBox, Path=ActualHeight}"
+                Header="System Values Left"
+                Visibility="Collapsed">
+                <dxlc:LayoutGroup Margin="0,0,0,0" Orientation="Vertical">
+
+                    <StackPanel
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Orientation="Horizontal"
+                        Visibility="Hidden">
+                        <TextBlock VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <StackPanel>
+
+                        <StackPanel
+                            Margin="0,0,27,0"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,21,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="SP" />
+                            <TextBox
+                                MinWidth="60"
+                                Margin="0,0,3,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="{Binding SystemVacuumSPValue, StringFormat={}{0:F2}}" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="mmHg" />
+                        </StackPanel>
+                        <StackPanel
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Left"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,21,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="PV" />
+                            <TextBox
+                                MinWidth="60"
+                                Margin="0,0,3,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="{Binding SystemVacuumPvValue, StringFormat={}{0:F2}}" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="mmHg" />
+                        </StackPanel>
+
+                        <StackPanel
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Left"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="Rate" />
+                            <TextBox
+                                MinWidth="60"
+                                Margin="0,0,3,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="{Binding SystemVacuumRateValue, StringFormat={}{0:F2}}" />
+                            <TextBlock VerticalAlignment="Center" Text="mmHg/min" />
+                        </StackPanel>
+                    </StackPanel>
+
+                </dxlc:LayoutGroup>
+            </GroupBox>
+
+            <GroupBox
+                MinHeight="{Binding ElementName=monLinesGroupBox, Path=ActualHeight}"
+                Header="Set Control State"
+                IsEnabled="{Binding Permissions[vacuumControl]}">
+                <dxlc:LayoutGroup Margin="0,5,0,0" Orientation="Vertical">
+
+                    <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                        <Border
+                            MinWidth="120"
+                            Padding="3"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource radioBtnBorder}">
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                <RadioButton
+                                    x:Name="vacSetAutoRight"
+                                    Margin="0,0,6,2"
+                                    Click="vacSetAutoRight_Click"
+                                    Content="Auto"
+                                    FontSize="12"
+                                    Loaded="vacSetAutoRight_Loaded"
+                                    Tag="{Binding RightVacuumSetControlStateAutoValue, NotifyOnTargetUpdated=True}"
+                                    TargetUpdated="vacSetAutoRight_TargetUpdated" />
+                                <RadioButton
+                                    x:Name="vacSetManRight"
+                                    Margin="0,0,0,2"
+                                    Click="vacSetManRight_Click"
+                                    Content="Man"
+                                    FontSize="12"
+                                    Loaded="vacSetManRight_Loaded"
+                                    Tag="{Binding RightVacuumSetControlStateAutoValue, NotifyOnTargetUpdated=True}"
+                                    TargetUpdated="vacSetManRight_TargetUpdated" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel
+                        Margin="0,5,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            x:Name="pidText2"
+                            Margin="0,0,5,0"
+                            VerticalAlignment="Center"
+                            Text="PID" />
+                        <TextBox
+                            x:Name="pidTb2"
+                            MinWidth="60"
+                            Margin="0,0,10,0"
+                            Text="{Binding RightVacuumSetControlStatePidValue, StringFormat={}{0:F2}}" />
+                        <TextBlock VerticalAlignment="Center" Text="%" />
+                    </StackPanel>
+
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" IsEnabled="{Binding SetControlStateAutoValueSelection, Converter={StaticResource ZeroToBool}}">
+                        <TextBlock
+                            Width="{Binding ElementName=pidText, Path=ActualWidth}"
+                            Margin="0,1,5,0"
+                            VerticalAlignment="Center"
+                            Text="SP" />
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                x:Name="decreaseTenRight"
+                                MinWidth="30"
+                                MinHeight="{Binding ElementName=spValue, Path=ActualHeight}"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Click="decreaseTenRight_Click"
+                                Content="-10"
+                                FontSize="13"
+                                Style="{StaticResource turquoiseBtn}" />
+                            <Button
+                                x:Name="decreaseOneRight"
+                                MinWidth="30"
+                                MinHeight="{Binding ElementName=spValue, Path=ActualHeight}"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Click="decreaseOneRight_Click"
+                                Content="-1"
+                                FontSize="13"
+                                Style="{StaticResource turquoiseBtn}" />
+                            <TextBox
+                                x:Name="spValueRight"
+                                Height="{Binding ElementName=pidTb2, Path=ActualHeight}"
+                                MinWidth="{Binding ElementName=pidTb2, Path=ActualWidth}"
+                                GotFocus="spValueRight_GotFocus"
+                                KeyDown="spValueRight_KeyDown"
+                                LostFocus="spValueRight_LostFocus"
+                                Style="{StaticResource whiteTextBoxVer2}"
+                                Text="{Binding RightVacuumSetControlStateSpValue, StringFormat={}{0:F2}}"
+                                TextChanged="spValueRight_TextChanged" />
+                            <Button
+                                x:Name="increaseOneRight"
+                                MinWidth="30"
+                                MinHeight="{Binding ElementName=spValue, Path=ActualHeight}"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Click="increaseOneRight_Click"
+                                Content="+1"
+                                FontSize="13"
+                                Style="{StaticResource turquoiseBtn}" />
+                            <Button
+                                x:Name="increaseTenRight"
+                                MinWidth="30"
+                                MinHeight="{Binding ElementName=spValue, Path=ActualHeight}"
+                                Margin="0,0,3,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Click="increaseTenRight_Click"
+                                Content="+10"
+                                FontSize="13"
+                                Style="{StaticResource turquoiseBtn}" />
+                        </StackPanel>
+                        <TextBlock VerticalAlignment="Center" Text="mmHg" />
+                    </StackPanel>
+
+                </dxlc:LayoutGroup>
+            </GroupBox>
+
+            <GroupBox
+                MinHeight="{Binding ElementName=monLinesGroupBox, Path=ActualHeight}"
+                Header="Pump Control State (R)"
+                IsEnabled="{Binding Permissions[vacuumControl]}">
+
+                <dxlc:LayoutGroup
+                    VerticalAlignment="Top"
+                    ItemSpace="10"
+                    Orientation="Vertical">
+                    <Border
+                        x:Name="pumpControlBorder2"
+                        MinWidth="120"
+                        Margin="0,5,0,0"
+                        Padding="3"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource radioBtnBorder}">
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <RadioButton
+                                x:Name="vacPumpAutoRight"
+                                Margin="0,0,6,2"
+                                Click="vacPumpAutoRight_Click"
+                                Content="Auto"
+                                FontSize="12"
+                                Loaded="vacPumpAutoRight_Loaded"
+                                Tag="{Binding RightVacuumPumpControlStateAutoValue, NotifyOnTargetUpdated=True}"
+                                TargetUpdated="vacPumpAutoRight_TargetUpdated" />
+                            <RadioButton
+                                x:Name="vacPumpManRight"
+                                Click="vacPumpManRight_Click"
+                                Content="Man"
+                                FontSize="12"
+                                Loaded="vacPumpManRight_Loaded"
+                                Tag="{Binding RightVacuumPumpControlStateAutoValue, NotifyOnTargetUpdated=True}"
+                                TargetUpdated="vacPumpManRight_TargetUpdated" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border
+                        x:Name="vacPumpStateOnOffBorder2"
+                        MinWidth="120"
+                        Padding="3"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource radioBtnBorder}">
+                        <StackPanel
+                            Margin="6,0,0,0"
+                            HorizontalAlignment="Left"
+                            Orientation="Horizontal">
+                            <RadioButton
+                                x:Name="vacPumpOnRight"
+                                Margin="0,0,6,2"
+                                HorizontalAlignment="Left"
+                                Click="vacPumpOnRight_Click"
+                                Content="On"
+                                FontSize="12"
+                                Loaded="vacPumpOnRight_Loaded"
+                                Tag="{Binding RightVacuumPumpControlStateOnOffValue, NotifyOnTargetUpdated=True}"
+                                TargetUpdated="vacPumpOnRight_TargetUpdated" />
+                            <RadioButton
+                                x:Name="vacPumpOffRight"
+                                Margin="12,0,0,0"
+                                Click="vacPumpOffRight_Click"
+                                Content="Off"
+                                FontSize="12"
+                                Loaded="vacPumpOffRight_Loaded"
+                                Tag="{Binding RightVacuumPumpControlStateOnOffValue, NotifyOnTargetUpdated=True}"
+                                TargetUpdated="vacPumpOffRight_TargetUpdated" />
+                        </StackPanel>
+                    </Border>
+                </dxlc:LayoutGroup>
+            </GroupBox>
+
+            <GroupBox MinHeight="{Binding ElementName=monLinesGroupBox, Path=ActualHeight}" Header="System Values">
+                <dxlc:LayoutGroup Margin="0,0,0,0" Orientation="Vertical">
+
+                    <StackPanel
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Orientation="Horizontal"
+                        Visibility="Hidden">
+                        <TextBlock VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <StackPanel>
+
+                        <StackPanel
+                            Margin="0,0,27,0"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,21,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="SP" />
+                            <TextBox
+                                MinWidth="60"
+                                Margin="0,0,3,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="{Binding RightSystemVacuumSPValue, StringFormat={}{0:F2}}" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="mmHg" />
+                        </StackPanel>
+                        <StackPanel
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Left"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,21,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="PV" />
+                            <TextBox
+                                MinWidth="60"
+                                Margin="0,0,3,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="{Binding RightSystemVacuumPvValue, StringFormat={}{0:F2}}" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="mmHg" />
+                        </StackPanel>
+
+                        <StackPanel
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Left"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="Rate" />
+                            <TextBox
+                                MinWidth="60"
+                                Margin="0,0,3,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="{Binding RightSystemVacuumRateValue, StringFormat={}{0:F2}}" />
+                            <TextBlock VerticalAlignment="Center" Text="mmHg/min" />
+                        </StackPanel>
+                    </StackPanel>
+
+                </dxlc:LayoutGroup>
+            </GroupBox>
+
+            <GroupBox x:Name="monLinesGroupBox" Header="Monitoring Lines">
+                <dxlc:LayoutGroup Margin="0,0,0,0" Orientation="Vertical">
+
+                    <StackPanel Orientation="Horizontal">
+                        <!--#region High region-->
+                        <StackPanel HorizontalAlignment="Left">
+                            <TextBlock VerticalAlignment="Center" Text="High" />
+                            <TextBox Margin="0,5,0,0" Text="{Binding MonitoringLinesHighMonVacuumValue, StringFormat={}{0:F2}}" />
+                            <TextBox
+                                x:Name="portHigh"
+                                Margin="0,5,0,0"
+                                Text="{Binding MonitoringLinesHighMonPortValue, StringFormat=MON - {0}}" />
+                            <TextBox Margin="0,5,0,0" Text="{Binding MonitoringLinesHighMonVacInTimeValue, StringFormat={}{0:F2}}" />
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region Low region-->
+                        <StackPanel Margin="10,0,0,0" HorizontalAlignment="Right">
+                            <TextBlock VerticalAlignment="Center" Text="Low" />
+                            <TextBox Margin="0,5,0,0" Text="{Binding MonitoringLinesLowMonVacuumValue, StringFormat={}{0:F2}}" />
+                            <TextBox
+                                x:Name="portLow"
+                                Margin="0,5,0,0"
+                                Text="{Binding MonitoringLinesLowMonPortValue, StringFormat=MON - {0}}" />
+                            <TextBox
+                                Grid.Column="2"
+                                Margin="0,5,0,0"
+                                Text="{Binding MonitoringLinesLowMonVacInTimeValue, StringFormat={}{0:F2}}" />
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region Titles section-->
+                        <StackPanel>
+                            <TextBlock
+                                Grid.Column="4"
+                                Grid.ColumnSpan="2"
+                                Width="75"
+                                Margin="10,20,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Text="mmHg" />
+                            <TextBlock
+                                Grid.Column="4"
+                                Grid.ColumnSpan="2"
+                                Width="75"
+                                Margin="10,10,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Text="Port" />
+                            <TextBlock
+                                Grid.Column="4"
+                                Grid.ColumnSpan="2"
+                                Width="75"
+                                Margin="10,10,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Text="mmHg/min" />
+                        </StackPanel>
+                        <!--#endregion-->
+                    </StackPanel>
+                </dxlc:LayoutGroup>
+            </GroupBox>
+
+            <GroupBox Header="All Control Actions">
+                <dxlc:LayoutGroup Margin="0,0,0,0" Orientation="Vertical">
+                    <dxlc:LayoutGroup.IsEnabled>
+                        <MultiBinding Converter="{StaticResource TwoValueToBool}">
+                            <Binding Path="SetControlStateAutoValueSelection"/>
+                            <Binding Path="SetControlStateSpValueSelection"/>
+                        </MultiBinding>
+                        
+                    </dxlc:LayoutGroup.IsEnabled>
+                    <StackPanel HorizontalAlignment="Center">
+                        <StackPanel
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                            <RadioButton
+                                x:Name="vacRadioBtn"
+                                Height="20"
+                                MinWidth="45"
+                                Margin="0,0,10,0"
+                                Click="vacRadioBtn_Clicked"
+                                Content="{Binding VacuumLinesLanguageSettings[vac]}"
+                                FontSize="10"
+                                Foreground="{StaticResource CustomBlackColor}"
+                                GroupName="vacuumLinesControlGroup"
+                                IsEnabled="{Binding Permissions[vacuumControl]}"
+                                Style="{StaticResource GenToggleButton}"
+                                Tag="{Binding AllVacuumLinesVac}" />
+                            <RadioButton
+                                x:Name="ventRadioBtn"
+                                Height="20"
+                                MinWidth="45"
+                                Margin="0,0,10,0"
+                                Click="ventRadioBtn_Clicked"
+                                Content="{Binding VacuumLinesLanguageSettings[vent]}"
+                                FontSize="10"
+                                Foreground="{StaticResource CustomBlackColor}"
+                                GroupName="vacuumLinesControlGroup"
+                                IsEnabled="{Binding Permissions[vacuumControl]}"
+                                Style="{StaticResource GenToggleButton}"
+                                Tag="{Binding AllVacuumLinesVent}" />
+                            <RadioButton
+                                x:Name="offRadioBtn"
+                                Height="20"
+                                MinWidth="45"
+                                Margin="0,0,30,0"
+                                Click="offRadioBtn_Clicked"
+                                Content="{Binding VacuumLinesLanguageSettings[off]}"
+                                FontSize="10"
+                                Foreground="{StaticResource CustomBlackColor}"
+                                GroupName="vacuumLinesControlGroup"
+                                IsEnabled="{Binding Permissions[vacuumControl]}"
+                                Style="{StaticResource GenToggleButton}"
+                                Tag="{Binding AllVacuumLinesOff}" />
+
+                            <RadioButton
+                                x:Name="manRadioBtn"
+                                Height="20"
+                                MinWidth="45"
+                                Margin="0,0,10,0"
+                                Click="manRadioBtn_Clicked"
+                                Content="MAN"
+                                FontSize="10"
+                                Foreground="{StaticResource CustomBlackColor}"
+                                GroupName="vacuumLinesControlGroup"
+                                IsEnabled="{Binding Permissions[vacuumControl]}"
+                                Style="{StaticResource GenToggleButton}"
+                                Tag="{Binding AllVacuumLinesMan}" />
+
+                            <RadioButton
+                                x:Name="autoRadioBtn"
+                                Height="20"
+                                MinWidth="45"
+                                Margin="0,0,10,0"
+                                Click="autoRadioBtn_Clicked"
+                                Content="AUTO"
+                                FontSize="10"
+                                Foreground="{StaticResource CustomBlackColor}"
+                                GroupName="vacuumLinesControlGroup"
+                                IsEnabled="{Binding Permissions[vacuumControl]}"
+                                Style="{StaticResource GenToggleButton}"
+                                Tag="{Binding AllVacuumLinesAuto}" />
+                            <Border
+                                Margin="10,0,0,0"
+                                Padding="4"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Background="{StaticResource LightGrayColor}"
+                                BorderBrush="{StaticResource MainBlueColor}"
+                                BorderThickness="1">
+                                <StackPanel
+                                    x:Name="filterSp"
+                                    Opacity="{Binding LowOpacityOnFilter, Converter={StaticResource BoolToOpacity}}"
+                                    Orientation="Horizontal">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="13"
+                                        FontWeight="SemiBold"
+                                        Text="Filter By:" />
+                                    <StackPanel
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        IsEnabled="{Binding ElementName=filterSp, Path=Opacity, Converter={StaticResource OpacityToEnabled}}"
+                                        Orientation="Horizontal">
+                                        <RadioButton
+                                            x:Name="activeItemsRadioBtn"
+                                            Checked="activeItemsRadioBtn_Checked"
+                                            Content="Active Items"
+                                            FontSize="12"
+                                            Loaded="activeItemsRadioBtn_Loaded" />
+                                        <RadioButton
+                                            x:Name="allItemsRadioBtn"
+                                            Margin="6,0,0,0"
+                                            Checked="allItemsRadioBtn_Checked"
+                                            Content="All Items"
+                                            FontSize="12"
+                                            IsChecked="True"
+                                            Loaded="allItemsRadioBtn_Loaded" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                        <!--<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 5 0 10">
+                            <RadioButton x:Name="manRadioBtn" FontSize="10" Click="manRadioBtn_Clicked" Style="{StaticResource GenToggleButton}"
+                                     Tag="{Binding AllVacuumLinesMan}" Height="20" MinWidth="45" Foreground="{StaticResource CustomBlackColor}"
+                                     GroupName="vacuumLinesControlGroup" Margin="0 0 10 0" Content="MAN"/>
+                            <RadioButton  x:Name="autoRadioBtn" Click="autoRadioBtn_Clicked" Style="{StaticResource GenToggleButton}"
+                                      Tag="{Binding AllVacuumLinesAuto}" Height="20" MinWidth="45" FontSize="10" Foreground="{StaticResource CustomBlackColor}"
+                                     GroupName="vacuumLinesControlGroup" Margin="0 0 10 0" Content="AUTO"/>
+                        </StackPanel>-->
+                    </StackPanel>
+                    <!--#region Filter Section-->
+                    <!--<Border HorizontalAlignment="Center" VerticalAlignment="Top" Background="{StaticResource LightGrayColor}" BorderThickness="1"
+                            BorderBrush="{StaticResource MainBlueColor}" Padding="4" Margin="10 0 0 0">
+                        <StackPanel x:Name="filterSp" Orientation="Horizontal" Opacity="{Binding LowOpacityOnFilter, Converter={StaticResource BoolToOpacity}}">
+                            <TextBlock Text="Filter By:" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal" Margin="5 0 0 0" VerticalAlignment="Center"
+                                        IsEnabled="{Binding ElementName=filterSp, Path=Opacity, Converter={StaticResource OpacityToEnabled}}">
+                                <RadioButton x:Name="activeItemsRadioBtn" Checked="activeItemsRadioBtn_Checked" Loaded="activeItemsRadioBtn_Loaded"
+                                             Content="Active Items" FontSize="12"/>
+                                <RadioButton x:Name="allItemsRadioBtn" IsChecked="True" Loaded="allItemsRadioBtn_Loaded" Checked="allItemsRadioBtn_Checked"
+                                             Content="All Items" FontSize="12" Margin="6 0 0 0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>-->
+                    <!--#endregion-->
+                </dxlc:LayoutGroup>
+            </GroupBox>
+        </dxlc:FlowLayoutControl>
+    </Grid>
+</UserControl>

@@ -1,0 +1,34 @@
+﻿<Window
+    x:Class="RevoScada.DesktopApplication.Views.Popups.Recipe_Simulate"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:DVC="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views.Popups"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Recipe Simulation"
+    Width="1920"
+    Height="1080"
+    MinWidth="1280"
+    MinHeight="1024"
+    Background="{StaticResource GeneralWhite}"
+    WindowState="Maximized"
+    mc:Ignorable="d">
+    <Grid>
+        <DVC:Chart
+            Name="recipeSim"
+            Title="Recipe Simulation"
+            FontWeight="Bold"
+            Foreground="{StaticResource MainBlueColor}">
+            <DVC:Chart.Axes>
+                <DVC:LinearAxis x:Name="simLinearAxis" Orientation="X">
+                    <DVC:LinearAxis.AxisLabelStyle>
+                        <Style TargetType="DVC:AxisLabel">
+                            <Setter Property="StringFormat" Value="{}{0}" />
+                        </Style>
+                    </DVC:LinearAxis.AxisLabelStyle>
+                </DVC:LinearAxis>
+            </DVC:Chart.Axes>
+        </DVC:Chart>
+    </Grid>
+</Window>

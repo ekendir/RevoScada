@@ -1,0 +1,19 @@
+﻿<Window
+    x:Class="RevoScada.DesktopApplication.Views.Manual_Operation_Window"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Manual Operation Window"
+    Width="1920"
+    Height="1080"
+    Loaded="Window_Loaded"
+    ResizeMode="NoResize"
+    Unloaded="Window_Unloaded"
+    WindowStyle="ToolWindow"
+    mc:Ignorable="d">
+    <Grid>
+        <ContentControl Content="{Binding MainView}" />
+    </Grid>
+</Window>

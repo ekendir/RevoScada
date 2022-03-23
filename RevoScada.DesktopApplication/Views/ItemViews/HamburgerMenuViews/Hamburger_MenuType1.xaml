@@ -1,0 +1,952 @@
+﻿<UserControl
+    x:Class="RevoScada.DesktopApplication.Views.ItemViews.HamburgerMenuViews.Hamburger_MenuType1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:RevoScada.DesktopApplication.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views.ItemViews"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    Width="500"
+    Height="1350"
+    d:DesignWidth="400"
+    Background="{StaticResource LightGrayColor}"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:StringToAbbreviatedString x:Key="StringToAbbreviatedString" />
+        <converters:AbbreviatedStringToBool x:Key="AbbreviatedStringToBool" />
+        <converters:BoolToVisibility x:Key="BoolToVisibility" />
+        <converters:VisibilityToOppositeVisibility x:Key="VisibilityToOppositeVisibility" />
+        <sys:Int32 x:Key="abbreviationLimit">10</sys:Int32>
+
+        <!--  Standard label style for Hamburger Menu section  -->
+        <Style x:Key="titleLbl" TargetType="{x:Type Label}">
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{StaticResource CustomBlackColor}" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="5,0,0,0" />
+        </Style>
+        <Style x:Key="titleTb" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{StaticResource CustomBlackColor}" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="5,2,0,2" />
+        </Style>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="FontSize" Value="25" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="{StaticResource CustomBlackColor}" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="10,0,0,0" />
+            <Setter Property="Width" Value="250" />
+        </Style>
+        <Style x:Key="numberLabel" TargetType="{x:Type Label}">
+            <Setter Property="FontSize" Value="25" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{StaticResource CustomBlackColor}" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+        </Style>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{StaticResource CustomBlackColor}" />
+            <Setter Property="Margin" Value="10,2,8,0" />
+            <Setter Property="FontSize" Value="25" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+        </Style>
+
+        <Style
+            x:Key="slowFlashingLocalTb"
+            BasedOn="{StaticResource slowFlashingTb}"
+            TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{StaticResource GeneralWhite}" />
+            <Setter Property="Margin" Value="10,2,8,0" />
+            <Setter Property="FontSize" Value="25" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+        </Style>
+        <Style TargetType="{x:Type ProgressBar}">
+            <Setter Property="Margin" Value="3,5,5,1" />
+            <Setter Property="BorderThickness" Value="2" />
+        </Style>
+
+        <Style BasedOn="{StaticResource centeredTextBox}" TargetType="{x:Type TextBox}">
+            <Setter Property="MinWidth" Value="130" />
+            <Setter Property="MinHeight" Value="30" />
+            <Setter Property="FontSize" Value="21" />
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="IsReadOnlyCaretVisible" Value="False" />
+        </Style>
+
+        <Style x:Key="mainSp" TargetType="{x:Type StackPanel}">
+            <Setter Property="Margin" Value="0,0,0,5" />
+        </Style>
+    </UserControl.Resources>
+    <Border Background="{StaticResource LightGrayColor}">
+        <Border.RenderTransform>
+            <ScaleTransform ScaleX="1.03" ScaleY="1.03" />
+        </Border.RenderTransform>
+        <StackPanel Width="500" HorizontalAlignment="Right">
+            <!--#region Air Temperature section-->
+            <StackPanel Style="{StaticResource mainSp}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="28*" />
+                        <ColumnDefinition Width="27*" />
+                        <ColumnDefinition Width="25*" />
+                        <ColumnDefinition Width="38*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Border
+                        Grid.RowSpan="3"
+                        Grid.ColumnSpan="4"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="0" />
+                    <Border
+                        Grid.ColumnSpan="4"
+                        Background="{StaticResource SkyGrayColor}"
+                        BorderBrush="{StaticResource CustomBlackColor}"
+                        BorderThickness="1">
+                        <TextBlock Style="{StaticResource titleTb}" Text="AIR TEMPERATURE (°C)" />
+                    </Border>
+                    <!--  Calc Set Point  -->
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Calc Set" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Content="{Binding HamburgerMenuLeftModel.AirTemperatureCalcSetPoint}"
+                        ContentStringFormat="{}{0:0.0#}"
+                        Style="{StaticResource numberLabel}" />
+                    <ProgressBar
+                        x:Name="calcSetProgressBar"
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Margin="3,3,5,0"
+                        Background="#EEEEEE"
+                        BorderBrush="#c62727"
+                        Foreground="#c62727"
+                        Value="{Binding HamburgerMenuLeftModel.CalcSetProgressBarValue}" />
+                    <!--  Actual  -->
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Actual" />
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Content="{Binding HamburgerMenuLeftModel.ActualTemperatureCalcSetPoint}"
+                        ContentStringFormat="{}{0:0.0#}"
+                        Style="{StaticResource numberLabel}" />
+                    <ProgressBar
+                        x:Name="actualProgressBar"
+                        Grid.Row="2"
+                        Grid.Column="3"
+                        Background="#EEEEEE"
+                        BorderBrush="#c62727"
+                        Foreground="#c62727"
+                        Value="{Binding HamburgerMenuLeftModel.ActualTempProgressBarValue}" />
+                    <!--  Air Temp Rate  -->
+                    <Label
+                        Grid.Row="3"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Air Temp Rate" />
+                    <Label
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Content="{Binding HamburgerMenuLeftModel.AirTCRate}"
+                        ContentStringFormat="{}{0:0.0#}"
+                        Style="{StaticResource numberLabel}" />
+                </Grid>
+            </StackPanel>
+            <!--#endregion-->
+            <!--#region Part Temperature section-->
+            <StackPanel Style="{StaticResource mainSp}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="28*" />
+                        <ColumnDefinition Width="27*" />
+                        <ColumnDefinition Width="25*" />
+                        <ColumnDefinition Width="38*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Border
+                        Grid.RowSpan="4"
+                        Grid.ColumnSpan="4"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="0" />
+                    <Border
+                        Grid.ColumnSpan="4"
+                        Background="{StaticResource SkyGrayColor}"
+                        BorderBrush="{StaticResource CustomBlackColor}"
+                        BorderThickness="1">
+                        <TextBlock Style="{StaticResource titleTb}" Text="PART TEMPERATURE (°C)" />
+                    </Border>
+                    <!--  Set Point  -->
+                    <Label
+                        Grid.Row="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Set Point" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Content="{Binding HamburgerMenuLeftModel.PtcSetPoint}"
+                        ContentStringFormat="{}{0:0.0#}"
+                        Style="{StaticResource numberLabel}" />
+                    <ProgressBar
+                        x:Name="setPointProgressBar"
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Background="#EEEEEE"
+                        BorderBrush="#c62727"
+                        Foreground="#c62727"
+                        Value="{Binding HamburgerMenuLeftModel.PtcSetPointProgressBarValue}" />
+
+                    <!--  High PTC 0  -->
+                    <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3.75*" />
+                            <ColumnDefinition Width="6.25*" />
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Width="80"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="High:" />
+                        <Label
+                            x:Name="highPtcPortNum"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            Content="{Binding HamburgerMenuLeftModel.HighPTCPortNumber}"
+                            ContentStringFormat="PTC - {0}"
+                            Style="{StaticResource numberLabel}"
+                            Visibility="{Binding Path=HamburgerMenuLeftModel.PtcAllSensorsWorking, Converter={StaticResource BoolToVisibility}}" />
+                        <Label
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            Content="AIRTC HIGH"
+                            FontSize="25"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource CustomBlackColor}"
+                            Style="{StaticResource numberLabel}"
+                            Visibility="{Binding ElementName=highPtcPortNum, Path=Visibility, Converter={StaticResource VisibilityToOppositeVisibility}}" />
+                    </Grid>
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Content="{Binding HamburgerMenuLeftModel.HighPTCValue}"
+                        ContentStringFormat="{}{0:0.0#}"
+                        Style="{StaticResource numberLabel}" />
+                    <ProgressBar
+                        x:Name="highPtcProgressBar"
+                        Grid.Row="2"
+                        Grid.Column="3"
+                        Background="#EEEEEE"
+                        BorderBrush="#c62727"
+                        Foreground="#c62727"
+                        Value="{Binding HamburgerMenuLeftModel.HighPtcProgressBarValue}" />
+
+                    <!--  Low PTC 0  -->
+                    <Grid Grid.Row="3" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3.75*" />
+                            <ColumnDefinition Width="6.25*" />
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Width="80"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="Low:" />
+                        <Label
+                            x:Name="lowPtcPortNum"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            Content="{Binding HamburgerMenuLeftModel.LowPTCPortNumber}"
+                            ContentStringFormat="PTC - {0}"
+                            Style="{StaticResource numberLabel}"
+                            Visibility="{Binding Path=HamburgerMenuLeftModel.PtcAllSensorsWorking, Converter={StaticResource BoolToVisibility}}" />
+                        <Label
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            Content="AIRTC LOW"
+                            FontSize="25"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource CustomBlackColor}"
+                            Style="{StaticResource numberLabel}"
+                            Visibility="{Binding ElementName=lowPtcPortNum, Path=Visibility, Converter={StaticResource VisibilityToOppositeVisibility}}" />
+                    </Grid>
+                    <Label
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Content="{Binding HamburgerMenuLeftModel.LowPTCValue}"
+                        ContentStringFormat="{}{0:0.0#}"
+                        Style="{StaticResource numberLabel}" />
+                    <ProgressBar
+                        x:Name="lowPtcProgressBar"
+                        Grid.Row="3"
+                        Grid.Column="3"
+                        Background="#EEEEEE"
+                        BorderBrush="#c62727"
+                        Foreground="#c62727"
+                        Value="{Binding HamburgerMenuLeftModel.LowPtcProgressBarValue}" />
+                    <!--  High and Low PTC Rates  -->
+                    <StackPanel
+                        Grid.Row="4"
+                        Grid.ColumnSpan="4"
+                        Orientation="Horizontal">
+                        <!--  High PTC Rate  -->
+                        <StackPanel Width="255" Orientation="Horizontal">
+                            <Label
+                                Width="168"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="High Ptc Rate:"
+                                FontSize="22.5" />
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontSize="21"
+                                Text="{Binding HamburgerMenuLeftModel.HighPTCRate, StringFormat={}{0:F2}}" />
+                        </StackPanel>
+                        <!--  Low PTC Rate  -->
+                        <StackPanel Orientation="Horizontal">
+                            <Label
+                                Width="154"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="Low Ptc Rate:"
+                                FontSize="22.5" />
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontSize="21"
+                                Text="{Binding HamburgerMenuLeftModel.LowPTCRate, StringFormat={}{0:F2}}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                </Grid>
+            </StackPanel>
+            <!--#endregion-->
+            <StackPanel Style="{StaticResource mainSp}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="28*" />
+                        <ColumnDefinition Width="27*" />
+                        <ColumnDefinition Width="25*" />
+                        <ColumnDefinition Width="38*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Border
+                        Grid.RowSpan="4"
+                        Grid.ColumnSpan="4"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="0,0,0,1" />
+                    <Border
+                        Grid.ColumnSpan="4"
+                        Background="{StaticResource SkyGrayColor}"
+                        BorderBrush="{StaticResource CustomBlackColor}"
+                        BorderThickness="1">
+                        <TextBlock Style="{StaticResource titleTb}" Text="PRESSURE" />
+                    </Border>
+                    <!--  Press Set  -->
+                    <Label
+                        Grid.Row="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Press Set" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Content="{Binding HamburgerMenuLeftModel.PressureSet}"
+                        ContentStringFormat="{}{0:0.0#}"
+                        Style="{StaticResource numberLabel}" />
+                    <ProgressBar
+                        x:Name="highPresProgressBar"
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Background="#EEEEEE"
+                        BorderBrush="#5397B7"
+                        Foreground="#5397B7"
+                        Value="{Binding HamburgerMenuLeftModel.PressSetProgressBarValue}" />
+                    <!--  Press Actual  -->
+                    <Label
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Press Actual" />
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Content="{Binding HamburgerMenuLeftModel.PressureActual}"
+                        ContentStringFormat="{}{0:0.0#}"
+                        Style="{StaticResource numberLabel}" />
+                    <ProgressBar
+                        x:Name="lowPresProgressBar"
+                        Grid.Row="2"
+                        Grid.Column="3"
+                        Background="#EEEEEE"
+                        BorderBrush="#5397B7"
+                        Foreground="#5397B7"
+                        Value="{Binding HamburgerMenuLeftModel.PressActualProgressBarValue}" />
+
+                    <!--  Pressure Rate  -->
+                    <Label
+                        Grid.Row="3"
+                        Grid.ColumnSpan="3"
+                        Margin="0,0,79,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Content="Pressure Rate" />
+                    <Label
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Content="{Binding HamburgerMenuLeftModel.PressureRate}"
+                        ContentStringFormat="{}{0:0.0#}"
+                        Style="{StaticResource numberLabel}" />
+                </Grid>
+            </StackPanel>
+            <!--#region Vacuum Header section-->
+            <StackPanel Style="{StaticResource mainSp}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="28*" />
+                        <ColumnDefinition Width="27*" />
+                        <ColumnDefinition Width="25*" />
+                        <ColumnDefinition Width="38*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Border
+                        Grid.RowSpan="3"
+                        Grid.ColumnSpan="4"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="0" />
+                    <Border
+                        Grid.ColumnSpan="4"
+                        Background="{StaticResource SkyGrayColor}"
+                        BorderBrush="{StaticResource CustomBlackColor}"
+                        BorderThickness="1">
+                        <TextBlock Style="{StaticResource titleTb}" Text="{Binding VacuumUnitTitle, StringFormat='VACUUM HEADER ({0})'}" />
+                        <!--<TextBlock Style="{StaticResource titleTb}" Text="VACUUM HEADER (mmHg)"  />-->
+                    </Border>
+                    <!--  Vac Set  -->
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Vac Set" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Content="{Binding HamburgerMenuLeftModel.VacSet}"
+                        ContentStringFormat="{}{0:0.0#}"
+                        Style="{StaticResource numberLabel}" />
+                    <ProgressBar
+                        x:Name="vacSetProgressBar"
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Background="#EEEEEE"
+                        BorderBrush="#2F82A8"
+                        Foreground="#2F82A8"
+                        Value="{Binding HamburgerMenuLeftModel.VacSetProgressBarValue}" />
+                    <!--  Vac Actual  -->
+                    <Label
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Vac Actual" />
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Content="{Binding HamburgerMenuLeftModel.VacActual}"
+                        ContentStringFormat="{}{0:0.0#}"
+                        Style="{StaticResource numberLabel}" />
+                    <ProgressBar
+                        x:Name="vacActualProgressBar"
+                        Grid.Row="2"
+                        Grid.Column="3"
+                        Background="#EEEEEE"
+                        BorderBrush="#2F82A8"
+                        Foreground="#2F82A8"
+                        Value="{Binding HamburgerMenuLeftModel.VacActualProgressBarValue}" />
+                    <!--  Vac Header Rate  -->
+                    <Label
+                        Grid.Row="3"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Vac Header Rate" />
+                    <Label
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Content="{Binding HamburgerMenuLeftModel.VacHeaderRate}"
+                        ContentStringFormat="{}{0:0.0#}"
+                        Style="{StaticResource numberLabel}" />
+                </Grid>
+            </StackPanel>
+            <!--#endregion-->
+
+            <!--#region Vacuum Header Section-->
+            <StackPanel Style="{StaticResource mainSp}">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="28*" />
+                        <ColumnDefinition Width="27*" />
+                        <ColumnDefinition Width="25*" />
+                        <ColumnDefinition Width="38*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!--<Border
+                        Grid.RowSpan="3"
+                        Grid.ColumnSpan="4"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="0" />
+                    <Border
+                        Grid.ColumnSpan="4"
+                        Background="{StaticResource SkyGrayColor}"
+                        BorderBrush="{StaticResource CustomBlackColor}"
+                        BorderThickness="1">
+                        <TextBlock Style="{StaticResource titleTb}" Text="{Binding VacuumUnitTitle, StringFormat='PART VACUUM HEADER ({0})'}" />
+                    </Border>
+                    <Border
+                        Grid.RowSpan="4"
+                        Grid.ColumnSpan="4"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="0" />-->
+
+
+                    <Border
+                        Grid.RowSpan="4"
+                        Grid.ColumnSpan="4"
+                        Background="Transparent"
+                        BorderBrush="{StaticResource CustomBlackColor}"
+                        BorderThickness="0,0,0,1" />
+                    <Border
+                        Grid.ColumnSpan="4"
+                        Background="{StaticResource SkyGrayColor}"
+                        BorderBrush="{StaticResource CustomBlackColor}"
+                        BorderThickness="1">
+                        <TextBlock Style="{StaticResource titleTb}" Text="{Binding VacuumUnitTitle, StringFormat='PART VACUUM HEADER ({0})'}" />
+                    </Border>
+                    <!--  High MON  -->
+                    <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3.75*" />
+                            <ColumnDefinition Width="6.25*" />
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Width="80"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="High:" />
+                        <Label
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            Content="{Binding HamburgerMenuLeftModel.HighMONPortNumber}"
+                            ContentStringFormat="MON - {0}"
+                            Style="{StaticResource numberLabel}" />
+                        <!--<TextBlock Style="{StaticResource titleTb}" Text="{Binding VacuumUnitTitle, StringFormat='PART VACUUM HEADER ({0})'}" />-->
+                    </Grid>
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Content="{Binding HamburgerMenuLeftModel.HighMONValue}"
+                        ContentStringFormat="{}{0:0.0#}"
+                        Style="{StaticResource numberLabel}" />
+                    <ProgressBar
+                        x:Name="highMonProgressBar"
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Background="#EEEEEE"
+                        BorderBrush="#2F82A8"
+                        Foreground="#2F82A8"
+                        Value="{Binding HamburgerMenuLeftModel.HighMonProgressBarValue}" />
+                    <!--  Low MON  -->
+                    <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3.75*" />
+                            <ColumnDefinition Width="6.25*" />
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Width="80"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="Low:" />
+                        <Label
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            Content="{Binding HamburgerMenuLeftModel.LowMONPortNumber}"
+                            ContentStringFormat="MON - {0}"
+                            Style="{StaticResource numberLabel}" />
+                    </Grid>
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Content="{Binding HamburgerMenuLeftModel.LowMONValue}"
+                        ContentStringFormat="{}{0:0.0#}"
+                        Style="{StaticResource numberLabel}" />
+                    <ProgressBar
+                        x:Name="lowMonProgressBar"
+                        Grid.Row="2"
+                        Grid.Column="3"
+                        Background="#EEEEEE"
+                        BorderBrush="#2F82A8"
+                        Foreground="#2F82A8"
+                        Value="{Binding HamburgerMenuLeftModel.LowMonProgressBarValue}" />
+
+                    <!--  High and Low MON Rates  -->
+                    <StackPanel
+                        Grid.Row="4"
+                        Grid.ColumnSpan="4"
+                        Orientation="Horizontal">
+
+
+                        <!--  High MON Rate  -->
+                        <StackPanel Width="253" Orientation="Horizontal">
+                            <Label
+                                Width="166"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="High Mon Rate:"
+                                FontSize="22.5" />
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontSize="21"
+                                Text="{Binding HamburgerMenuLeftModel.HighMonRate, StringFormat={}{0:F2}}" />
+                        </StackPanel>
+                        <!--  Low MON Rate  -->
+                        <StackPanel Orientation="Horizontal">
+                            <Label
+                                Width="157"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="Low Mon Rate:"
+                                FontSize="22.5" />
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                FontSize="21"
+                                Text="{Binding HamburgerMenuLeftModel.LowMonRate, StringFormat={}{0:F2}}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+            <!--#endregion-->
+            <!--#region Pressure Section-->
+
+            <!--#endregion-->
+            <!--#region Bottom Section-->
+            <StackPanel Style="{StaticResource mainSp}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="55*" />
+                        <ColumnDefinition Width="45*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <CheckBox
+                        x:Name="isSystemAuto"
+                        IsChecked="{Binding HamburgerMenuLeftModel.IsSystemAuto}"
+                        Visibility="Collapsed" />
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Text="System:" />
+                    <TextBlock Grid.Row="0" Grid.Column="1">
+                        <TextBlock.Style>
+                            <Style BasedOn="{StaticResource slowFlashingLocalTb}" TargetType="{x:Type TextBlock}">
+                                <Setter Property="Margin" Value="10,2,8,0" />
+                                <Setter Property="FontSize" Value="18" />
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=isSystemAuto, Path=IsChecked}" Value="True">
+                                        <Setter Property="Text" Value="AUTO" />
+                                        <Setter Property="Padding" Value="5,1,5,1" />
+                                        <Setter Property="Width" Value="150" />
+                                        <Setter Property="Background" Value="{StaticResource TechnicalGreenColor}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=isSystemAuto, Path=IsChecked}" Value="False">
+                                        <Setter Property="Foreground" Value="{StaticResource GeneralWhite}" />
+                                        <Setter Property="Text" Value="MANUAL" />
+                                        <Setter Property="Padding" Value="5,1,5,1" />
+                                        <Setter Property="Width" Value="150" />
+                                        <Setter Property="Background" Value="{StaticResource CustomYellowColorDark}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Text="Run Status:" />
+                    <TextBlock
+                        x:Name="runStatusValue"
+                        Text="{Binding HamburgerMenuLeftModel.RunStatus}"
+                        Visibility="Collapsed" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="1">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Margin" Value="10,8,8,0" />
+                                <Setter Property="FontSize" Value="18" />
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=runStatusValue, Path=Text}" Value="STOP">
+                                        <Setter Property="Text" Value="STOP" />
+                                        <Setter Property="Foreground" Value="{StaticResource GeneralWhite}" />
+                                        <Setter Property="Padding" Value="5,1,5,1" />
+                                        <Setter Property="Width" Value="150" />
+                                        <Setter Property="Background" Value="{StaticResource CustomBlackColor}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=runStatusValue, Path=Text}" Value="RUNNING">
+                                        <Setter Property="Text" Value="RUNNING" />
+                                        <Setter Property="Foreground" Value="{StaticResource GeneralWhite}" />
+
+                                        <Setter Property="Padding" Value="5,1,5,1" />
+                                        <Setter Property="Width" Value="150" />
+                                        <Setter Property="Background" Value="{StaticResource TechnicalGreenColor}" />
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation
+                                                        AccelerationRatio="0.7"
+                                                        AutoReverse="True"
+                                                        DecelerationRatio="0.3"
+                                                        RepeatBehavior="Forever"
+                                                        Storyboard.TargetProperty="Opacity"
+                                                        From="0.5"
+                                                        To="1"
+                                                        Duration="0:0:2" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=runStatusValue, Path=Text}" Value="HOLD">
+                                        <Setter Property="Text" Value="HOLD" />
+                                        <Setter Property="Foreground" Value="{StaticResource GeneralWhite}" />
+                                        <Setter Property="Padding" Value="5,1,5,1" />
+                                        <Setter Property="Width" Value="150" />
+                                        <Setter Property="Background" Value="{StaticResource Sensor_Red}" />
+                                    </DataTrigger>
+
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Text="Batch Start Time:"
+                        TextWrapping="NoWrap" />
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Width="220"
+                        FontSize="22"
+                        Text="{Binding HamburgerMenuLeftModel.BatchStartTime}"
+                        TextWrapping="NoWrap" />
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Text="Batch Finish Time:"
+                        TextWrapping="NoWrap" />
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Width="220"
+                        FontSize="22"
+                        Text="{Binding HamburgerMenuLeftModel.BatchFinishTime}"
+                        TextWrapping="NoWrap">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Foreground" Value="{StaticResource CustomBlackColor}" />
+                                <Setter Property="Margin" Value="10,2,8,0" />
+                                <Setter Property="FontSize" Value="25" />
+                                <Setter Property="FontWeight" Value="Bold" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding HamburgerMenuLeftModel.RunStatus}" Value="STOP">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <TextBlock
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Text="Active Batch:" />
+                    <TextBlock
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Text="{Binding HamburgerMenuLeftModel.BatchName}"
+                        TextWrapping="Wrap" />
+
+                    <TextBlock
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Text="Active Recipe:" />
+                    <TextBlock
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        Text="{Binding HamburgerMenuLeftModel.RecipeName, Converter={StaticResource StringToAbbreviatedString}, ConverterParameter={StaticResource abbreviationLimit}}"
+                        TextWrapping="Wrap">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Foreground" Value="{StaticResource CustomBlackColor}" />
+                                <Setter Property="Margin" Value="10,2,8,0" />
+                                <Setter Property="FontSize" Value="25" />
+                                <Setter Property="FontWeight" Value="Bold" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding HamburgerMenuLeftModel.RecipeName, Converter={StaticResource AbbreviatedStringToBool}, ConverterParameter={StaticResource abbreviationLimit}}" Value="True">
+                                        <Setter Property="ToolTip" Value="{Binding HamburgerMenuLeftModel.RecipeName}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <TextBlock
+                        Grid.Row="6"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Text="Seg. Description:" />
+                    <TextBlock
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        Text="{Binding HamburgerMenuLeftModel.SegDescription}"
+                        TextWrapping="Wrap" />
+
+                    <TextBlock
+                        Grid.Row="7"
+                        Grid.Column="0"
+                        Text="Segment No:" />
+                    <TextBlock
+                        Grid.Row="7"
+                        Grid.Column="1"
+                        Text="{Binding HamburgerMenuLeftModel.SegmentNo}"
+                        TextWrapping="Wrap" />
+
+                    <TextBlock
+                        Grid.Row="8"
+                        Grid.Column="0"
+                        Text="Seg. Elapsed Time:" />
+                    <TextBlock
+                        Grid.Row="8"
+                        Grid.Column="1"
+                        Text="{Binding HamburgerMenuLeftModel.SegElapsedTime}"
+                        TextWrapping="Wrap" />
+
+                    <TextBlock
+                        Grid.Row="9"
+                        Grid.Column="0"
+                        Text="Seg. Waiting Time:" />
+                    <TextBlock
+                        Grid.Row="9"
+                        Grid.Column="1"
+                        Text="{Binding HamburgerMenuLeftModel.SegWaitingTime}"
+                        TextWrapping="Wrap" />
+
+                    <TextBlock
+                        Grid.Row="10"
+                        Grid.Column="0"
+                        Text="Batch Elapsed Time:" />
+                    <TextBlock
+                        Grid.Row="10"
+                        Grid.Column="1"
+                        Width="220"
+                        FontSize="22"
+                        Text="{Binding HamburgerMenuLeftModel.BatchElapsedTime}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Row="11"
+                        Grid.Column="0"
+                        Text="Total Working Time:" />
+                    <TextBlock
+                        Grid.Row="11"
+                        Grid.Column="1"
+                        Width="220"
+                        FontSize="22"
+                        Text="{Binding HamburgerMenuLeftModel.BatchTotalWorkingTime}"
+                        TextWrapping="Wrap" />
+                </Grid>
+            </StackPanel>
+            <!--#endregion-->
+        </StackPanel>
+    </Border>
+</UserControl>

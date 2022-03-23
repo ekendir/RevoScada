@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3929AA3D-D554-4F4E-88BE-BFC96B656B0B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RevoScada.Business</RootNamespace>
+    <AssemblyName>RevoScada.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActiveTagService.cs" />
+    <Compile Include="ApplicationPropertyService.cs" />
+    <Compile Include="BagService.cs" />
+    <Compile Include="BatchQualityDetailService.cs" />
+    <Compile Include="BatchQualityService.cs" />
+    <Compile Include="BatchService.cs" />
+    <Compile Include="Configurations\FurnaceService.cs" />
+    <Compile Include="Configurations\FurnaceTypeService.cs" />
+    <Compile Include="Configurations\PlcDeviceService.cs" />
+    <Compile Include="Configurations\PlcTypeService.cs" />
+    <Compile Include="Configurations\SiemensPlcConfigService.cs" />
+    <Compile Include="Configurations\SiemensTagConfigurationService.cs" />
+    <Compile Include="CurrentProcessInfoService.cs" />
+    <Compile Include="DisabledPortService.cs" />
+    <Compile Include="DataLogService.cs" />
+    <Compile Include="GenericService.cs" />
+    <Compile Include="IntegratedCheckResultService.cs" />
+    <Compile Include="LotPropertyService.cs" />
+    <Compile Include="PageTagConfigurationService.cs" />
+    <Compile Include="PermissionService.cs" />
+    <Compile Include="PlcAlarmService.cs" />
+    <Compile Include="PredefinedRecipeFieldService.cs" />
+    <Compile Include="ProcessEventLogService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecipeDetailHistoryService.cs" />
+    <Compile Include="RecipeDetailService.cs" />
+    <Compile Include="RecipeFieldService.cs" />
+    <Compile Include="RecipeGroupService.cs" />
+    <Compile Include="RecipeService.cs" />
+    <Compile Include="Report\AlarmReportService.cs" />
+    <Compile Include="Report\BatchReportService.cs" />
+    <Compile Include="Report\DataLogReportService.cs" />
+    <Compile Include="Report\IntegratedCheckReportService.cs" />
+    <Compile Include="Report\NumericReportService.cs" />
+    <Compile Include="Report\QualityReportService.cs" />
+    <Compile Include="Report\RecipeReportService.cs" />
+    <Compile Include="Report\ReportHeaderInfoService.cs" />
+    <Compile Include="Report\TrendReportService.cs" />
+    <Compile Include="SkippedIntegratedCheckResultService.cs" />
+    <Compile Include="UserGroupService.cs" />
+    <Compile Include="UserService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Revo.Core\Revo.Core.csproj">
+      <Project>{8c3f5af7-5f3b-4719-bf2a-fed4d814c12d}</Project>
+      <Name>Revo.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RevoScada.DataAccess\RevoScada.DataAccess.csproj">
+      <Project>{F0412F69-7EC7-4D6E-A5F3-74012807BC55}</Project>
+      <Name>RevoScada.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RevoScada.Entities\RevoScada.Entities.csproj">
+      <Project>{25956A51-F1BF-45ED-8F89-16AD92C548A1}</Project>
+      <Name>RevoScada.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

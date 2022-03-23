@@ -1,0 +1,52 @@
+﻿<Window x:Class="RevoScada.DesktopApplication.Views.ReportTemplates.ReportViewer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:dxp="http://schemas.devexpress.com/winfx/2008/xaml/printing"
+    
+        xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"    
+           xmlns:dxpbars="http://schemas.devexpress.com/winfx/2008/xaml/printing/bars"
+    
+        xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views.ReportTemplates"
+        mc:Ignorable="d"
+        Title="Scada Report Viewer"   WindowState="Maximized"
+   >
+
+
+
+    <Grid    Loaded="Grid_Loaded">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="0*" />
+        </Grid.ColumnDefinitions>
+
+
+        <dxp:DocumentPreviewControl Name="preview" Grid.Column="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+            
+            <dxp:DocumentPreviewControl.CommandProvider>
+                <dxp:DocumentCommandProvider>
+                    <dxp:DocumentCommandProvider.RibbonActions>
+                       
+                        <dxb:RemoveAction ElementName="{x:Static dxpbars:DefaultPreviewBarItemNames.Send}"/>
+                        <dxb:RemoveAction ElementName="{x:Static dxpbars:DefaultPreviewBarItemNames.FileGroup}"/>
+                        <dxb:RemoveAction ElementName="{x:Static dxpbars:DefaultPreviewBarItemNames.FirstPage}"/>
+                        <dxb:RemoveAction ElementName="{x:Static dxpbars:DefaultPreviewBarItemNames.LastPage}"/>
+                        <dxb:RemoveAction ElementName="{x:Static dxpbars:DefaultPreviewBarItemNames.FileGroup}"/>
+                        <dxb:RemoveAction ElementName="{x:Static dxpbars:DefaultPreviewBarItemNames.PrintGroup}"/>
+                        <dxb:RemoveAction ElementName="{x:Static dxpbars:DefaultPreviewBarItemNames.NavigationPane}"/>
+                        <dxb:RemoveAction ElementName="{x:Static dxpbars:DefaultPreviewBarItemNames.PageLayoutSplit}"/>
+                        <dxb:RemoveAction ElementName="{x:Static dxpbars:DefaultPreviewBarItemNames.Zoom}"/>
+                        <dxb:RemoveAction ElementName="{x:Static dxpbars:DefaultPreviewBarItemNames.ViewGroup}"/>
+                        <dxb:RemoveAction ElementName="{x:Static dxpbars:DefaultPreviewBarItemNames.DocumentGroup}"/>
+                        <dxb:RemoveAction ElementName="{x:Static dxpbars:DefaultPreviewBarItemNames.PrintGroup}"/>
+                    </dxp:DocumentCommandProvider.RibbonActions>
+                </dxp:DocumentCommandProvider>
+            </dxp:DocumentPreviewControl.CommandProvider>
+        </dxp:DocumentPreviewControl>
+
+    </Grid>
+           
+</Window>

@@ -1,0 +1,141 @@
+﻿<UserControl
+    x:Class="RevoScada.DesktopApplication.Views.Vacuum_Lines"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="clr-namespace:RevoScada.DesktopApplication.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
+    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+    xmlns:itemViews="clr-namespace:RevoScada.DesktopApplication.Views.ItemViews"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
+    Background="{StaticResource MainWindowLight}"
+    Loaded="UserControl_Loaded"
+    Unloaded="UserControl_Unloaded"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converter:VisibilityToOppositeVisibility x:Key="VisibilityToOppositeVisibility" />
+        <converter:TwoValueToBool x:Key="TwoValueToBool" />
+    </UserControl.Resources>
+    <Grid Loaded="Grid_Loaded">
+
+        <!--#region No Selected Vac Ports Found-->
+        <Viewbox
+            x:Name="vacNotFoundSec"
+            MaxWidth="500"
+            VerticalAlignment="Center"
+            Visibility="{Binding VacNotFoundVisibility}">
+            <ContentControl>
+                <itemViews:Selected_Vac_Not_Found />
+            </ContentControl>
+        </Viewbox>
+        <!--#endregion-->
+
+        <!--#region Flow Layout Control and Bottom Section-->
+        <dxdo:DockLayoutManager
+            Name="dockLayoutManager"
+            AutoHideExpandMode="MouseDown"
+            AutoHideMode="Inline"
+            Background="Transparent"
+            DockPanel.Dock="Bottom"
+            Loaded="dockLayoutManager_Loaded"
+            Visibility="{Binding ContainerVisibility}">
+            <dxdo:LayoutGroup x:Name="rootGroup" Orientation="Horizontal">
+                <dxdo:LayoutPanel
+                    AllowClose="False"
+                    AllowDrag="False"
+                    AllowFloat="False"
+                    AllowMove="False"
+                    AllowSizing="False"
+                    Background="Transparent"
+                    FloatOnDoubleClick="False"
+                    ShowBorder="False"
+                    ShowCaption="False"
+                    ShowCloseButton="False"
+                    ShowCollapseButton="False"
+                    ShowExpandButton="False"
+                    ShowMaximizeButton="False"
+                    ShowMinimizeButton="False"
+                    ShowPinButton="False">
+                    <dxdo:LayoutPanel.IsEnabled>
+                        <MultiBinding Converter="{StaticResource TwoValueToBool}">
+                            <Binding Path="SetControlStateAutoValueSelection" />
+                            <Binding Path="SetControlStateSpValueSelection" />
+                        </MultiBinding>
+                    </dxdo:LayoutPanel.IsEnabled>
+                    <dxlc:FlowLayoutControl
+                        x:Name="dxFlowLayoutControl"
+                        Margin="0,0,10,10"
+                        DockPanel.Dock="Top"
+                        ItemSpace="0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding ElementName=vacNotFoundSec, Path=Visibility, Converter={StaticResource VisibilityToOppositeVisibility}}" />
+                    <dxdo:LayoutPanel.Style>
+                        <Style TargetType="{x:Type dxdo:LayoutPanel}">
+                            <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Opacity" Value="0.4" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="ToolTip" Value="{Binding ControlSetSectionWarningText}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </dxdo:LayoutPanel.Style>
+                </dxdo:LayoutPanel>
+            </dxdo:LayoutGroup>
+            <dxdo:DockLayoutManager.AutoHideGroups>
+                <dxdo:AutoHideGroup
+                    Background="Transparent"
+                    DockType="Bottom"
+                    Expanded="True">
+                    <dxdo:LayoutPanel
+                        x:Name="genVacuumDataSec"
+                        AllowClose="False"
+                        AllowDrag="False"
+                        AllowFloat="False"
+                        AllowMove="False"
+                        AllowSizing="False"
+                        Background="Transparent"
+                        CaptionLocation="Right"
+                        CaptionVerticalAlignment="Top"
+                        Closed="False"
+                        FloatOnDoubleClick="False"
+                        ItemHeight="{Binding ControlItemHeight}"
+                        ShowBorder="False"
+                        ShowCaption="False"
+                        ShowCloseButton="False"
+                        ShowCollapseButton="False"
+                        ShowExpandButton="False"
+                        ShowHideButton="False"
+                        ShowMaximizeButton="False"
+                        ShowMinimizeButton="False"
+                        ShowPinButton="False"
+                        ShowTabCaptionImage="False">
+
+                        <ContentControl
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            Content="{Binding VacuumLinesItemView}" />
+                        <!--<ContentControl>
+                            <itemViews:VacuumControlSectionType2/>
+                        </ContentControl>-->
+                        <dxdo:LayoutPanel.CaptionTemplate>
+                            <DataTemplate>
+                                <Image
+                                    Width="23"
+                                    Height="23"
+                                    Margin="0,0,0,-4"
+                                    VerticalAlignment="Bottom"
+                                    Source="pack://siteoforigin:,,,/Resources\More_50px.png" />
+                            </DataTemplate>
+                        </dxdo:LayoutPanel.CaptionTemplate>
+                    </dxdo:LayoutPanel>
+                </dxdo:AutoHideGroup>
+            </dxdo:DockLayoutManager.AutoHideGroups>
+        </dxdo:DockLayoutManager>
+        <!--#endregion-->
+    </Grid>
+</UserControl>

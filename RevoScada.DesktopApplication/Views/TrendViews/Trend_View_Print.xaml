@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="RevoScada.DesktopApplication.Views.TrendViews.Trend_View_Print"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+             xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views.TrendViews"
+             mc:Ignorable="d" 
+             d:DesignHeight="1080" d:DesignWidth="1920">
+    <Grid>
+        <dxc:ChartControl
+            x:Name="dxTrendChart"
+            Margin="10,0,10,10"
+            AutoLayout="True">
+            <dxc:ChartControl.ToolTipController>
+                <dxc:ChartToolTipController CloseOnClick="False" />
+            </dxc:ChartControl.ToolTipController>
+            <dxc:ChartControl.CrosshairOptions>
+                <dxc:CrosshairOptions
+                    x:Name="dxTrendCrosshairOptions"
+                    CrosshairLabelMode="ShowForNearestSeries"
+                    ShowCrosshairLabels="True">
+                    <dxc:CrosshairOptions.CommonLabelPosition>
+                        <dxc:CrosshairMousePosition />
+                    </dxc:CrosshairOptions.CommonLabelPosition>
+                </dxc:CrosshairOptions>
+            </dxc:ChartControl.CrosshairOptions>
+            <dxc:ChartControl.Legends>
+                <dxc:Legend
+                    HorizontalPosition="RightOutside"
+                    MarkerMode="CheckBox"
+                    VerticalPosition="Top">
+                    <dxc:Legend.Title>
+                        <dxc:LegendTitle HorizontalAlignment="Center" Content="Series" />
+                    </dxc:Legend.Title>
+                </dxc:Legend>
+            </dxc:ChartControl.Legends>
+            <dxc:ChartControl.Diagram>
+                <dxc:XYDiagram2D x:Name="trendXyDiagram2d">
+                    <dxc:XYDiagram2D.NavigationOptions>
+                        <dxc:NavigationOptions x:Name="navOptions" UseMouse="False"/>
+                    </dxc:XYDiagram2D.NavigationOptions>
+                    <dxc:XYDiagram2D.AxisY>
+                        <dxc:AxisY2D Interlaced="False" GridLinesVisible="True" GridLinesMinorVisible="True">
+                        </dxc:AxisY2D>
+                    </dxc:XYDiagram2D.AxisY>
+                    <dxc:XYDiagram2D.AxisX>
+                        <dxc:AxisX2D Name="axisX" GridLinesMinorVisible="True" GridLinesVisible="True" Interlaced="True">
+                            <dxc:AxisX2D.Title>
+                                <dxc:AxisTitle Content="Minutes" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource CustomPassiveBlackColor}"/>
+                            </dxc:AxisX2D.Title>
+                            <dxc:AxisX2D.Label>
+                                <dxc:AxisLabel/>
+                            </dxc:AxisX2D.Label>
+                        </dxc:AxisX2D>
+                    </dxc:XYDiagram2D.AxisX>
+                </dxc:XYDiagram2D>
+            </dxc:ChartControl.Diagram>
+        </dxc:ChartControl>
+    </Grid>
+</UserControl>

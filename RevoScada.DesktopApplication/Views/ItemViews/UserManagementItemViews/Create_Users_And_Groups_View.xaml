@@ -1,0 +1,548 @@
+﻿<UserControl
+    x:Class="RevoScada.DesktopApplication.Views.ItemViews.UserManagementItemViews.Create_Users_And_Groups_View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:RevoScada.DesktopApplication.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+    xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views.ItemViews.UserManagementItemViews"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
+    Loaded="UserControl_Loaded"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:TagToVisibility x:Key="TagToVisibility" />
+        <converters:BoolToVisibility x:Key="BoolToVisibility" />
+        <converters:VisibilityToOppositeVisibility x:Key="VisibilityToOppositeVisibility" />
+
+        <Storyboard x:Key="dbResultPositiveFadeOutStoryBoard">
+            <DoubleAnimation
+                Storyboard.TargetName="dbSaveResultPositivePopup"
+                Storyboard.TargetProperty="Opacity"
+                From="0"
+                To="1"
+                Duration="0:0:0.5" />
+            <DoubleAnimation
+                BeginTime="0:0:1.75"
+                Storyboard.TargetName="dbSaveResultPositivePopup"
+                Storyboard.TargetProperty="Opacity"
+                From="1"
+                To="0"
+                Duration="0:0:0.5" />
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="dbSaveResultPositivePopup" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
+                <DiscreteObjectKeyFrame KeyTime="0:0:2.25" Value="{x:Static Visibility.Collapsed}" />
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Key="dbResultNegativeFadeOutStoryBoard">
+            <DoubleAnimation
+                Storyboard.TargetName="dbSaveResultNegativePopup"
+                Storyboard.TargetProperty="Opacity"
+                From="0"
+                To="1"
+                Duration="0:0:0.5" />
+            <DoubleAnimation
+                BeginTime="0:0:1.75"
+                Storyboard.TargetName="dbSaveResultNegativePopup"
+                Storyboard.TargetProperty="Opacity"
+                From="1"
+                To="0"
+                Duration="0:0:0.5" />
+            <ObjectAnimationUsingKeyFrames
+                BeginTime="00:00:00"
+                Storyboard.TargetName="dbSaveResultNegativePopup"
+                Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
+                <DiscreteObjectKeyFrame KeyTime="0:0:2.25" Value="{x:Static Visibility.Collapsed}" />
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+    <Grid Background="{StaticResource LightGrayColor}">
+        <!--#region Save Result Popups-->
+        <Grid
+            x:Name="dbSaveResultNegativePopup"
+            Grid.ColumnSpan="2"
+            Panel.ZIndex="5"
+            Opacity="0"
+            Visibility="Collapsed">
+            <Border
+                Width="230"
+                Height="60"
+                Background="{StaticResource LightGrayColor}">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource AlarmRedColor}"
+                        Text="İşlem başarısız oldu!" />
+                    <Image
+                        Width="24"
+                        Height="24"
+                        Margin="7,0,0,0"
+                        Source="pack://siteoforigin:,,,/Resources/Red_Cross_48px.png" />
+                </StackPanel>
+            </Border>
+            <Grid.Background>
+                <SolidColorBrush Opacity="0.4" Color="#606060" />
+            </Grid.Background>
+        </Grid>
+        <Grid
+            x:Name="dbSaveResultPositivePopup"
+            Grid.ColumnSpan="2"
+            Panel.ZIndex="5"
+            Opacity="0"
+            Visibility="Collapsed">
+            <Border
+                Width="220"
+                Height="60"
+                Background="{StaticResource LightGrayColor}">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource CustomPassiveBlackColor}"
+                        Text="İşlem başarılı oldu." />
+                    <Image
+                        Width="24"
+                        Height="24"
+                        Margin="7,0,0,0"
+                        Source="pack://siteoforigin:,,,/Resources/Green_Tick_48px.png" />
+                </StackPanel>
+            </Border>
+            <Grid.Background>
+                <SolidColorBrush Opacity="0.4" Color="#606060" />
+            </Grid.Background>
+        </Grid>
+        <!--#endregion-->
+
+        <DockPanel LastChildFill="True">
+            <Label
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                Content="Create"
+                DockPanel.Dock="Top"
+                FontSize="20"
+                FontWeight="SemiBold"
+                Foreground="{StaticResource CustomPassiveBlackColor}" />
+
+            <dxlc:FlowLayoutControl
+                x:Name="flowLayout"
+                DockPanel.Dock="Top"
+                Focusable="True"
+                ItemSpace="20"
+                Orientation="Horizontal">
+                <dxlc:FlowLayoutControl.Resources>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Width" Value="105" />
+                        <Setter Property="Foreground" Value="{StaticResource CustomPassiveBlackColor}" />
+                        <Setter Property="FontSize" Value="15" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                    </Style>
+                    <Style TargetType="{x:Type dxe:TextEdit}">
+                        <Setter Property="Margin" Value="10,0,0,0" />
+                        <Setter Property="Width" Value="175" />
+                        <Setter Property="Height" Value="26" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=ValidationError.ErrorContent, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
+                                <Setter Property="ShowErrorToolTip" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="{x:Type dxe:PasswordBoxEdit}">
+                        <Setter Property="Margin" Value="10,0,0,0" />
+                        <Setter Property="Width" Value="175" />
+                        <Setter Property="Height" Value="26" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=ValidationError.ErrorContent, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
+                                <Setter Property="ShowErrorToolTip" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </dxlc:FlowLayoutControl.Resources>
+                <Border
+                    Padding="15"
+                    BorderBrush="{StaticResource CustomPassiveBlackColor}"
+                    BorderThickness="1">
+                    <StackPanel x:Name="createUserGenSp" dxe:ValidationService.IsValidationContainer="True">
+                        <Label
+                            Margin="10,0,0,0"
+                            HorizontalAlignment="Left"
+                            Content="Create a User"
+                            FontSize="18"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource CustomPassiveBlackColor}" />
+                        <StackPanel Margin="10,10,0,0" Orientation="Horizontal">
+                            <TextBlock Text="First Name" />
+                            <dxe:TextEdit
+                                x:Name="firstNameTb"
+                                InvalidValueBehavior="AllowLeaveEditor"
+                                Validate="GeneralNameValidate" />
+                        </StackPanel>
+                        <StackPanel Margin="10,10,0,0" Orientation="Horizontal">
+                            <TextBlock Text="Last Name" />
+                            <dxe:TextEdit
+                                x:Name="lastNameTb"
+                                InvalidValueBehavior="AllowLeaveEditor"
+                                Validate="GeneralNameValidate" />
+                        </StackPanel>
+                        <StackPanel Margin="10,10,0,0" Orientation="Horizontal">
+                            <TextBlock Text="User Name" />
+                            <dxe:TextEdit
+                                x:Name="userNameTb"
+                                InvalidValueBehavior="AllowLeaveEditor"
+                                Validate="GeneralNameValidate" />
+                        </StackPanel>
+                        <StackPanel Margin="10,10,0,0" Orientation="Horizontal">
+                            <TextBlock Text="Logout Time" />
+                            <dxe:TextEdit
+                                x:Name="logoutTimeTb"
+                                InvalidValueBehavior="AllowLeaveEditor"
+                                Validate="GeneralNameValidate" />
+                        </StackPanel>
+                        <StackPanel Margin="10,10,0,0" Orientation="Horizontal">
+                            <TextBlock Text="Password" />
+                            <dxe:PasswordBoxEdit
+                                x:Name="passwordBox"
+                                InvalidValueBehavior="AllowLeaveEditor"
+                                Validate="GeneralNameValidate"
+                                Visibility="{Binding ElementName=eyeBtn, Path=Tag, Converter={StaticResource TagToVisibility}}" />
+                            <dxe:TextEdit
+                                EditValue="{Binding ElementName=passwordBox, Path=Password}"
+                                IsReadOnly="True"
+                                Visibility="{Binding ElementName=eyeBtn, Path=IsPressed, Converter={StaticResource BoolToVisibility}}" />
+                            <Button
+                                x:Name="eyeBtn"
+                                Margin="10,0,0,0"
+                                IsEnabled="{Binding ElementName=passwordBox, Path=HasValidationError, Converter={StaticResource ReverseBool}}"
+                                Style="{StaticResource eyeBtn}" />
+                        </StackPanel>
+                        <StackPanel Margin="10,10,0,0" Orientation="Horizontal">
+                            <TextBlock Text="Is User Active ?" />
+                            <CheckBox
+                                x:Name="isUserActive"
+                                IsChecked="True"
+                                Style="{StaticResource passiveBlack_checkbox}" />
+                        </StackPanel>
+                        <dx:SimpleButton
+                            x:Name="createUserBtn"
+                            Width="160"
+                            Height="40"
+                            Margin="0,10,0,0"
+                            HorizontalAlignment="Right"
+                            Click="createUserBtn_Click"
+                            Content="Create User"
+                            FontSize="18"
+                            FontWeight="Medium" />
+                    </StackPanel>
+                </Border>
+
+                <Border
+                    Padding="15"
+                    BorderBrush="{StaticResource CustomPassiveBlackColor}"
+                    BorderThickness="1">
+                    <StackPanel Width="{Binding ElementName=createUserGenSp, Path=ActualWidth}">
+                        <Label
+                            Margin="10,0,0,0"
+                            HorizontalAlignment="Left"
+                            Content="Create a User Group"
+                            FontSize="18"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource CustomPassiveBlackColor}" />
+                        <StackPanel
+                            x:Name="createGroupGenSp"
+                            Margin="10,10,0,0"
+                            dxe:ValidationService.IsValidationContainer="True"
+                            Orientation="Horizontal">
+                            <TextBlock Text="Group Name" />
+                            <dxe:TextEdit
+                                x:Name="groupName"
+                                InvalidValueBehavior="AllowLeaveEditor"
+                                Validate="GeneralNameValidate" />
+                        </StackPanel>
+                        <StackPanel
+                            Margin="10,10,0,0"
+                            Orientation="Horizontal"
+                            Visibility="Hidden">
+                            <TextBlock />
+                            <dxe:TextEdit />
+                        </StackPanel>
+                        <StackPanel
+                            Margin="10,10,0,0"
+                            Orientation="Horizontal"
+                            Visibility="Hidden">
+                            <TextBlock />
+                            <dxe:PasswordBoxEdit />
+                        </StackPanel>
+                        <StackPanel
+                            Margin="10,10,0,0"
+                            Orientation="Horizontal"
+                            Visibility="Hidden">
+                            <TextBlock />
+                            <dxe:TextEdit />
+                        </StackPanel>
+                        <StackPanel Margin="10,10,0,0" Orientation="Horizontal">
+                            <TextBlock Text="Is Group Active ?" />
+                            <CheckBox
+                                x:Name="isGroupActive"
+                                IsChecked="True"
+                                Style="{StaticResource passiveBlack_checkbox}" />
+                        </StackPanel>
+                        <dx:SimpleButton
+                            x:Name="createGroupBtn"
+                            Width="160"
+                            Height="40"
+                            Margin="0,10,0,0"
+                            HorizontalAlignment="Right"
+                            Click="createGroupBtn_Click"
+                            Content="Create Group"
+                            FontSize="18"
+                            FontWeight="Medium" />
+                    </StackPanel>
+                </Border>
+            </dxlc:FlowLayoutControl>
+
+            <Label
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                Content="Edit"
+                DockPanel.Dock="Top"
+                FontSize="20"
+                FontWeight="SemiBold"
+                Foreground="{StaticResource CustomPassiveBlackColor}" />
+            <DockPanel DockPanel.Dock="Bottom">
+                <ComboBox
+                    x:Name="genGridTypeCombobox"
+                    Width="150"
+                    Margin="10,5,0,10"
+                    HorizontalAlignment="Left"
+                    DockPanel.Dock="Top"
+                    FontSize="14"
+                    SelectedIndex="0"
+                    SelectionChanged="genGridTypeCombobox_SelectionChanged"
+                    Style="{StaticResource calibrationComboBox}">
+                    <ComboBoxItem>Users</ComboBoxItem>
+                    <ComboBoxItem>Groups</ComboBoxItem>
+                </ComboBox>
+                <!--#region Users Grid-->
+                <dxg:GridControl
+                    x:Name="userControlGrid"
+                    Margin="10,0,10,0"
+                    HorizontalContentAlignment="Center"
+                    ItemsSource="{Binding Users}"
+                    PreviewKeyDown="userControlGrid_PreviewKeyDown"
+                    SelectionMode="Row"
+                    Visibility="{Binding UserControlGridVisibility}">
+                    <dxg:GridControl.Columns>
+                        <dxg:GridColumn FieldName="id" Visible="False" />
+                        <dxg:GridColumn
+                            Width="2*"
+                            FieldName="Group"
+                            HorizontalHeaderContentAlignment="Center"
+                            ReadOnly="True">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        Margin="5,0,5,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Foreground="{StaticResource CustomPassiveBlackColor}"
+                                        Text="{Binding RowData.Row.GroupName}" />
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn
+                            Width="3.5*"
+                            FieldName="UserName"
+                            HorizontalHeaderContentAlignment="Center" />
+                        <dxg:GridColumn
+                            Width="3.5*"
+                            FieldName="FirstName"
+                            HorizontalHeaderContentAlignment="Center" />
+                        <dxg:GridColumn
+                            Width="3.5*"
+                            FieldName="LastName"
+                            HorizontalHeaderContentAlignment="Center" />
+                        <dxg:GridColumn
+                            Width="2.5*"
+                            FieldName="CreateDate"
+                            HorizontalHeaderContentAlignment="Center"
+                            ReadOnly="True">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        Margin="5,0,5,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Foreground="{StaticResource CustomPassiveBlackColor}"
+                                        Text="{Binding RowData.Row.CreateDate, StringFormat='{}{0:dd/MM/yyyy HH:mm:ss}'}" />
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn
+                            Width="1*"
+                            AllowAutoFilter="False"
+                            FieldName="Logout Time"
+                            HorizontalHeaderContentAlignment="Center"
+                            ReadOnly="True">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Command="{Binding Path=DataContext.LoadLogoutTimeChangePopupCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dxg:GridControl}}}"
+                                        CommandParameter="{Binding RowData.Row.id}"
+                                        Style="{StaticResource editBtn_hoverable}" />
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn
+                            Width="1*"
+                            AllowAutoFilter="False"
+                            FieldName="Password"
+                            HorizontalHeaderContentAlignment="Center"
+                            ReadOnly="True">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Command="{Binding Path=DataContext.LoadPasswordChangePopupCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dxg:GridControl}}}"
+                                        CommandParameter="{Binding RowData.Row.id}"
+                                        Style="{StaticResource editBtn_hoverable}" />
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn
+                            Width="1*"
+                            AllowAutoFilter="False"
+                            FieldName="Is Active"
+                            HorizontalHeaderContentAlignment="Center"
+                            ReadOnly="True">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox
+                                        x:Name="isUserActiveCb"
+                                        HorizontalAlignment="Center"
+                                        Command="{Binding Path=DataContext.SetUserActiveOrNotCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dxg:GridControl}}}"
+                                        CommandParameter="{Binding RowData.Row.id}"
+                                        IsChecked="{Binding RowData.Row.IsActive, Mode=OneWay}"
+                                        Style="{StaticResource passiveBlack_checkbox}" />
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+
+                    </dxg:GridControl.Columns>
+                    <dxg:GridControl.View>
+                        <dxg:TableView
+                            Name="userPropertyView"
+                            AllowColumnMoving="False"
+                            AllowGroupingSortingBySingleColumnOnly="False"
+                            AllowPerPixelScrolling="True"
+                            AutoWidth="True"
+                            ShowGroupPanel="False"
+                            ShowIndicator="False"
+                            ShowTotalSummary="True" />
+                    </dxg:GridControl.View>
+                </dxg:GridControl>
+                <!--#endregion-->
+
+                <!--#region Group Grid-->
+                <dxg:GridControl
+                    x:Name="groupControlGrid"
+                    HorizontalContentAlignment="Center"
+                    AllowDrop="False"
+                    ItemsSource="{Binding UserGroups}"
+                    SelectionMode="Row"
+                    Visibility="{Binding ElementName=userControlGrid, Path=Visibility, Converter={StaticResource VisibilityToOppositeVisibility}}">
+                    <dxg:GridControl.Columns>
+                        <dxg:GridColumn
+                            Width="2*"
+                            FieldName="Group"
+                            HorizontalHeaderContentAlignment="Center"
+                            ReadOnly="True">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        Margin="5,0,5,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Foreground="{StaticResource CustomPassiveBlackColor}"
+                                        Text="{Binding RowData.Row.GroupName}" />
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn
+                            Width="4*"
+                            FieldName="Permissions"
+                            HorizontalHeaderContentAlignment="Center"
+                            ReadOnly="True">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        Margin="5,0,5,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Foreground="{StaticResource CustomPassiveBlackColor}"
+                                        Text="{Binding RowData.Row.PermissionNames}" />
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+                        <dxg:GridColumn
+                            Width="1*"
+                            FieldName="Is Active"
+                            HorizontalHeaderContentAlignment="Center"
+                            ReadOnly="True">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox
+                                        x:Name="isGroupActiveCb"
+                                        HorizontalAlignment="Center"
+                                        Command="{Binding Path=DataContext.SetGroupActiveOrNotCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dxg:GridControl}}}"
+                                        CommandParameter="{Binding RowData.Row.id}"
+                                        IsChecked="{Binding RowData.Row.IsActive, Mode=OneWay}"
+                                        Style="{StaticResource passiveBlack_checkbox}" />
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+
+                    </dxg:GridControl.Columns>
+                    <dxg:GridControl.View>
+                        <dxg:TableView
+                            AllowColumnMoving="False"
+                            AllowEditing="False"
+                            NavigationStyle="Row"
+                            ShowGroupPanel="False"
+                            ShowIndicator="False"
+                            VerticalScrollbarVisibility="Auto" />
+                    </dxg:GridControl.View>
+                </dxg:GridControl>
+                <!--#endregion-->
+            </DockPanel>
+        </DockPanel>
+        <Grid.Style>
+            <Style TargetType="{x:Type Grid}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding HasGenControlPermissionGranted}" Value="False">
+                        <Setter Property="Opacity" Value="0.5"/>
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Setter Property="ToolTip" Value="{Binding DisabledControlTooltipText}"/>
+                        <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
+    </Grid>
+</UserControl>

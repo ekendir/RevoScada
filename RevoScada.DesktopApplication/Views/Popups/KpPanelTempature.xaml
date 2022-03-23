@@ -1,0 +1,23 @@
+﻿<Window x:Class="RevoScada.DesktopApplication.Views.Popups.Text_Edit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RevoScada.DesktopApplication.Views.Popups"
+        mc:Ignorable="d"
+        WindowStyle="ToolWindow" Height="220" Width="375" Background="{StaticResource CreamColor}" 
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock Text="{Binding MainText}" Foreground="{StaticResource CustomPassiveBlackColor}"
+                        FontWeight="Bold" FontSize="16" Margin="0 0 0 10" 
+                       Width="{Binding ElementName=recipeNameBox, Path=ActualWidth}"/>
+            <TextBox CharacterCasing="Upper" FontSize="16" x:Name="recipeNameBox" Style="{StaticResource editTextBox}" KeyDown="recipeNameBox_KeyDown"
+                     Width="320" MinHeight="32" Margin="0 0 0 10" Loaded="recipeNameBox_Loaded"/>
+            <dx:SimpleButton x:Name="applyBtn" Width="{Binding ElementName=recipeNameBox, Path=ActualWidth}" 
+                             Content="Apply" FontWeight="Medium" FontSize="16" 
+                             Height="{Binding ElementName=recipeNameBox, Path=ActualHeight}" Click="applyBtn_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
