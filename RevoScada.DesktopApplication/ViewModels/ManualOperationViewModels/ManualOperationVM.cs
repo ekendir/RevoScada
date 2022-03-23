@@ -351,7 +351,7 @@ namespace RevoScada.DesktopApplication.ViewModels
 
                     break;
 
-                case 20:
+                case 20: //Ces
                     ManualOperationTagConfigurations.PressureLineControlSelect = (SiemensTagConfiguration)ApplicationConfigurations.Instance.TagConfigurations[Convert.ToInt32(ManualOperationTagConfigurations.PressureLineControlSelect)];
                     ManualOperationTagConfigurations.AirTcHigh = (SiemensTagConfiguration)ApplicationConfigurations.Instance.TagConfigurations[Convert.ToInt32(ManualOperationTagConfigurations.AirTcHigh)];
                     ManualOperationTagConfigurations.AirTcMediumHigh = (SiemensTagConfiguration)ApplicationConfigurations.Instance.TagConfigurations[Convert.ToInt32(ManualOperationTagConfigurations.AirTcMediumHigh)];
